@@ -182,12 +182,28 @@ export function drawField(ctx: Ctx, view: Box) {
 }
 
 /**
- * Draws the parts of the ground that never change (the grass, paths, trees
- * and the hedge's back two sides) once, onto an off-screen canvas at `scale`
- * device pixels per world pixel. It covers groundBounds(map).
+ * The most pixels the ground layer may use. Safari refuses canvases over
+ * 16,777,216 pixels, and a long midway on a sharp screen would pass that.
  */
-export function drawGroundLayer(map: MidwayMap, scale: number): HTMLCanvasElement {
+const MAX_GROUND_PIXELS = 16_000_000;
+
+export interface GroundLayer {
+  canvas: HTMLCanvasElement;
+  /** Device pixels per world pixel the layer was drawn at. */
+  scale: number;
+}
+
+/**
+ * Draws the parts of the ground that never change (the grass, paths, trees
+ * and the hedge's back two sides) once, onto an off-screen canvas covering
+ * groundBounds(map). It uses `scale` device pixels per world pixel, or less
+ * when that would make the canvas too big, so its size stays bounded however
+ * long the midway grows.
+ */
+export function drawGroundLayer(map: MidwayMap, wanted: number): GroundLayer {
   const bounds = groundBounds(map);
+  const area = (bounds.right - bounds.left) * (bounds.bottom - bounds.top);
+  const scale = Math.min(wanted, Math.sqrt(MAX_GROUND_PIXELS / area));
   const canvas = document.createElement('canvas');
   canvas.width = Math.ceil((bounds.right - bounds.left) * scale);
   canvas.height = Math.ceil((bounds.bottom - bounds.top) * scale);
@@ -220,7 +236,7 @@ export function drawGroundLayer(map: MidwayMap, scale: number): HTMLCanvasElemen
 
   hedge(ctx, { x: 0, y: 0, w: map.width, h: 1 });
   hedge(ctx, { x: 0, y: 0, w: 1, h: map.height });
-  return canvas;
+  return { canvas, scale };
 }
 
 function tree(ctx: Ctx, x: number, y: number) {

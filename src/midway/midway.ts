@@ -22,6 +22,7 @@ import {
   type Box,
   type Cloud,
   type Floater,
+  type GroundLayer,
 } from './render';
 import {
   boothInReach,
@@ -39,6 +40,7 @@ import {
   walk,
   type BoothSlot,
   type Point,
+  type Prop,
 } from './world';
 
 export interface MidwayOptions {
@@ -78,6 +80,16 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
   const map = layoutMidway(options.games.map((g) => g.id));
   const names = new Map(options.games.map((g) => [g.id, g.name]));
   const player = createWalker(returnTo ?? map.spawn);
+  // Booths and scenery never move, so work out where each one sits once.
+  const scenery: { depth: number; box: Box; booth?: BoothSlot; prop?: Prop; name: string }[] = [
+    ...map.booths.map((booth) => ({
+      depth: booth.x + booth.y + 2,
+      box: boothBounds(booth),
+      booth,
+      name: booth.gameId ? (names.get(booth.gameId) ?? booth.gameId) : 'Coming soon',
+    })),
+    ...map.props.map((prop) => ({ depth: prop.x + prop.y + (prop.w + prop.h) / 2, box: propBounds(prop), prop, name: '' })),
+  ];
   const strolls = strollTiles(map);
   const visitors = createVisitors(map, 9, Math.random);
   const clouds: Cloud[] = Array.from({ length: 9 }, (_, i) => ({
@@ -99,7 +111,7 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
   /** CSS pixels per world pixel. */
   let zoom = 2;
   let view = { w: 0, h: 0 };
-  let ground: HTMLCanvasElement | undefined;
+  let ground: GroundLayer | undefined;
   const camera = { x: 0, y: 0 };
   let cameraReady = false;
 
@@ -246,9 +258,15 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
     drawField(ctx, visible);
     if (ground) {
       const bounds = groundBounds(map);
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.drawImage(ground, Math.round((bounds.left - cam.x) * k), Math.round((bounds.top - cam.y) * k));
-      ctx.setTransform(k, 0, 0, k, -cam.x * k, -cam.y * k);
+      if (ground.scale === k) {
+        // Pixel for pixel, at a whole-pixel offset, so it stays crisp.
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.drawImage(ground.canvas, Math.round((bounds.left - cam.x) * k), Math.round((bounds.top - cam.y) * k));
+        ctx.setTransform(k, 0, 0, k, -cam.x * k, -cam.y * k);
+      } else {
+        // A midway too long to pre-draw at full sharpness: stretch it to fit.
+        ctx.drawImage(ground.canvas, bounds.left, bounds.top, ground.canvas.width / ground.scale, ground.canvas.height / ground.scale);
+      }
     }
 
     if (destination && player.path.length > 0) {
@@ -283,20 +301,15 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
 
     type Drawable = { depth: number; box: Box; draw: () => void };
     const drawables: Drawable[] = [
-      ...map.booths.map((booth) => {
-        const depth = booth.x + booth.y + 2;
-        const box = boothBounds(booth);
-        const name = booth.gameId ? (names.get(booth.gameId) ?? booth.gameId) : 'Coming soon';
-        return { depth, box, draw: () => faded(box, depth, () => drawBooth(ctx, booth, name, t, booth === inReach)) };
-      }),
-      ...map.props.map((prop) => {
-        const depth = prop.x + prop.y + (prop.w + prop.h) / 2;
-        const box = propBounds(prop);
-        return { depth, box, draw: () => faded(box, depth, () => drawProp(ctx, prop, t)) };
-      }),
       ...visitors.map((v) => ({ depth: v.x + v.y, box: walkerBox(v), draw: () => drawWalker(ctx, v, visitorLook(v.look)) })),
       { depth: playerDepth, box: walkerBox(player), draw: () => drawWalker(ctx, player, PLAYER_LOOK, true, t) },
     ];
+    for (const item of scenery) {
+      if (!onScreen(item.box)) continue;
+      const { depth, box, booth, prop, name } = item;
+      const paint = booth ? () => drawBooth(ctx, booth, name, t, booth === inReach) : () => drawProp(ctx, prop!, t);
+      drawables.push({ depth, box, draw: () => faded(box, depth, paint) });
+    }
     drawables
       .filter((d) => onScreen(d.box))
       .sort((a, b) => a.depth - b.depth)
