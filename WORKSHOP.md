@@ -111,7 +111,8 @@ edits to the issue don't start several runs.
 
 1. Open **Issues → New issue** and pick one of the small first issues: **Show
    the top five scores on the midway** or **Press Escape to go back to the
-   midway**. Or write up the change you noted in module 00.
+   midway**. Or pick **Your own idea** and write up the change you noted in
+   module 00: say what should change and how you'll know it's done.
 2. Add the `tessl` label.
 3. Watch the run. Label to pull request usually takes 2 to 3 minutes. If
    nothing has started after 5, raise your hand.
@@ -193,14 +194,16 @@ automations**.
 
 ## If something goes wrong
 
-| Problem                                     | Try                                                                                                                                          |
-| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `npm ci` fails or Node is too old           | Check `node --version` is 24 or later, 22.13 or later on Node 22, or 20.19 or later on Node 20. The repo's `.nvmrc` has the version CI uses. |
-| No **Issues** tab, or no starter issues     | Ask your agent to **Set up my fork**, or turn Issues on by hand: [Set up your fork](README.md#set-up-your-fork).                             |
-| Pull requests show no checks                | Ask your agent to **Set up my fork**, or enable workflows in your fork's **Actions** tab.                                                    |
-| `tessl` commands say you're not logged in   | Run `tessl login`, then `tessl whoami` to check.                                                                                             |
-| A labelled issue hasn't started after 5 min | Check the issue has the `tessl` label and that the GitHub apps are installed on your fork.                                                   |
-| Your carnival link shows a 404              | Turn on Pages: ask your agent to **Set up my fork**, then wait a minute for the deploy.                                                      |
+| Problem                                     | Try                                                                                                                                                                                                                         |
+| ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm ci` fails or Node is too old           | Check `node --version` is 24 or later, 22.13 or later on Node 22, or 20.19 or later on Node 20. The repo's `.nvmrc` has the version CI uses.                                                                                |
+| No **Issues** tab, or no starter issues     | Ask your agent to **Set up my fork**, or turn Issues on by hand: [Set up your fork](README.md#set-up-your-fork).                                                                                                            |
+| Pull requests show no checks                | Ask your agent to **Set up my fork**, or enable workflows in your fork's **Actions** tab.                                                                                                                                   |
+| `tessl` commands say you're not logged in   | Run `tessl login`, then `tessl whoami` to check.                                                                                                                                                                            |
+| A labelled issue hasn't started after 5 min | Check the issue has the `tessl` label and that the GitHub apps are installed on your fork.                                                                                                                                  |
+| Your carnival link shows a 404              | Turn on Pages: ask your agent to **Set up my fork**, then wait a minute for the deploy.                                                                                                                                     |
+| Your laptop can't run the carnival          | Open your fork in GitHub Codespaces: **Code → Codespaces → Create codespace on main**, then run `npm run dev`. If **Set up my fork** hits a permissions error there, run `gh auth login` first.                             |
+| You want to start over                      | On your fork's GitHub page, select **Sync fork → Discard commits**, then in your clone run `git fetch origin` and `git reset --hard origin/main`. This removes your changes and your factory setup, so run module 01 again. |
 
 ## Learn more
 

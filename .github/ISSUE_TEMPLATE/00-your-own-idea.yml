@@ -1,0 +1,32 @@
+name: Your own idea
+description: Describe a change you'd like, written so an agent can pick it up and finish it.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        An agent will read this issue with nobody around to answer questions, so
+        say what you want and how you'll know it's done. Keep it to one change.
+  - type: textarea
+    id: what
+    attributes:
+      label: What should change?
+      description: What a player would see or be able to do once it's done.
+      placeholder: Show a confetti burst on the midway when you beat your best score.
+    validations:
+      required: true
+  - type: textarea
+    id: where
+    attributes:
+      label: Where, if you know
+      description: A game, a file or a part of the midway. Leave it blank if you're not sure.
+      placeholder: The booth card in src/main.ts
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      description: A short checklist the agent can test its work against.
+      value: |
+        - [ ]
+        - [ ] `npm run check` passes
+    validations:
+      required: true

@@ -63,6 +63,11 @@ npm run dev
 Open http://localhost:5173, walk up to the water cannon booth and press **E**.
 Walk with WASD or the arrow keys, or click where you want to go.
 
+**Can't get it running on your laptop?** Open your fork in GitHub Codespaces
+instead: on your fork's page, select **Code → Codespaces → Create codespace on
+main**. It sets up Node and the GitHub CLI and installs everything, all in your
+browser. Run `npm run dev` in its terminal and the carnival opens in a new tab.
+
 ## Set up your fork
 
 GitHub switches a few things off when you fork a repository: Issues, Actions
@@ -80,7 +85,8 @@ To do it by hand instead:
 
 1. **Issues.** Go to **Settings → General → Features** and check **Issues**.
    Issues don't copy across with a fork, but the starter issues do as templates:
-   open **Issues → New issue** and pick one.
+   open **Issues → New issue** and pick one, or use **Your own idea** to write up
+   a change of your own.
 2. **Actions.** Open the **Actions** tab and enable workflows. CI runs
    `npm run check` and the build on every pull request.
 3. **Pages.** Go to **Settings → Pages**, set **Source** to **GitHub Actions**,
