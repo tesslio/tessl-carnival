@@ -107,6 +107,8 @@ You often work on an issue with nobody around to answer questions.
 ## Skills
 
 - `skills/add-carnival-game/SKILL.md`: how to add a new game to the midway.
+- `skills/set-up-your-fork/SKILL.md`: turn on Issues, Actions and GitHub Pages
+  in a fork, and deploy the carnival.
 - `tessl-factory/skills/`: sample skills for scheduled maintenance loops
   (rule mining, doc gardening, test health). Each one files issues and never
   changes code.

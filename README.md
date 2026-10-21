@@ -29,8 +29,8 @@ In the last 10 minutes you take it home: set up the same factory on a repo of
 your own, or keep going here. [`WORKSHOP.md`](WORKSHOP.md) has every step,
 module by module.
 
-**Bring:** a laptop with git, Node 24 or later (Node 22.13+ and 20.19+ also
-work), a coding agent (Claude Code, Cursor, Codex or similar), a GitHub account,
+**Bring:** a laptop with git, Node 24 or later (or Node 22 from 22.13, or Node
+20 from 20.19), a coding agent (Claude Code, Cursor, Codex or similar), a GitHub account,
 and the [Tessl CLI](https://tessl.io).
 
 **Facilitators:** Hamza Oza, James Moss and Joe Holdcroft, from Tessl. Raise
@@ -49,8 +49,8 @@ over, and everyone ends the session with a different carnival.
 
 ## Get it running
 
-You need git and Node 24 or later (Node 22.13+ and 20.19+ also work). Fork
-this repository on GitHub, clone your fork, then:
+You need git and Node 24 or later (or Node 22 from 22.13, or Node 20 from
+20.19). Fork this repository on GitHub, clone your fork, then:
 
 ```bash
 npm ci
@@ -62,19 +62,28 @@ Walk with WASD or the arrow keys, or click where you want to go.
 
 ## Set up your fork
 
-GitHub switches a few things off when you fork a repository. Turn them on once
-in your fork:
+GitHub switches a few things off when you fork a repository: Issues, Actions
+and GitHub Pages. The quickest way to turn them on is to ask your coding agent,
+in your clone:
+
+> Set up my fork
+
+It follows [`skills/set-up-your-fork`](skills/set-up-your-fork/SKILL.md): it
+uses the [GitHub CLI](https://cli.github.com) (`gh`) with your own login to turn
+on Issues, Actions and Pages, deploys the carnival, and gives you a link to
+share. Every merge to `main` redeploys it.
+
+To do it by hand instead:
 
 1. **Issues.** Go to **Settings → General → Features** and check **Issues**.
    Issues don't copy across with a fork, but the starter issues do as templates:
    open **Issues → New issue** and pick one.
 2. **Actions.** Open the **Actions** tab and enable workflows. CI runs
    `npm run check` and the build on every pull request.
-3. **Pages** (optional). Every merge to `main` deploys the carnival to GitHub
-   Pages, so you can play new games without pulling them. Go to
-   **Settings → Pages**, set **Source** to **GitHub Actions**, then re-run the
-   **Deploy to GitHub Pages** workflow or merge anything to `main`. Your
-   carnival will be at `https://<your-username>.github.io/tessl-carnival/`.
+3. **Pages.** Go to **Settings → Pages**, set **Source** to **GitHub Actions**,
+   then re-run the **Deploy to GitHub Pages** workflow or merge anything to
+   `main`. Your carnival will be at
+   `https://<your-username>.github.io/tessl-carnival/`.
 
 This repo doesn't include a `tessl.json`. To set up a factory, run `tessl init`
 in your clone first, the same as you would in any repository of your own.

@@ -23,7 +23,7 @@ ready to merge.
 
 - A GitHub account, signed in.
 - A coding agent that works, such as Claude Code, Cursor or Codex.
-- Node 24 or later (Node 22.13+ and 20.19+ also work), and git.
+- Node 24 or later (or Node 22 from 22.13, or Node 20 from 20.19), and git.
 - The Tessl CLI. Install it from [tessl.io](https://tessl.io), then run:
 
   ```bash
@@ -31,8 +31,12 @@ ready to merge.
   tessl login
   ```
 
-- **Head start:** fork this repository, clone your fork, and follow
-  [Set up your fork](README.md#set-up-your-fork) to turn on Issues and Actions.
+- The [GitHub CLI](https://cli.github.com) (`gh`), logged in with
+  `gh auth login`. It lets your agent set up your fork for you.
+- **Head start:** fork this repository and clone your fork. Then open your
+  coding agent in the clone and ask it to **Set up my fork**: it turns on Issues,
+  Actions and GitHub Pages, and gives you a link to share your carnival. See
+  [Set up your fork](README.md#set-up-your-fork) to do it by hand.
 
 ## Words you'll hear
 
@@ -189,13 +193,14 @@ automations**.
 
 ## If something goes wrong
 
-| Problem                                     | Try                                                                                                   |
-| ------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `npm ci` fails or Node is too old           | Check `node --version` is 24 or later, 22.13+ or 20.19+. The repo's `.nvmrc` has the version CI uses. |
-| No **Issues** tab, or no starter issues     | Turn Issues on in your fork: [Set up your fork](README.md#set-up-your-fork).                          |
-| Pull requests show no checks                | Enable workflows in your fork's **Actions** tab.                                                      |
-| `tessl` commands say you're not logged in   | Run `tessl login`, then `tessl whoami` to check.                                                      |
-| A labelled issue hasn't started after 5 min | Check the issue has the `tessl` label and that the GitHub apps are installed on your fork.            |
+| Problem                                     | Try                                                                                                                                          |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm ci` fails or Node is too old           | Check `node --version` is 24 or later, 22.13 or later on Node 22, or 20.19 or later on Node 20. The repo's `.nvmrc` has the version CI uses. |
+| No **Issues** tab, or no starter issues     | Ask your agent to **Set up my fork**, or turn Issues on by hand: [Set up your fork](README.md#set-up-your-fork).                             |
+| Pull requests show no checks                | Ask your agent to **Set up my fork**, or enable workflows in your fork's **Actions** tab.                                                    |
+| `tessl` commands say you're not logged in   | Run `tessl login`, then `tessl whoami` to check.                                                                                             |
+| A labelled issue hasn't started after 5 min | Check the issue has the `tessl` label and that the GitHub apps are installed on your fork.                                                   |
+| Your carnival link shows a 404              | Turn on Pages: ask your agent to **Set up my fork**, then wait a minute for the deploy.                                                      |
 
 ## Learn more
 
