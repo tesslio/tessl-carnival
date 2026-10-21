@@ -40,9 +40,13 @@ Walk with WASD or the arrow keys, or click where you want to go.
 - `src/games/<game-id>/`: one folder per game. The water cannon is the pattern
   to copy.
 
+- `tessl-factory/skills/`: sample skills for maintenance loops that look for
+  problems and file issues.
+
 [`AGENTS.md`](AGENTS.md) has the house rules every game follows, and
 [`skills/add-carnival-game`](skills/add-carnival-game/SKILL.md) walks an agent
-through adding a new one.
+through adding a new one. [`WORKSHOP.md`](WORKSHOP.md) is the workshop, module
+by module.
 
 ## Set up your fork
 
