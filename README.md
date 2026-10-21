@@ -10,7 +10,8 @@ an agent turns it into a pull request.
 
 ## Get it running
 
-You need Node 20.19 or later and git.
+You need Node 20.19 or later and git. Fork this repository on GitHub, clone
+your fork, then:
 
 ```bash
 npm ci
@@ -43,13 +44,21 @@ Walk with WASD or the arrow keys, or click where you want to go.
 [`skills/add-carnival-game`](skills/add-carnival-game/SKILL.md) walks an agent
 through adding a new one.
 
-## Play it on GitHub Pages
+## Set up your fork
 
-Every merge to `main` deploys the carnival to GitHub Pages, so you can play new
-games without pulling them. On a fork, switch Pages on once:
+GitHub switches a few things off when you fork a repository. Turn them on once
+in your fork:
 
-1. Go to **Settings → Pages** in your fork.
-2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
-3. Re-run the **Deploy to GitHub Pages** workflow, or merge anything to `main`.
+1. **Issues.** Go to **Settings → General → Features** and tick **Issues**.
+   Issues don't copy across with a fork, but the starter ones do as templates:
+   open **Issues → New issue** and pick one.
+2. **Actions.** Open the **Actions** tab and enable workflows. CI runs
+   `npm run check` and the build on every pull request.
+3. **Pages** (optional). Every merge to `main` deploys the carnival to GitHub
+   Pages, so you can play new games without pulling them. Go to
+   **Settings → Pages**, set **Source** to **GitHub Actions**, then re-run the
+   **Deploy to GitHub Pages** workflow or merge anything to `main`. Your
+   carnival will be at `https://<your-username>.github.io/tessl-carnival/`.
 
-Your carnival will be at `https://<your-username>.github.io/tessl-carnival/`.
+This repo doesn't include a `tessl.json`. To set up a factory, run `tessl init`
+in your clone first, the same as you would in any repository of your own.
