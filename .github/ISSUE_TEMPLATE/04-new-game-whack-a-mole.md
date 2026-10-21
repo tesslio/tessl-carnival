@@ -1,6 +1,6 @@
 ---
 name: 'New game: whack-a-mole'
-about: Add a whack-a-mole booth to the midway.
+about: "Medium: add a whack-a-mole booth to the midway."
 title: 'New game: whack-a-mole'
 ---
 
