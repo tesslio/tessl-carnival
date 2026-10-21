@@ -28,6 +28,7 @@ Run `npm run check` before you finish any change. CI runs the same command.
 ```txt
 index.html                the midway page
 WORKSHOP.md               the workshop, module by module
+docs/midway.jpg           the screenshot at the top of the README
 tessl-factory/skills/     sample skills for maintenance loops
 src/
   main.ts                 the router (#/play/<game-id>) and the midway's overlay

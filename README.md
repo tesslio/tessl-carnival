@@ -1,5 +1,7 @@
 # Tessl Carnival
 
+![The Tessl Carnival midway: striped tents, a ferris wheel, a carousel and game booths along a path](docs/midway.jpg)
+
 Your coding agent writes code fast. Turning issues into pull requests, reviewing
 them and keeping the repo healthy still waits on you. This repo is where you
 build a software factory to take that work on, one skill at a time.
@@ -30,8 +32,9 @@ your own, or keep going here. [`WORKSHOP.md`](WORKSHOP.md) has every step,
 module by module.
 
 **Bring:** a laptop with git, Node 24 or later (or Node 22 from 22.13, or Node
-20 from 20.19), a coding agent (Claude Code, Cursor, Codex or similar), a GitHub account,
-and the [Tessl CLI](https://tessl.io).
+20 from 20.19), a coding agent (Claude Code, Cursor, Codex or similar), a GitHub
+account, the [GitHub CLI](https://cli.github.com) logged in with
+`gh auth login`, and the [Tessl CLI](https://tessl.io).
 
 **Facilitators:** Hamza Oza, James Moss and Joe Holdcroft, from Tessl. Raise
 your hand at any point and one of us will come over.
