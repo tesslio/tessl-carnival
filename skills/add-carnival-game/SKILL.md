@@ -38,14 +38,15 @@ Read `src/games/water-cannon/game.ts` first: it is the pattern to copy.
 5. **Report the score once per round** with `recordScore(ringToss.id, score)`
    from `src/carnival`, when the round ends. Never use local storage directly.
 6. **Draw with the theme.** Every colour is `theme.colors.*` and every font is
-   `canvasFont(...)`. If the game needs a colour the theme lacks, stop and ask:
-   adding one is a separate change to `src/carnival/theme.ts`.
+   `canvasFont(...)`. If the game needs a colour the theme lacks, use the closest
+   theme colour and say so in the pull request. Adding a colour to
+   `src/carnival/theme.ts` is its own change, never part of a game's.
 7. **Register it** by adding it to the list in `src/games/index.ts`.
 8. **Test the logic** in `game.test.ts`: the starting state, scoring, how a round
    ends, and any edge the README promises.
 9. **Write the README:** how to play, how scoring works and the files in the folder.
-10. **Run `npm run check`** and fix anything it reports. Then run `npm run dev`,
-    open the midway and play the game once.
+10. **Run `npm run check`** and fix anything it reports. If you can open a
+    browser, also run `npm run dev`, walk to the new booth and play a round.
 
 ## Done when
 

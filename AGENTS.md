@@ -48,6 +48,19 @@ src/
       README.md
 ```
 
+## The midway
+
+The midway is a walkable map, drawn on a 2D canvas, with a booth for every game
+in `src/games/index.ts`.
+
+- A new game gets its booth automatically when it registers. Adding a game never
+  needs a change in `src/midway/`.
+- The text around the map lives in `src/main.ts`: the booth card that opens when
+  you walk up to a booth, and the list of booths in the corner. Changes to what
+  the midway shows about a game, such as scores, usually go there.
+- `src/midway/` is the map itself: layout, movement and drawing. Keep it plain 2D
+  canvas so it stays fast on slow laptops.
+
 ## House rules
 
 1. **Every game registers on the midway.** A game lives in
@@ -69,6 +82,22 @@ src/
 7. **One game per change.** A change to one game stays inside its folder, plus a
    line in `src/games/index.ts` for a new game. Changes to `src/carnival/` are
    their own change.
+
+## Working on an issue
+
+You often work on an issue with nobody around to answer questions.
+
+- **Read the issue's "Done when"** and treat it as the checklist.
+- **If something is unclear,** pick the simplest reading that keeps the house
+  rules, and say which reading you picked in the pull request.
+- **Leave these alone** unless the issue asks for them: `.github/`, `tessl.json`,
+  `.tessl/` and `package-lock.json`.
+- **Don't add dependencies.** `npm ci` has to stay quick, and the cloud machine
+  can't install system packages.
+- **Before you finish,** run `npm run check` and make sure every README you
+  touched still matches the code.
+- **In the pull request,** say what changed and how to try it, and end with
+  `Closes #<issue number>`.
 
 ## Skills
 
