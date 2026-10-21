@@ -9,9 +9,11 @@ import {
   drawCloud,
   drawFloaters,
   drawFrontHedge,
-  drawGround,
+  drawField,
+  drawGroundLayer,
   drawProp,
   drawWalker,
+  groundBounds,
   HORIZON,
   label,
   PLAYER_LOOK,
@@ -64,6 +66,7 @@ const MOVE_KEYS: Record<string, [number, number]> = {
   KeyD: [1, 0],
 };
 const PLAY_KEYS = new Set(['KeyE', 'Enter', 'Space']);
+const MIN_QUALITY = 0.5;
 
 /** Where the player stood when they last left the midway, for this page load. */
 let returnTo: Point | undefined;
@@ -90,19 +93,26 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
   let destination: Point | undefined;
 
   let dpr = 1;
+  /** Drops below 1 on machines too slow to keep up, trading sharpness for speed. */
+  let quality = 1;
+  let slowFrames = 0;
   /** CSS pixels per world pixel. */
   let zoom = 2;
   let view = { w: 0, h: 0 };
+  let ground: HTMLCanvasElement | undefined;
   const camera = { x: 0, y: 0 };
   let cameraReady = false;
 
   const resize = () => {
-    dpr = window.devicePixelRatio || 1;
+    // Sharper than 1.5x costs far more pixels than this flat style gains from it,
+    // and slow laptops feel it.
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5) * quality;
     canvas.width = Math.max(1, Math.round(canvas.clientWidth * dpr));
     canvas.height = Math.max(1, Math.round(canvas.clientHeight * dpr));
     // Fit most of the midway on screen, but never so small that people get lost.
     zoom = Math.max(1.3, Math.min(3, Math.min(canvas.clientWidth / 720, canvas.clientHeight / 540)));
     view = { w: canvas.clientWidth / zoom, h: canvas.clientHeight / zoom };
+    ground = drawGroundLayer(map, zoom * dpr);
   };
   const observer = new ResizeObserver(resize);
   observer.observe(canvas);
@@ -228,8 +238,18 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
       drawCloud(ctx, x, y, cloud.size);
     }
 
-    ctx.setTransform(dpr * zoom, 0, 0, dpr * zoom, -camera.x * dpr * zoom, -camera.y * dpr * zoom);
-    drawGround(ctx, map, { left: camera.x, top: camera.y, right: camera.x + view.w, bottom: camera.y + view.h });
+    // Snap the camera to whole device pixels so the pre-drawn ground stays crisp.
+    const k = dpr * zoom;
+    const cam = { x: Math.round(camera.x * k) / k, y: Math.round(camera.y * k) / k };
+    const visible: Box = { left: cam.x, top: cam.y, right: cam.x + view.w, bottom: cam.y + view.h };
+    ctx.setTransform(k, 0, 0, k, -cam.x * k, -cam.y * k);
+    drawField(ctx, visible);
+    if (ground) {
+      const bounds = groundBounds(map);
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.drawImage(ground, Math.round((bounds.left - cam.x) * k), Math.round((bounds.top - cam.y) * k));
+      ctx.setTransform(k, 0, 0, k, -cam.x * k, -cam.y * k);
+    }
 
     if (destination && player.path.length > 0) {
       const p = toScreen(Math.floor(destination.x) + 0.5, Math.floor(destination.y) + 0.5);
@@ -253,32 +273,45 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
       ctx.globalAlpha = 1;
     };
 
-    type Drawable = { depth: number; draw: () => void };
+    // Only draw (and so only animate) what's on screen.
+    const onScreen = (box: Box) =>
+      box.right > visible.left && box.left < visible.right && box.bottom > visible.top && box.top < visible.bottom;
+    const walkerBox = (w: Point): Box => {
+      const p = toScreen(w.x, w.y);
+      return { left: p.x - 10, right: p.x + 10, top: p.y - 40, bottom: p.y + 4 };
+    };
+
+    type Drawable = { depth: number; box: Box; draw: () => void };
     const drawables: Drawable[] = [
       ...map.booths.map((booth) => {
         const depth = booth.x + booth.y + 2;
+        const box = boothBounds(booth);
         const name = booth.gameId ? (names.get(booth.gameId) ?? booth.gameId) : 'Coming soon';
-        return { depth, draw: () => faded(boothBounds(booth), depth, () => drawBooth(ctx, booth, name, t, booth === inReach)) };
+        return { depth, box, draw: () => faded(box, depth, () => drawBooth(ctx, booth, name, t, booth === inReach)) };
       }),
       ...map.props.map((prop) => {
         const depth = prop.x + prop.y + (prop.w + prop.h) / 2;
-        return { depth, draw: () => faded(propBounds(prop), depth, () => drawProp(ctx, prop, t)) };
+        const box = propBounds(prop);
+        return { depth, box, draw: () => faded(box, depth, () => drawProp(ctx, prop, t)) };
       }),
-      ...visitors.map((v) => ({ depth: v.x + v.y, draw: () => drawWalker(ctx, v, visitorLook(v.look)) })),
-      { depth: playerDepth, draw: () => drawWalker(ctx, player, PLAYER_LOOK, true, t) },
+      ...visitors.map((v) => ({ depth: v.x + v.y, box: walkerBox(v), draw: () => drawWalker(ctx, v, visitorLook(v.look)) })),
+      { depth: playerDepth, box: walkerBox(player), draw: () => drawWalker(ctx, player, PLAYER_LOOK, true, t) },
     ];
-    drawables.sort((a, b) => a.depth - b.depth).forEach((d) => d.draw());
+    drawables
+      .filter((d) => onScreen(d.box))
+      .sort((a, b) => a.depth - b.depth)
+      .forEach((d) => d.draw());
 
     drawFrontHedge(ctx, map);
-    faded(archBounds(map), Infinity, () => drawArch(ctx, map, t));
-    drawBunting(ctx, map, t);
+    if (onScreen(archBounds(map))) faded(archBounds(map), Infinity, () => drawArch(ctx, map, t));
+    drawBunting(ctx, map, t, visible);
     drawFloaters(ctx, floaters);
 
     // The prompt over the booth in reach, at full resolution.
     if (inReach?.gameId) {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const c = toScreen(inReach.x + 1, inReach.y + 1);
-      label(ctx, 'Press E to play', (c.x - camera.x) * zoom, (c.y - BOOTH_SIGN_HEIGHT - 46 - camera.y) * zoom);
+      label(ctx, 'Press E to play', (c.x - cam.x) * zoom, (c.y - BOOTH_SIGN_HEIGHT - 46 - cam.y) * zoom);
     }
   };
 
@@ -286,8 +319,18 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
   let last = performance.now();
   const loop = (time: number) => {
     // Cap the step so a background tab doesn't teleport everyone.
-    const dt = Math.min((time - last) / 1000, 0.05);
+    const elapsed = (time - last) / 1000;
+    const dt = Math.min(elapsed, 0.05);
     last = time;
+
+    // If frames keep taking longer than 1/40 s, draw fewer pixels. Long gaps
+    // (a background tab, a resize) don't count.
+    if (elapsed < 0.25) slowFrames = elapsed > 1 / 40 ? slowFrames + 1 : Math.max(0, slowFrames - 1);
+    if (slowFrames > 90 && quality > MIN_QUALITY) {
+      quality = Math.max(MIN_QUALITY, quality * 0.75);
+      slowFrames = 0;
+      resize();
+    }
 
     let right = 0;
     let down = 0;

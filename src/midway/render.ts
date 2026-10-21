@@ -168,12 +168,31 @@ function rectPoints(r: Rect, lift = 0): Pt[] {
   return [at(r.x, r.y, lift), at(r.x + r.w, r.y, lift), at(r.x + r.w, r.y + r.h, lift), at(r.x, r.y + r.h, lift)];
 }
 
-/** The field, the paths and the hedge's back two sides. */
-export function drawGround(ctx: Ctx, map: MidwayMap, view: { left: number; top: number; right: number; bottom: number }) {
+/** The world-pixel box the pre-drawn ground layer covers. */
+export function groundBounds(map: MidwayMap): Box {
+  return { left: -map.height * 16 - 64, right: map.width * 16 + 64, top: -64, bottom: (map.width + map.height) * 8 + 4 };
+}
+
+/** The open field round the midway, filling the view from the horizon down. */
+export function drawField(ctx: Ctx, view: Box) {
   ctx.fillStyle = palette.haze;
   ctx.fillRect(view.left, HORIZON, view.right - view.left, 6);
   ctx.fillStyle = palette.grass;
   ctx.fillRect(view.left, HORIZON + 6, view.right - view.left, Math.max(0, view.bottom - HORIZON));
+}
+
+/**
+ * Draws the parts of the ground that never change (the grass, paths, trees
+ * and the hedge's back two sides) once, onto an off-screen canvas at `scale`
+ * device pixels per world pixel. It covers groundBounds(map).
+ */
+export function drawGroundLayer(map: MidwayMap, scale: number): HTMLCanvasElement {
+  const bounds = groundBounds(map);
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.ceil((bounds.right - bounds.left) * scale);
+  canvas.height = Math.ceil((bounds.bottom - bounds.top) * scale);
+  const ctx = canvas.getContext('2d')!;
+  ctx.setTransform(scale, 0, 0, scale, -bounds.left * scale, -bounds.top * scale);
 
   // Lighter plots of grass inside the hedge, raised a little above the paths.
   poly(ctx, rectPoints({ x: 0, y: 0, w: map.width, h: map.height }), palette.grassLight);
@@ -201,6 +220,7 @@ export function drawGround(ctx: Ctx, map: MidwayMap, view: { left: number; top: 
 
   hedge(ctx, { x: 0, y: 0, w: map.width, h: 1 });
   hedge(ctx, { x: 0, y: 0, w: 1, h: map.height });
+  return canvas;
 }
 
 function tree(ctx: Ctx, x: number, y: number) {
@@ -638,10 +658,13 @@ function buntingPole(ctx: Ctx, prop: Prop) {
   knob(ctx, x, y - POLE_HEIGHT - 1);
 }
 
-export function drawBunting(ctx: Ctx, map: MidwayMap, t: number) {
+/** Bunting between the poles, skipping any strung outside the view. */
+export function drawBunting(ctx: Ctx, map: MidwayMap, t: number, view: Box) {
   map.bunting.forEach(([a, b], n) => {
     const p = at(a.x + 0.5, a.y + 0.5, POLE_HEIGHT - 2);
     const q = at(b.x + 0.5, b.y + 0.5, POLE_HEIGHT - 2);
+    if (Math.max(p[0], q[0]) < view.left || Math.min(p[0], q[0]) > view.right) return;
+    if (Math.max(p[1], q[1]) + 20 < view.top || Math.min(p[1], q[1]) > view.bottom) return;
     const sag = Math.hypot(q[0] - p[0], q[1] - p[1]) * 0.12;
     const points: Pt[] = [];
     const count = 12;
