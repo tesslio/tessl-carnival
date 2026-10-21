@@ -2,11 +2,12 @@
 
 Your coding agent writes code fast. Turning issues into pull requests, reviewing
 them and keeping the repo healthy still waits on you. This repo is where you
-hand that work to a software factory, one automation at a time.
+build a software factory to take that work on, one skill at a time.
 
-A **software factory** is a set of automations on a repository. When something
-happens, such as a label on an issue or a time on the clock, an agent does one
-job and opens a pull request, and code review checks it before you merge.
+A **software factory** is a set of loops on your repository. Each loop is a
+skill that runs on its own: when something happens, such as a label on an issue
+or a time on the clock, an agent does one job the way the skill describes, and
+code review checks the result before you merge.
 
 ## The workshop
 
@@ -108,16 +109,26 @@ together, the house rules every game follows, and how to work on an issue.
 
 ## About Tessl
 
-Tessl helps your team get consistent, reviewable work from the coding agents you
-already use. Skills, the instructions that tell an agent how your team works,
-live in your repo next to your code, where you version and review them like
-any other change. The Tessl Registry lets you find and install skills, and
-score your own. Code review and factory automations put those skills to work on
-every issue and pull request.
+A software factory runs on context. Agents do good work when they know how your
+team builds software: your standards, your workflows, what good looks like.
+Tessl is where you write that down and put it to work, from skills, to loops, to
+factory.
 
-You don't need a factory to start. Begin with one skill or one code review loop
-on one repo, and add automations as they earn their place.
-Everything Tessl sets up, from `tessl.json` to your skills, stays in your repo.
+- **Skills.** Capture how your team works in plain files that live in your repo,
+  versioned and reviewed like code. Find more in the Tessl Registry, and score
+  your own before your agents rely on them.
+- **Loops.** Deploy a skill to run on its own, on a label, a pull request or a
+  schedule: ship issues as pull requests, review code against your standards,
+  keep docs and tests healthy. Improve the skill, and every run of the loop gets
+  the change.
+- **Factory.** Compose skills and loops into your whole delivery process. When
+  review keeps catching the same mistake, a loop can write the rule down, so the
+  next pull request gets it right.
 
-Learn more at [tessl.io](https://tessl.io), or read the
+You don't need to build it all at once. Start with one skill on one repo, run it
+by hand until your team trusts it, then turn it into a loop. Everything Tessl
+sets up stays in your repo, and it works with the coding agents you already
+use, including Claude Code, Cursor and Codex.
+
+Get started free at [tessl.io](https://tessl.io), or read the
 [docs](https://docs.tessl.io).
