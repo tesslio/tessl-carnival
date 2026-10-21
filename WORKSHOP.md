@@ -155,8 +155,9 @@ factory ships the fix.
 
 **Do:** pick one of the sample skills in
 [`tessl-factory/skills/`](tessl-factory/skills/), then ask your agent to add a
-scheduled automation that uses it, and to run it once now instead of waiting
-for the schedule.
+scheduled automation that uses it, running **weekly**, and to run it once now
+instead of waiting for the schedule. Every run uses credits, and a weekly
+schedule is plenty for a repo this size.
 
 | Loop          | What it looks for                                         | Skill                                         |
 | ------------- | --------------------------------------------------------- | --------------------------------------------- |
@@ -180,6 +181,9 @@ Pick one:
 - **Keep going on the carnival:** add a second loop from module 04, or label a
   bigger issue, such as **New game: high striker** or the water cannon's
   countdown timer.
+
+**Share it:** post your carnival's link, what your factory built, and one thing
+it got right and one it got wrong in **[Show your carnival](https://github.com/tesslio/tessl-carnival/discussions/13)**.
 
 **Fast finishers:** write down one of your team's conventions as a skill, in
 the same shape as `skills/add-carnival-game`, and run

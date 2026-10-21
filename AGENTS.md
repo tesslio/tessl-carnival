@@ -14,13 +14,13 @@ game lives in its own folder under `src/games/`.
 
 ## Commands
 
-| Command          | What it does                                           |
-| ---------------- | ------------------------------------------------------ |
-| `npm ci`         | Install dependencies                                   |
-| `npm run dev`    | Run the carnival at localhost:5173                     |
-| `npm run format` | Format every file with Prettier                        |
-| `npm run check`  | Lint, check formatting, type-check and test everything |
-| `npm run build`  | Build the site into `dist/`                            |
+| Command          | What it does                                              |
+| ---------------- | --------------------------------------------------------- |
+| `npm ci`         | Install dependencies                                      |
+| `npm run dev`    | Run the carnival at localhost:5173                        |
+| `npm run format` | Format the repo with Prettier, skipping `.prettierignore` |
+| `npm run check`  | Lint, check formatting, type-check and test everything    |
+| `npm run build`  | Build the site into `dist/`                               |
 
 Run `npm run check` before you finish any change. CI runs the same command.
 

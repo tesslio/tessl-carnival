@@ -2,6 +2,9 @@
 
 ![The Tessl Carnival midway: striped tents, a ferris wheel, a carousel and game booths along a path](docs/midway.jpg)
 
+**[Play the carnival](https://tesslio.github.io/tessl-carnival/)** in your browser, and see what other people's
+factories built in **[Show your carnival](https://github.com/tesslio/tessl-carnival/discussions/13)**.
+
 Your coding agent writes code fast. Turning issues into pull requests, reviewing
 them and keeping the repo healthy still waits on you. This repo is where you
 build a software factory to take that work on, one skill at a time.
@@ -99,13 +102,13 @@ in your clone first, the same as you would in any repository of your own.
 
 ## Commands
 
-| Command          | What it does                                           |
-| ---------------- | ------------------------------------------------------ |
-| `npm run dev`    | Run the carnival locally                               |
-| `npm run format` | Format every file with Prettier                        |
-| `npm run check`  | Lint, check formatting, type-check and test everything |
-| `npm run build`  | Build the site into `dist/`                            |
-| `npm run test`   | Run the tests once                                     |
+| Command          | What it does                                              |
+| ---------------- | --------------------------------------------------------- |
+| `npm run dev`    | Run the carnival locally                                  |
+| `npm run format` | Format the repo with Prettier, skipping `.prettierignore` |
+| `npm run check`  | Lint, check formatting, type-check and test everything    |
+| `npm run build`  | Build the site into `dist/`                               |
+| `npm run test`   | Run the tests once                                        |
 
 ## How it's built
 
