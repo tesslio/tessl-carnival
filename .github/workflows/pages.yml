@@ -26,12 +26,23 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if gh api "repos/${{ github.repository }}/pages" --silent; then
-            echo "enabled=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "enabled=false" >> "$GITHUB_OUTPUT"
-            echo "::notice title=GitHub Pages is off::Nothing was deployed. To play your carnival online, go to Settings > Pages, set Source to GitHub Actions, then re-run this workflow. See 'Set up your fork' in the README."
-          fi
+          status=$(curl --silent --output /dev/null --write-out '%{http_code}' \
+            --header "Authorization: Bearer $GH_TOKEN" \
+            --header "Accept: application/vnd.github+json" \
+            "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/pages")
+          case "$status" in
+            200)
+              echo "enabled=true" >> "$GITHUB_OUTPUT"
+              ;;
+            404)
+              echo "enabled=false" >> "$GITHUB_OUTPUT"
+              echo "::notice title=GitHub Pages is off::Nothing was deployed. To play your carnival online, go to Settings > Pages, set Source to GitHub Actions, then re-run this workflow. See 'Set up your fork' in the README."
+              ;;
+            *)
+              echo "::error title=Couldn't check GitHub Pages::The Pages API answered HTTP $status, so it's unclear whether Pages is on. Re-run this workflow."
+              exit 1
+              ;;
+          esac
 
   deploy:
     needs: check
