@@ -29,8 +29,8 @@ In the last 10 minutes you take it home: set up the same factory on a repo of
 your own, or keep going here. [`WORKSHOP.md`](WORKSHOP.md) has every step,
 module by module.
 
-**Bring:** a laptop with git, Node 22.12 or later (or 20.19 or later on Node
-20), a coding agent (Claude Code, Cursor, Codex or similar), a GitHub account,
+**Bring:** a laptop with git, Node 24 or later (Node 22.13+ and 20.19+ also
+work), a coding agent (Claude Code, Cursor, Codex or similar), a GitHub account,
 and the [Tessl CLI](https://tessl.io).
 
 **Facilitators:** Hamza Oza, James Moss and Joe Holdcroft, from Tessl. Raise
@@ -49,8 +49,8 @@ over, and everyone ends the session with a different carnival.
 
 ## Get it running
 
-You need git and Node 22.12 or later (or 20.19 or later on Node 20). Fork this
-repository on GitHub, clone your fork, then:
+You need git and Node 24 or later (Node 22.13+ and 20.19+ also work). Fork
+this repository on GitHub, clone your fork, then:
 
 ```bash
 npm ci

@@ -23,7 +23,7 @@ ready to merge.
 
 - A GitHub account, signed in.
 - A coding agent that works, such as Claude Code, Cursor or Codex.
-- Node 22.12 or later (or 20.19 or later on Node 20), and git.
+- Node 24 or later (Node 22.13+ and 20.19+ also work), and git.
 - The Tessl CLI. Install it from [tessl.io](https://tessl.io), then run:
 
   ```bash
@@ -189,13 +189,13 @@ automations**.
 
 ## If something goes wrong
 
-| Problem                                     | Try                                                                                                                  |
-| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `npm ci` fails or Node is too old           | Check `node --version` is 22.12 or later, or 20.19 or later on Node 20. The repo's `.nvmrc` has the version CI uses. |
-| No **Issues** tab, or no starter issues     | Turn Issues on in your fork: [Set up your fork](README.md#set-up-your-fork).                                         |
-| Pull requests show no checks                | Enable workflows in your fork's **Actions** tab.                                                                     |
-| `tessl` commands say you're not logged in   | Run `tessl login`, then `tessl whoami` to check.                                                                     |
-| A labelled issue hasn't started after 5 min | Check the issue has the `tessl` label and that the GitHub apps are installed on your fork.                           |
+| Problem                                     | Try                                                                                                   |
+| ------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `npm ci` fails or Node is too old           | Check `node --version` is 24 or later, 22.13+ or 20.19+. The repo's `.nvmrc` has the version CI uses. |
+| No **Issues** tab, or no starter issues     | Turn Issues on in your fork: [Set up your fork](README.md#set-up-your-fork).                          |
+| Pull requests show no checks                | Enable workflows in your fork's **Actions** tab.                                                      |
+| `tessl` commands say you're not logged in   | Run `tessl login`, then `tessl whoami` to check.                                                      |
+| A labelled issue hasn't started after 5 min | Check the issue has the `tessl` label and that the GitHub apps are installed on your fork.            |
 
 ## Learn more
 
