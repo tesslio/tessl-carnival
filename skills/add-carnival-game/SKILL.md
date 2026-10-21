@@ -45,8 +45,9 @@ Read `src/games/water-cannon/game.ts` first: it is the pattern to copy.
 8. **Test the logic** in `game.test.ts`: the starting state, scoring, how a round
    ends, and any edge the README promises.
 9. **Write the README:** how to play, how scoring works and the files in the folder.
-10. **Run `npm run check`** and fix anything it reports. If you can open a
-    browser, also run `npm run dev`, walk to the new booth and play a round.
+10. **Run `npm run format`, then `npm run check`,** and fix anything it
+    reports. If you can open a browser, also run `npm run dev`, walk to the new
+    booth and play a round.
 
 ## Done when
 

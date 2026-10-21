@@ -110,7 +110,11 @@ export function step(state: WaterCannonState, dt: number): void {
   if (state.tank === 0 && state.shots.length === 0) state.phase = 'over';
 }
 
-function draw(ctx: CanvasRenderingContext2D, state: WaterCannonState, aim: { x: number; y: number }) {
+function draw(
+  ctx: CanvasRenderingContext2D,
+  state: WaterCannonState,
+  aim: { x: number; y: number },
+) {
   const { colors } = theme;
 
   ctx.fillStyle = colors.background;

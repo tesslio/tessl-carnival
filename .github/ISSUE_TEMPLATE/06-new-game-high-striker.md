@@ -1,6 +1,6 @@
 ---
 name: 'New game: high striker'
-about: "Medium: add a high striker (strength tester) booth to the midway."
+about: 'Medium: add a high striker (strength tester) booth to the midway.'
 title: 'New game: high striker'
 ---
 

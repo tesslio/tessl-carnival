@@ -4,11 +4,18 @@ import { describe, expect, it } from 'vitest';
 import { registry } from './index';
 
 const gamesDir = import.meta.dirname;
-const folders = readdirSync(gamesDir).filter((name) => statSync(join(gamesDir, name)).isDirectory());
+const folders = readdirSync(gamesDir).filter((name) =>
+  statSync(join(gamesDir, name)).isDirectory(),
+);
 
 describe('game registry', () => {
   it('registers every game folder on the midway', () => {
-    expect(registry.all().map((g) => g.id).sort()).toEqual([...folders].sort());
+    expect(
+      registry
+        .all()
+        .map((g) => g.id)
+        .sort(),
+    ).toEqual([...folders].sort());
   });
 
   it('gives every game a name and a description', () => {

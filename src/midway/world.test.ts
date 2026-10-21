@@ -141,12 +141,17 @@ describe('findPath', () => {
   it('goes round booths rather than through them', () => {
     const map = layoutMidway(['water-cannon']);
     const booth = map.booths[0];
-    const path = findPath(map, { x: booth.x - 0.5, y: booth.y + 1 }, { x: booth.x + booth.w, y: booth.y + 1 })!;
+    const path = findPath(
+      map,
+      { x: booth.x - 0.5, y: booth.y + 1 },
+      { x: booth.x + booth.w, y: booth.y + 1 },
+    )!;
     expect(path).toBeDefined();
-    for (const step of path) expect(isBlocked(map, Math.floor(step.x), Math.floor(step.y))).toBe(false);
+    for (const step of path)
+      expect(isBlocked(map, Math.floor(step.x), Math.floor(step.y))).toBe(false);
   });
 
-  it("gives up on tiles nobody can stand on", () => {
+  it('gives up on tiles nobody can stand on', () => {
     const map = layoutMidway(['water-cannon']);
     const booth = map.booths[0];
     expect(findPath(map, map.spawn, { x: booth.x, y: booth.y })).toBeUndefined();

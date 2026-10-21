@@ -1,6 +1,6 @@
 ---
 name: 'New game: hook a duck'
-about: "Medium: add a hook a duck booth to the midway."
+about: 'Medium: add a hook a duck booth to the midway.'
 title: 'New game: hook a duck'
 ---
 

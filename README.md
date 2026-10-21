@@ -99,12 +99,13 @@ in your clone first, the same as you would in any repository of your own.
 
 ## Commands
 
-| Command         | What it does                         |
-| --------------- | ------------------------------------ |
-| `npm run dev`   | Run the carnival locally             |
-| `npm run check` | Lint, type-check and test everything |
-| `npm run build` | Build the site into `dist/`          |
-| `npm run test`  | Run the tests once                   |
+| Command          | What it does                                           |
+| ---------------- | ------------------------------------------------------ |
+| `npm run dev`    | Run the carnival locally                               |
+| `npm run format` | Format every file with Prettier                        |
+| `npm run check`  | Lint, check formatting, type-check and test everything |
+| `npm run build`  | Build the site into `dist/`                            |
+| `npm run test`   | Run the tests once                                     |
 
 ## How it's built
 

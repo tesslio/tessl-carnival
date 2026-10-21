@@ -88,7 +88,12 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
       booth,
       name: booth.gameId ? (names.get(booth.gameId) ?? booth.gameId) : 'Coming soon',
     })),
-    ...map.props.map((prop) => ({ depth: prop.x + prop.y + (prop.w + prop.h) / 2, box: propBounds(prop), prop, name: '' })),
+    ...map.props.map((prop) => ({
+      depth: prop.x + prop.y + (prop.w + prop.h) / 2,
+      box: propBounds(prop),
+      prop,
+      name: '',
+    })),
   ];
   const strolls = strollTiles(map);
   const visitors = createVisitors(map, 9, Math.random);
@@ -122,7 +127,10 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
     canvas.width = Math.max(1, Math.round(canvas.clientWidth * dpr));
     canvas.height = Math.max(1, Math.round(canvas.clientHeight * dpr));
     // Fit most of the midway on screen, but never so small that people get lost.
-    zoom = Math.max(1.3, Math.min(3, Math.min(canvas.clientWidth / 720, canvas.clientHeight / 540)));
+    zoom = Math.max(
+      1.3,
+      Math.min(3, Math.min(canvas.clientWidth / 720, canvas.clientHeight / 540)),
+    );
     view = { w: canvas.clientWidth / zoom, h: canvas.clientHeight / zoom };
     ground = drawGroundLayer(map, zoom * dpr);
   };
@@ -137,7 +145,8 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
   };
 
   const keys = new Set<string>();
-  const isControl = (target: EventTarget | null) => target instanceof HTMLElement && target.closest('a, button, input, textarea, select') !== null;
+  const isControl = (target: EventTarget | null) =>
+    target instanceof HTMLElement && target.closest('a, button, input, textarea, select') !== null;
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.metaKey || event.ctrlKey || event.altKey) return;
     if (event.code in MOVE_KEYS) {
@@ -204,7 +213,12 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
       nextFloater = 4 + Math.random() * 5;
       const from = strolls[Math.floor(Math.random() * strolls.length)];
       const p = toScreen(from.x + 0.5, from.y + 0.5);
-      floaters.push({ x: p.x, y: p.y - 24, age: 0, color: palette.balloons[Math.floor(Math.random() * palette.balloons.length)] });
+      floaters.push({
+        x: p.x,
+        y: p.y - 24,
+        age: 0,
+        color: palette.balloons[Math.floor(Math.random() * palette.balloons.length)],
+      });
     }
     for (const f of floaters) {
       f.age += dt;
@@ -245,7 +259,10 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
     ctx.setTransform(dpr * zoom, 0, 0, dpr * zoom, 0, 0);
     const span = view.w + 200;
     for (const cloud of clouds) {
-      const x = ((((cloud.x * span - camera.x * 0.3 + (calm ? 0 : t * cloud.speed)) % span) + span) % span) - 100;
+      const x =
+        ((((cloud.x * span - camera.x * 0.3 + (calm ? 0 : t * cloud.speed)) % span) + span) %
+          span) -
+        100;
       const y = HORIZON - camera.y - 50 - cloud.y * 100;
       drawCloud(ctx, x, y, cloud.size);
     }
@@ -261,11 +278,21 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
       if (ground.scale === k) {
         // Pixel for pixel, at a whole-pixel offset, so it stays crisp.
         ctx.setTransform(1, 0, 0, 1, 0, 0);
-        ctx.drawImage(ground.canvas, Math.round((bounds.left - cam.x) * k), Math.round((bounds.top - cam.y) * k));
+        ctx.drawImage(
+          ground.canvas,
+          Math.round((bounds.left - cam.x) * k),
+          Math.round((bounds.top - cam.y) * k),
+        );
         ctx.setTransform(k, 0, 0, k, -cam.x * k, -cam.y * k);
       } else {
         // A midway too long to pre-draw at full sharpness: stretch it to fit.
-        ctx.drawImage(ground.canvas, bounds.left, bounds.top, ground.canvas.width / ground.scale, ground.canvas.height / ground.scale);
+        ctx.drawImage(
+          ground.canvas,
+          bounds.left,
+          bounds.top,
+          ground.canvas.width / ground.scale,
+          ground.canvas.height / ground.scale,
+        );
       }
     }
 
@@ -283,7 +310,11 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
     const feet = toScreen(player.x, player.y);
     const playerDepth = player.x + player.y;
     const hidesPlayer = (box: Box, depth: number) =>
-      depth > playerDepth && box.left < feet.x + 6 && box.right > feet.x - 6 && box.top < feet.y && box.bottom > feet.y - 30;
+      depth > playerDepth &&
+      box.left < feet.x + 6 &&
+      box.right > feet.x - 6 &&
+      box.top < feet.y &&
+      box.bottom > feet.y - 30;
     const faded = (box: Box, depth: number, paint: () => void) => {
       if (!hidesPlayer(box, depth)) return paint();
       ctx.globalAlpha = 0.4;
@@ -293,7 +324,10 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
 
     // Only draw (and so only animate) what's on screen.
     const onScreen = (box: Box) =>
-      box.right > visible.left && box.left < visible.right && box.bottom > visible.top && box.top < visible.bottom;
+      box.right > visible.left &&
+      box.left < visible.right &&
+      box.bottom > visible.top &&
+      box.top < visible.bottom;
     const walkerBox = (w: Point): Box => {
       const p = toScreen(w.x, w.y);
       return { left: p.x - 10, right: p.x + 10, top: p.y - 40, bottom: p.y + 4 };
@@ -301,13 +335,23 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
 
     type Drawable = { depth: number; box: Box; draw: () => void };
     const drawables: Drawable[] = [
-      ...visitors.map((v) => ({ depth: v.x + v.y, box: walkerBox(v), draw: () => drawWalker(ctx, v, visitorLook(v.look)) })),
-      { depth: playerDepth, box: walkerBox(player), draw: () => drawWalker(ctx, player, PLAYER_LOOK, true, t) },
+      ...visitors.map((v) => ({
+        depth: v.x + v.y,
+        box: walkerBox(v),
+        draw: () => drawWalker(ctx, v, visitorLook(v.look)),
+      })),
+      {
+        depth: playerDepth,
+        box: walkerBox(player),
+        draw: () => drawWalker(ctx, player, PLAYER_LOOK, true, t),
+      },
     ];
     for (const item of scenery) {
       if (!onScreen(item.box)) continue;
       const { depth, box, booth, prop, name } = item;
-      const paint = booth ? () => drawBooth(ctx, booth, name, t, booth === inReach) : () => drawProp(ctx, prop!, t);
+      const paint = booth
+        ? () => drawBooth(ctx, booth, name, t, booth === inReach)
+        : () => drawProp(ctx, prop!, t);
       drawables.push({ depth, box, draw: () => faded(box, depth, paint) });
     }
     drawables
@@ -324,7 +368,12 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
     if (inReach?.gameId) {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const c = toScreen(inReach.x + 1, inReach.y + 1);
-      label(ctx, 'Press E to play', (c.x - cam.x) * zoom, (c.y - BOOTH_SIGN_HEIGHT - 46 - cam.y) * zoom);
+      label(
+        ctx,
+        'Press E to play',
+        (c.x - cam.x) * zoom,
+        (c.y - BOOTH_SIGN_HEIGHT - 46 - cam.y) * zoom,
+      );
     }
   };
 
@@ -338,7 +387,8 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
 
     // If frames keep taking longer than 1/40 s, draw fewer pixels. Long gaps
     // (a background tab, a resize) don't count.
-    if (elapsed < 0.25) slowFrames = elapsed > 1 / 40 ? slowFrames + 1 : Math.max(0, slowFrames - 1);
+    if (elapsed < 0.25)
+      slowFrames = elapsed > 1 / 40 ? slowFrames + 1 : Math.max(0, slowFrames - 1);
     if (slowFrames > 90 && quality > MIN_QUALITY) {
       quality = Math.max(MIN_QUALITY, quality * 0.75);
       slowFrames = 0;

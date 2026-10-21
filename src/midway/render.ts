@@ -1,6 +1,15 @@
 import { canvasFont, theme } from '../carnival';
 import { palette } from './palette';
-import { CART_KINDS, toScreen, type BoothSlot, type MidwayMap, type Point, type Prop, type Rect, type Walker } from './world';
+import {
+  CART_KINDS,
+  toScreen,
+  type BoothSlot,
+  type MidwayMap,
+  type Point,
+  type Prop,
+  type Rect,
+  type Walker,
+} from './world';
 
 /**
  * Flat, isometric vector drawing for the midway, in world pixels. The caller
@@ -50,16 +59,47 @@ function stroke(ctx: Ctx, points: readonly Pt[], color: string, width: number) {
 const lerp = (a: number, b: number, s: number) => a + (b - a) * s;
 
 /** A tile-aligned box, `z` pixels off the ground and `h` pixels tall. */
-function box(ctx: Ctx, x: number, y: number, w: number, d: number, z: number, h: number, top: string, left: string, right: string) {
+function box(
+  ctx: Ctx,
+  x: number,
+  y: number,
+  w: number,
+  d: number,
+  z: number,
+  h: number,
+  top: string,
+  left: string,
+  right: string,
+) {
   if (h > 0) {
-    poly(ctx, [at(x, y + d, z), at(x + w, y + d, z), at(x + w, y + d, z + h), at(x, y + d, z + h)], left);
-    poly(ctx, [at(x + w, y + d, z), at(x + w, y, z), at(x + w, y, z + h), at(x + w, y + d, z + h)], right);
+    poly(
+      ctx,
+      [at(x, y + d, z), at(x + w, y + d, z), at(x + w, y + d, z + h), at(x, y + d, z + h)],
+      left,
+    );
+    poly(
+      ctx,
+      [at(x + w, y + d, z), at(x + w, y, z), at(x + w, y, z + h), at(x + w, y + d, z + h)],
+      right,
+    );
   }
-  poly(ctx, [at(x, y, z + h), at(x + w, y, z + h), at(x + w, y + d, z + h), at(x, y + d, z + h)], top);
+  poly(
+    ctx,
+    [at(x, y, z + h), at(x + w, y, z + h), at(x + w, y + d, z + h), at(x, y + d, z + h)],
+    top,
+  );
 }
 
 /** A vertical wall from one ground point to another, in alternating colour strips. */
-function stripedWall(ctx: Ctx, a: Point, b: Point, z: number, h: number, strips: number, colors: readonly string[]) {
+function stripedWall(
+  ctx: Ctx,
+  a: Point,
+  b: Point,
+  z: number,
+  h: number,
+  strips: number,
+  colors: readonly string[],
+) {
   for (let i = 0; i < strips; i++) {
     const s0 = i / strips;
     const s1 = (i + 1) / strips;
@@ -67,12 +107,24 @@ function stripedWall(ctx: Ctx, a: Point, b: Point, z: number, h: number, strips:
     const y0 = lerp(a.y, b.y, s0);
     const x1 = lerp(a.x, b.x, s1);
     const y1 = lerp(a.y, b.y, s1);
-    poly(ctx, [at(x0, y0, z), at(x1, y1, z), at(x1, y1, z + h), at(x0, y0, z + h)], colors[i % colors.length]);
+    poly(
+      ctx,
+      [at(x0, y0, z), at(x1, y1, z), at(x1, y1, z + h), at(x0, y0, z + h)],
+      colors[i % colors.length],
+    );
   }
 }
 
 /** A scalloped trim hanging from an edge. */
-function scallops(ctx: Ctx, a: Point, b: Point, z: number, count: number, depth: number, colors: readonly string[]) {
+function scallops(
+  ctx: Ctx,
+  a: Point,
+  b: Point,
+  z: number,
+  count: number,
+  depth: number,
+  colors: readonly string[],
+) {
   for (let i = 0; i < count; i++) {
     const p0 = at(lerp(a.x, b.x, i / count), lerp(a.y, b.y, i / count), z);
     const p1 = at(lerp(a.x, b.x, (i + 1) / count), lerp(a.y, b.y, (i + 1) / count), z);
@@ -103,7 +155,15 @@ function flags(ctx: Ctx, points: readonly Pt[], t: number, size = 5, phase = 0) 
 }
 
 function flag(ctx: Ctx, x: number, y: number, t: number, color: string, size = 1) {
-  stroke(ctx, [[x, y], [x, y - 14 * size]], palette.metalShade, 1.2);
+  stroke(
+    ctx,
+    [
+      [x, y],
+      [x, y - 14 * size],
+    ],
+    palette.metalShade,
+    1.2,
+  );
   const wave = Math.sin(t * 5 + x * 0.1) * 1.5 * size;
   ctx.fillStyle = color;
   ctx.beginPath();
@@ -128,7 +188,14 @@ function onPlane(ctx: Ctx, origin: Pt, paint: () => void) {
 }
 
 /** A wooden sign with text, in plane-local coordinates centred on (0, 0). */
-function signBoard(ctx: Ctx, text: string, width: number, height: number, colors: { board: string; edge: string; text: string }, glow = false) {
+function signBoard(
+  ctx: Ctx,
+  text: string,
+  width: number,
+  height: number,
+  colors: { board: string; edge: string; text: string },
+  glow = false,
+) {
   ctx.fillStyle = colors.edge;
   ctx.beginPath();
   ctx.roundRect(-width / 2 - 2, -height / 2 - 2, width + 4, height + 4, 4);
@@ -143,7 +210,10 @@ function signBoard(ctx: Ctx, text: string, width: number, height: number, colors
     ctx.stroke();
   }
   ctx.font = canvasFont('small', 'bold');
-  const fit = Math.min((height * 0.62) / theme.font.small, (width - 8) / ctx.measureText(text).width);
+  const fit = Math.min(
+    (height * 0.62) / theme.font.small,
+    (width - 8) / ctx.measureText(text).width,
+  );
   ctx.save();
   ctx.scale(fit, fit);
   ctx.fillStyle = colors.text;
@@ -165,12 +235,22 @@ function hash(x: number, y: number, salt = 0): number {
 }
 
 function rectPoints(r: Rect, lift = 0): Pt[] {
-  return [at(r.x, r.y, lift), at(r.x + r.w, r.y, lift), at(r.x + r.w, r.y + r.h, lift), at(r.x, r.y + r.h, lift)];
+  return [
+    at(r.x, r.y, lift),
+    at(r.x + r.w, r.y, lift),
+    at(r.x + r.w, r.y + r.h, lift),
+    at(r.x, r.y + r.h, lift),
+  ];
 }
 
 /** The world-pixel box the pre-drawn ground layer covers. */
 export function groundBounds(map: MidwayMap): Box {
-  return { left: -map.height * 16 - 64, right: map.width * 16 + 64, top: -64, bottom: (map.width + map.height) * 8 + 4 };
+  return {
+    left: -map.height * 16 - 64,
+    right: map.width * 16 + 64,
+    top: -64,
+    bottom: (map.width + map.height) * 8 + 4,
+  };
 }
 
 /** The open field round the midway, filling the view from the horizon down. */
@@ -242,14 +322,34 @@ export function drawGroundLayer(map: MidwayMap, wanted: number): GroundLayer {
 function tree(ctx: Ctx, x: number, y: number) {
   const [px, py] = at(x, y);
   oval(ctx, px + 4, py + 1, 12, 5, palette.shadow);
-  poly(ctx, [[px - 1.5, py], [px + 1.5, py], [px + 1.5, py - 12], [px - 1.5, py - 12]], palette.woodDark);
+  poly(
+    ctx,
+    [
+      [px - 1.5, py],
+      [px + 1.5, py],
+      [px + 1.5, py - 12],
+      [px - 1.5, py - 12],
+    ],
+    palette.woodDark,
+  );
   oval(ctx, px, py - 20, 11, 11, palette.hedgeDark);
   oval(ctx, px - 2, py - 22, 9, 9, palette.hedge);
   oval(ctx, px - 4, py - 25, 4, 4, palette.hedgeLight);
 }
 
 function hedge(ctx: Ctx, area: Rect) {
-  box(ctx, area.x + 0.15, area.y + 0.15, area.w - 0.3, area.h - 0.3, 0, 9, palette.hedgeLight, palette.hedge, palette.hedgeDark);
+  box(
+    ctx,
+    area.x + 0.15,
+    area.y + 0.15,
+    area.w - 0.3,
+    area.h - 0.3,
+    0,
+    9,
+    palette.hedgeLight,
+    palette.hedge,
+    palette.hedgeDark,
+  );
 }
 
 /** The hedge's front two sides, which can stand in front of anything. */
@@ -269,9 +369,24 @@ interface Stripes {
   bShade: string;
 }
 
-const RED: Stripes = { a: palette.red, aShade: palette.redShade, b: palette.cream, bShade: palette.creamShade };
-const GOLD: Stripes = { a: palette.gold, aShade: palette.goldShade, b: palette.cream, bShade: palette.creamShade };
-const BLUE: Stripes = { a: palette.blue, aShade: palette.blueShade, b: palette.cream, bShade: palette.creamShade };
+const RED: Stripes = {
+  a: palette.red,
+  aShade: palette.redShade,
+  b: palette.cream,
+  bShade: palette.creamShade,
+};
+const GOLD: Stripes = {
+  a: palette.gold,
+  aShade: palette.goldShade,
+  b: palette.cream,
+  bShade: palette.creamShade,
+};
+const BLUE: Stripes = {
+  a: palette.blue,
+  aShade: palette.blueShade,
+  b: palette.cream,
+  bShade: palette.creamShade,
+};
 const TENT_COLORS = [GOLD, BLUE, BLUE, RED] as const;
 
 function rimPoint(c: Pt, r: number, angle: number, z: number): Pt {
@@ -288,12 +403,25 @@ function cylinder(ctx: Ctx, c: Pt, r: number, z: number, h: number, colors: Stri
     for (let i = 0; i <= 4; i++) points.push(rimPoint(c, r, lerp(a0, a1, i / 4), z));
     for (let i = 4; i >= 0; i--) points.push(rimPoint(c, r, lerp(a0, a1, i / 4), z + h));
     const shade = (a0 + a1) / 2 < Math.PI * 0.35;
-    poly(ctx, points, k % 2 === 0 ? (shade ? colors.aShade : colors.a) : shade ? colors.bShade : colors.b);
+    poly(
+      ctx,
+      points,
+      k % 2 === 0 ? (shade ? colors.aShade : colors.a) : shade ? colors.bShade : colors.b,
+    );
   }
 }
 
 /** A striped, slightly domed cone roof. `turn` spins the stripes. */
-function dome(ctx: Ctx, c: Pt, r: number, z: number, h: number, colors: Stripes, turn = 0, count = 16) {
+function dome(
+  ctx: Ctx,
+  c: Pt,
+  r: number,
+  z: number,
+  h: number,
+  colors: Stripes,
+  turn = 0,
+  count = 16,
+) {
   const apex: Pt = [c[0], c[1] - z - h];
   const wedges = Array.from({ length: count }, (_, k) => {
     const a0 = turn + (k / count) * Math.PI * 2;
@@ -316,13 +444,22 @@ function dome(ctx: Ctx, c: Pt, r: number, z: number, h: number, colors: Stripes,
     ctx.lineTo(end[0], end[1]);
     ctx.quadraticCurveTo(c1[0], c1[1], apex[0], apex[1]);
     const shade = Math.cos(mid) > 0.45;
-    ctx.fillStyle = k % 2 === 0 ? (shade ? colors.aShade : colors.a) : shade ? colors.bShade : colors.b;
+    ctx.fillStyle =
+      k % 2 === 0 ? (shade ? colors.aShade : colors.a) : shade ? colors.bShade : colors.b;
     ctx.fill();
   }
 }
 
 /** Scallops round the front of a circle. */
-function scallopRing(ctx: Ctx, c: Pt, r: number, z: number, count: number, depth: number, colors: readonly string[]) {
+function scallopRing(
+  ctx: Ctx,
+  c: Pt,
+  r: number,
+  z: number,
+  count: number,
+  depth: number,
+  colors: readonly string[],
+) {
   for (let k = 0; k < count; k++) {
     const a0 = (k / count) * Math.PI;
     const a1 = ((k + 1) / count) * Math.PI;
@@ -352,15 +489,30 @@ function knob(ctx: Ctx, x: number, y: number) {
   oval(ctx, x - 1, y - 1, 1.2, 1.2, palette.cream);
 }
 
-function roundTent(ctx: Ctx, cx: number, cy: number, r: number, wall: number, roof: number, colors: Stripes, t: number, flagColor: string = palette.gold) {
+function roundTent(
+  ctx: Ctx,
+  cx: number,
+  cy: number,
+  r: number,
+  wall: number,
+  roof: number,
+  colors: Stripes,
+  t: number,
+  flagColor: string = palette.gold,
+) {
   const c = at(cx, cy);
   oval(ctx, c[0] + 8, c[1] + 4, r * ISO_RX * 1.15, r * ISO_RY * 1.15, palette.shadow);
   cylinder(ctx, c, r, 0, wall, colors);
   // The door, with its curtains tied back.
   const door: Pt[] = [];
-  for (let i = 0; i <= 6; i++) door.push(rimPoint(c, r, lerp(Math.PI / 2 - 0.24, Math.PI / 2 + 0.24, i / 6), 0));
+  for (let i = 0; i <= 6; i++)
+    door.push(rimPoint(c, r, lerp(Math.PI / 2 - 0.24, Math.PI / 2 + 0.24, i / 6), 0));
   const top = rimPoint(c, r, Math.PI / 2, wall * 0.85);
-  poly(ctx, [...door, [door[6][0], top[1] + 6], [top[0], top[1]], [door[0][0], top[1] + 6]], palette.opening);
+  poly(
+    ctx,
+    [...door, [door[6][0], top[1] + 6], [top[0], top[1]], [door[0][0], top[1] + 6]],
+    palette.opening,
+  );
   stroke(ctx, [door[0], [door[0][0] + 2, top[1] + 8], [top[0], top[1]]], palette.gold, 2);
   stroke(ctx, [door[6], [door[6][0] - 2, top[1] + 8], [top[0], top[1]]], palette.gold, 2);
 
@@ -406,20 +558,80 @@ function carousel(ctx: Ctx, prop: Prop, t: number) {
   const drawHorse = ({ i, angle, base }: (typeof horses)[number]) => {
     const bob = Math.sin(t * 3 + i * 1.4) * 3;
     const [x, y] = base;
-    stroke(ctx, [[x, y], [x, y - (roofZ - 6) + ((Math.sin(angle) * r * ISO_RY) / 4)]], palette.gold, 1.4);
+    stroke(
+      ctx,
+      [
+        [x, y],
+        [x, y - (roofZ - 6) + (Math.sin(angle) * r * ISO_RY) / 4],
+      ],
+      palette.gold,
+      1.4,
+    );
     const facing = Math.cos(angle + Math.PI / 2) < 0 ? -1 : 1;
     const color = i % 2 ? palette.cream : palette.woodLight;
     const hy = y - 16 + bob;
     oval(ctx, x, hy, 6, 3.2, color);
-    poly(ctx, [[x + facing * 4, hy - 1], [x + facing * 7, hy - 7], [x + facing * 9, hy - 6], [x + facing * 6, hy + 1]], color);
-    stroke(ctx, [[x - 4, hy + 2], [x - 5, hy + 7]], color, 1.4);
-    stroke(ctx, [[x + 4, hy + 2], [x + 5, hy + 7]], color, 1.4);
-    poly(ctx, [[x - 2, hy - 3], [x + 2, hy - 3], [x + 1, hy - 1], [x - 1, hy - 1]], palette.red);
+    poly(
+      ctx,
+      [
+        [x + facing * 4, hy - 1],
+        [x + facing * 7, hy - 7],
+        [x + facing * 9, hy - 6],
+        [x + facing * 6, hy + 1],
+      ],
+      color,
+    );
+    stroke(
+      ctx,
+      [
+        [x - 4, hy + 2],
+        [x - 5, hy + 7],
+      ],
+      color,
+      1.4,
+    );
+    stroke(
+      ctx,
+      [
+        [x + 4, hy + 2],
+        [x + 5, hy + 7],
+      ],
+      color,
+      1.4,
+    );
+    poly(
+      ctx,
+      [
+        [x - 2, hy - 3],
+        [x + 2, hy - 3],
+        [x + 1, hy - 1],
+        [x - 1, hy - 1],
+      ],
+      palette.red,
+    );
   };
   horses.filter((h) => Math.sin(h.angle) < 0).forEach(drawHorse);
   const column = rimPoint(c, 0, 0, 6);
-  poly(ctx, [[column[0] - 5, column[1]], [column[0] + 5, column[1]], [column[0] + 5, c[1] - roofZ], [column[0] - 5, c[1] - roofZ]], palette.gold);
-  poly(ctx, [[column[0] - 2, column[1]], [column[0] + 2, column[1]], [column[0] + 2, c[1] - roofZ], [column[0] - 2, c[1] - roofZ]], palette.red);
+  poly(
+    ctx,
+    [
+      [column[0] - 5, column[1]],
+      [column[0] + 5, column[1]],
+      [column[0] + 5, c[1] - roofZ],
+      [column[0] - 5, c[1] - roofZ],
+    ],
+    palette.gold,
+  );
+  poly(
+    ctx,
+    [
+      [column[0] - 2, column[1]],
+      [column[0] + 2, column[1]],
+      [column[0] + 2, c[1] - roofZ],
+      [column[0] - 2, c[1] - roofZ],
+    ],
+    palette.red,
+  );
   horses.filter((h) => Math.sin(h.angle) >= 0).forEach(drawHorse);
 
   dome(ctx, c, r * 1.15, roofZ, 26, RED, turn);
@@ -445,7 +657,16 @@ function peakedTent(ctx: Ctx, prop: Prop, t: number) {
 
   poly(ctx, rectPoints({ x: x0 + 0.3, y: y0 + 0.3, w: x1 - x0, h: y1 - y0 }), palette.shadow);
   // The back of the roof, mostly hidden behind the front.
-  poly(ctx, [at(x0 - 0.1, y0 - eave, wall - 3), at(x1 + 0.1, y0 - eave, wall - 3), at(x1 + 0.1, ym, wall + roof), at(x0 - 0.1, ym, wall + roof)], colors.aShade);
+  poly(
+    ctx,
+    [
+      at(x0 - 0.1, y0 - eave, wall - 3),
+      at(x1 + 0.1, y0 - eave, wall - 3),
+      at(x1 + 0.1, ym, wall + roof),
+      at(x0 - 0.1, ym, wall + roof),
+    ],
+    colors.aShade,
+  );
 
   // The gable end, striped up to the roof line.
   const strips = 10;
@@ -461,7 +682,13 @@ function peakedTent(ctx: Ctx, prop: Prop, t: number) {
   }
   stripedWall(ctx, { x: x0, y: y1 }, { x: x1, y: y1 }, 0, wall, 14, [colors.a, colors.b]);
   // The entrance, on the gable end.
-  const door = [at(x1, ym + 0.35, 0), at(x1, ym - 0.35, 0), at(x1, ym - 0.2, wall * 0.8), at(x1, ym, wall * 0.95), at(x1, ym + 0.2, wall * 0.8)];
+  const door = [
+    at(x1, ym + 0.35, 0),
+    at(x1, ym - 0.35, 0),
+    at(x1, ym - 0.2, wall * 0.8),
+    at(x1, ym, wall * 0.95),
+    at(x1, ym + 0.2, wall * 0.8),
+  ];
   poly(ctx, door, palette.opening);
   stroke(ctx, [door[0], door[4], door[3]], palette.gold, 1.6);
   stroke(ctx, [door[1], door[2], door[3]], palette.gold, 1.6);
@@ -471,10 +698,31 @@ function peakedTent(ctx: Ctx, prop: Prop, t: number) {
   for (let i = 0; i < roofStrips; i++) {
     const xa = lerp(x0 - 0.1, x1 + 0.1, i / roofStrips);
     const xb = lerp(x0 - 0.1, x1 + 0.1, (i + 1) / roofStrips);
-    poly(ctx, [at(xa, y1 + eave, wall - 3), at(xb, y1 + eave, wall - 3), at(xb, ym, wall + roof), at(xa, ym, wall + roof)], i % 2 === 0 ? colors.a : colors.b);
+    poly(
+      ctx,
+      [
+        at(xa, y1 + eave, wall - 3),
+        at(xb, y1 + eave, wall - 3),
+        at(xb, ym, wall + roof),
+        at(xa, ym, wall + roof),
+      ],
+      i % 2 === 0 ? colors.a : colors.b,
+    );
   }
-  poly(ctx, [at(x1 + 0.1, y1 + eave, wall - 3), at(x1 + 0.1, ym, wall + roof), at(x1 + 0.1, ym, wall + roof - 2), at(x1 + 0.1, y1 + eave, wall - 5)], colors.aShade);
-  scallops(ctx, { x: x0 - 0.1, y: y1 + eave }, { x: x1 + 0.1, y: y1 + eave }, wall - 3, 12, 3, [colors.a, colors.b]);
+  poly(
+    ctx,
+    [
+      at(x1 + 0.1, y1 + eave, wall - 3),
+      at(x1 + 0.1, ym, wall + roof),
+      at(x1 + 0.1, ym, wall + roof - 2),
+      at(x1 + 0.1, y1 + eave, wall - 5),
+    ],
+    colors.aShade,
+  );
+  scallops(ctx, { x: x0 - 0.1, y: y1 + eave }, { x: x1 + 0.1, y: y1 + eave }, wall - 3, 12, 3, [
+    colors.a,
+    colors.b,
+  ]);
   const eaveLine: Pt[] = [];
   for (let i = 0; i <= 16; i++) eaveLine.push(at(lerp(x0, x1, i / 16), y1 + eave, wall - 7));
   flags(ctx, eaveLine, t, 3.5, prop.x);
@@ -491,7 +739,10 @@ function wheel(ctx: Ctx, x: number, y: number, r: number) {
 }
 
 function wagon(ctx: Ctx, prop: Prop) {
-  const body = prop.variant % 2 === 0 ? { top: palette.red, left: palette.red, right: palette.redShade } : { top: palette.blue, left: palette.blue, right: palette.blueShade };
+  const body =
+    prop.variant % 2 === 0
+      ? { top: palette.red, left: palette.red, right: palette.redShade }
+      : { top: palette.blue, left: palette.blue, right: palette.blueShade };
   const x = prop.x + 0.1;
   const y = prop.y + 0.1;
   const w = prop.w - 0.2;
@@ -503,8 +754,28 @@ function wagon(ctx: Ctx, prop: Prop) {
     const bx = lerp(x + 0.3, x + w - 0.3, i / 14);
     stroke(ctx, [at(bx, y + d, 11), at(bx, y + d, 27)], palette.cream, 1.4);
   }
-  poly(ctx, [at(x + 0.25, y + d, 11), at(x + w - 0.25, y + d, 11), at(x + w - 0.25, y + d, 12.5), at(x + 0.25, y + d, 12.5)], palette.gold);
-  box(ctx, x - 0.05, y - 0.05, w + 0.1, d + 0.1, 31, 3, palette.gold, palette.goldShade, palette.goldShade);
+  poly(
+    ctx,
+    [
+      at(x + 0.25, y + d, 11),
+      at(x + w - 0.25, y + d, 11),
+      at(x + w - 0.25, y + d, 12.5),
+      at(x + 0.25, y + d, 12.5),
+    ],
+    palette.gold,
+  );
+  box(
+    ctx,
+    x - 0.05,
+    y - 0.05,
+    w + 0.1,
+    d + 0.1,
+    31,
+    3,
+    palette.gold,
+    palette.goldShade,
+    palette.goldShade,
+  );
   // A gold crest on the side, and the wheels.
   const crest = at(x + w / 2, y + d, 33);
   oval(ctx, crest[0], crest[1] - 2, 7, 4, palette.gold);
@@ -514,7 +785,13 @@ function wagon(ctx: Ctx, prop: Prop) {
   }
 }
 
-function person(ctx: Ctx, x: number, y: number, look: Look, options: { swing?: number; back?: boolean; dir?: number; player?: boolean; t?: number } = {}) {
+function person(
+  ctx: Ctx,
+  x: number,
+  y: number,
+  look: Look,
+  options: { swing?: number; back?: boolean; dir?: number; player?: boolean; t?: number } = {},
+) {
   const swing = options.swing ?? 0;
   const dir = options.dir ?? 1;
   oval(ctx, x, y, 5, 2, palette.shadow);
@@ -525,14 +802,46 @@ function person(ctx: Ctx, x: number, y: number, look: Look, options: { swing?: n
     ctx.ellipse(x, y, 8, 3.5, 0, 0, Math.PI * 2);
     ctx.stroke();
   }
-  stroke(ctx, [[x - 1.6, y - 8], [x - 1.6 + swing * 1.6, y - 1]], look.pants, 2.6);
-  stroke(ctx, [[x + 1.6, y - 8], [x + 1.6 - swing * 1.6, y - 1]], look.pants, 2.6);
+  stroke(
+    ctx,
+    [
+      [x - 1.6, y - 8],
+      [x - 1.6 + swing * 1.6, y - 1],
+    ],
+    look.pants,
+    2.6,
+  );
+  stroke(
+    ctx,
+    [
+      [x + 1.6, y - 8],
+      [x + 1.6 - swing * 1.6, y - 1],
+    ],
+    look.pants,
+    2.6,
+  );
   ctx.fillStyle = look.shirt;
   ctx.beginPath();
   ctx.roundRect(x - 4, y - 16.5, 8, 9.5, 3);
   ctx.fill();
-  stroke(ctx, [[x - 4, y - 15], [x - 5 - swing, y - 9]], look.skin, 2);
-  stroke(ctx, [[x + 4, y - 15], [x + 5 + swing, y - 9]], look.skin, 2);
+  stroke(
+    ctx,
+    [
+      [x - 4, y - 15],
+      [x - 5 - swing, y - 9],
+    ],
+    look.skin,
+    2,
+  );
+  stroke(
+    ctx,
+    [
+      [x + 4, y - 15],
+      [x + 5 + swing, y - 9],
+    ],
+    look.skin,
+    2,
+  );
   oval(ctx, x, y - 20.5, 4, 4, look.skin);
   ctx.fillStyle = look.hair;
   ctx.beginPath();
@@ -548,11 +857,29 @@ function person(ctx: Ctx, x: number, y: number, look: Look, options: { swing?: n
     ctx.beginPath();
     ctx.arc(x, y - 22, 4.4, Math.PI, Math.PI * 2);
     ctx.fill();
-    if (!options.back) poly(ctx, [[x, y - 22.5], [x + dir * 7, y - 22.5], [x + dir * 7, y - 21.3], [x, y - 21.3]], look.cap);
+    if (!options.back)
+      poly(
+        ctx,
+        [
+          [x, y - 22.5],
+          [x + dir * 7, y - 22.5],
+          [x + dir * 7, y - 21.3],
+          [x, y - 21.3],
+        ],
+        look.cap,
+      );
   }
   if (options.player) {
     const hop = Math.sin((options.t ?? 0) * 5) * 1.5;
-    poly(ctx, [[x - 4, y - 34 + hop], [x + 4, y - 34 + hop], [x, y - 29 + hop]], palette.gold);
+    poly(
+      ctx,
+      [
+        [x - 4, y - 34 + hop],
+        [x + 4, y - 34 + hop],
+        [x, y - 29 + hop],
+      ],
+      palette.gold,
+    );
   }
 }
 
@@ -581,33 +908,100 @@ function cart(ctx: Ctx, prop: Prop, t: number) {
   const top = at(x + w / 2, y + d / 2, 19);
 
   if (kind === 0) {
-    box(ctx, x + 0.06, y + 0.06, w - 0.12, d - 0.12, 19, 10, 'rgba(255,255,255,0.35)', 'rgba(255,255,255,0.45)', 'rgba(255,255,255,0.3)');
-    for (let i = 0; i < 9; i++) oval(ctx, top[0] - 8 + (i % 5) * 4, top[1] - 3 - Math.floor(i / 5) * 3 - (i % 2), 2, 2, palette.cream);
+    box(
+      ctx,
+      x + 0.06,
+      y + 0.06,
+      w - 0.12,
+      d - 0.12,
+      19,
+      10,
+      'rgba(255,255,255,0.35)',
+      'rgba(255,255,255,0.45)',
+      'rgba(255,255,255,0.3)',
+    );
+    for (let i = 0; i < 9; i++)
+      oval(
+        ctx,
+        top[0] - 8 + (i % 5) * 4,
+        top[1] - 3 - Math.floor(i / 5) * 3 - (i % 2),
+        2,
+        2,
+        palette.cream,
+      );
     box(ctx, x, y, w, d, 29, 2, palette.red, palette.red, palette.redShade);
   } else if (kind === 1) {
     for (let i = 0; i < 3; i++) {
       const sx = top[0] - 7 + i * 7;
       const bob = Math.sin(t * 2 + i) * 0.5;
-      stroke(ctx, [[sx, top[1]], [sx, top[1] - 9]], palette.cream, 1);
+      stroke(
+        ctx,
+        [
+          [sx, top[1]],
+          [sx, top[1] - 9],
+        ],
+        palette.cream,
+        1,
+      );
       oval(ctx, sx, top[1] - 13 + bob, 4.5, 4.5, palette.pink);
       oval(ctx, sx - 1.5, top[1] - 14.5 + bob, 1.8, 1.8, palette.cream);
     }
   } else if (kind === 2) {
     stroke(ctx, [top, [top[0], top[1] - 22]], palette.metalShade, 1.2);
     dome(ctx, [top[0], top[1] - 18], 0.75, 0, 9, BLUE, 0, 10);
-    for (let i = 0; i < 3; i++) oval(ctx, top[0] - 6 + i * 6, top[1] - 2, 2.5, 2.5, [palette.pink, palette.cream, palette.woodLight][i]);
+    for (let i = 0; i < 3; i++)
+      oval(
+        ctx,
+        top[0] - 6 + i * 6,
+        top[1] - 2,
+        2.5,
+        2.5,
+        [palette.pink, palette.cream, palette.woodLight][i],
+      );
   } else {
     // A giant drink on the roof.
     const [cx, cy] = top;
-    poly(ctx, [[cx - 5, cy], [cx + 5, cy], [cx + 7, cy - 16], [cx - 7, cy - 16]], palette.red);
-    poly(ctx, [[cx - 5.5, cy - 6], [cx + 5.5, cy - 6], [cx + 6, cy - 10], [cx - 6, cy - 10]], palette.cream);
+    poly(
+      ctx,
+      [
+        [cx - 5, cy],
+        [cx + 5, cy],
+        [cx + 7, cy - 16],
+        [cx - 7, cy - 16],
+      ],
+      palette.red,
+    );
+    poly(
+      ctx,
+      [
+        [cx - 5.5, cy - 6],
+        [cx + 5.5, cy - 6],
+        [cx + 6, cy - 10],
+        [cx - 6, cy - 10],
+      ],
+      palette.cream,
+    );
     oval(ctx, cx, cy - 16, 7, 2, palette.cream);
-    stroke(ctx, [[cx + 1, cy - 16], [cx + 4, cy - 24]], palette.cream, 1.5);
+    stroke(
+      ctx,
+      [
+        [cx + 1, cy - 16],
+        [cx + 4, cy - 24],
+      ],
+      palette.cream,
+      1.5,
+    );
   }
 
   // A little sign above it all.
   const sign = at(prop.x + 0.5, prop.y + 0.5, kind === 2 ? 50 : 42);
-  onPlane(ctx, sign, () => signBoard(ctx, CART_KINDS[kind].toUpperCase(), 30, 9, { board: palette.board, edge: palette.woodDark, text: palette.ink }));
+  onPlane(ctx, sign, () =>
+    signBoard(ctx, CART_KINDS[kind].toUpperCase(), 30, 9, {
+      board: palette.board,
+      edge: palette.woodDark,
+      text: palette.ink,
+    }),
+  );
 }
 
 function ticketBooth(ctx: Ctx, prop: Prop) {
@@ -615,20 +1009,36 @@ function ticketBooth(ctx: Ctx, prop: Prop) {
   const y = prop.y + 0.15;
   poly(ctx, rectPoints({ x: x + 0.2, y: y + 0.2, w: 0.7, h: 0.7 }), palette.shadow);
   box(ctx, x, y, 0.7, 0.7, 0, 26, palette.cream, palette.red, palette.redShade);
-  poly(ctx, [at(x + 0.15, y + 0.7, 10), at(x + 0.55, y + 0.7, 10), at(x + 0.55, y + 0.7, 20), at(x + 0.15, y + 0.7, 20)], palette.opening);
+  poly(
+    ctx,
+    [
+      at(x + 0.15, y + 0.7, 10),
+      at(x + 0.55, y + 0.7, 10),
+      at(x + 0.55, y + 0.7, 20),
+      at(x + 0.15, y + 0.7, 20),
+    ],
+    palette.opening,
+  );
   for (let i = 0; i < 6; i++) {
     const xa = lerp(x - 0.05, x + 0.75, i / 6);
     const xb = lerp(x - 0.05, x + 0.75, (i + 1) / 6);
-    poly(ctx, [at(xa, y + 0.7, 23), at(xb, y + 0.7, 23), at(xb, y + 0.95, 17), at(xa, y + 0.95, 17)], i % 2 ? palette.cream : palette.blue);
+    poly(
+      ctx,
+      [at(xa, y + 0.7, 23), at(xb, y + 0.7, 23), at(xb, y + 0.95, 17), at(xa, y + 0.95, 17)],
+      i % 2 ? palette.cream : palette.blue,
+    );
   }
   box(ctx, x - 0.05, y - 0.05, 0.8, 0.8, 26, 3, palette.blue, palette.blueShade, palette.blueShade);
-  onPlane(ctx, at(x + 0.35, y + 0.35, 38), () => signBoard(ctx, 'TICKETS', 28, 9, { board: palette.gold, edge: palette.red, text: palette.red }));
+  onPlane(ctx, at(x + 0.35, y + 0.35, 38), () =>
+    signBoard(ctx, 'TICKETS', 28, 9, { board: palette.gold, edge: palette.red, text: palette.red }),
+  );
 }
 
 function bench(ctx: Ctx, prop: Prop) {
   const x = prop.x + 0.12;
   const y = prop.y + 0.4;
-  for (const lx of [x + 0.08, x + 0.68]) box(ctx, lx, y + 0.05, 0.05, 0.2, 0, 6, palette.woodDark, palette.woodDark, palette.woodDark);
+  for (const lx of [x + 0.08, x + 0.68])
+    box(ctx, lx, y + 0.05, 0.05, 0.2, 0, 6, palette.woodDark, palette.woodDark, palette.woodDark);
   box(ctx, x, y, 0.76, 0.26, 6, 2, palette.woodLight, palette.wood, palette.woodDark);
   box(ctx, x, y - 0.02, 0.76, 0.06, 8, 7, palette.woodLight, palette.wood, palette.woodDark);
 }
@@ -636,7 +1046,18 @@ function bench(ctx: Ctx, prop: Prop) {
 function planter(ctx: Ctx, prop: Prop) {
   const c = at(prop.x + 0.5, prop.y + 0.5);
   oval(ctx, c[0] + 3, c[1] + 1, 10, 4, palette.shadow);
-  box(ctx, prop.x + 0.28, prop.y + 0.28, 0.44, 0.44, 0, 8, palette.creamShade, palette.cream, palette.creamShade);
+  box(
+    ctx,
+    prop.x + 0.28,
+    prop.y + 0.28,
+    0.44,
+    0.44,
+    0,
+    8,
+    palette.creamShade,
+    palette.cream,
+    palette.creamShade,
+  );
   oval(ctx, c[0] - 3, c[1] - 13, 5, 5, palette.hedge);
   oval(ctx, c[0] + 3, c[1] - 13, 5, 5, palette.hedgeDark);
   oval(ctx, c[0], c[1] - 17, 5, 5, palette.hedgeLight);
@@ -645,7 +1066,18 @@ function planter(ctx: Ctx, prop: Prop) {
 function balloons(ctx: Ctx, prop: Prop, t: number) {
   const c = at(prop.x + 0.5, prop.y + 0.5);
   oval(ctx, c[0] + 2, c[1] + 1, 5, 2, palette.shadow);
-  box(ctx, prop.x + 0.42, prop.y + 0.42, 0.16, 0.16, 0, 4, palette.blue, palette.blueShade, palette.blueShade);
+  box(
+    ctx,
+    prop.x + 0.42,
+    prop.y + 0.42,
+    0.16,
+    0.16,
+    0,
+    4,
+    palette.blue,
+    palette.blueShade,
+    palette.blueShade,
+  );
   for (let i = 0; i < 3; i++) {
     const bob = Math.sin(t * 1.8 + i + prop.x) * 1.5;
     const bx = c[0] - 6 + i * 6;
@@ -659,7 +1091,15 @@ function balloons(ctx: Ctx, prop: Prop, t: number) {
     ctx.stroke();
     oval(ctx, bx, by, 5, 6.5, color);
     oval(ctx, bx - 1.8, by - 2.5, 1.4, 2, 'rgba(255,255,255,0.6)');
-    poly(ctx, [[bx - 1, by + 7], [bx + 1, by + 7], [bx, by + 6]], color);
+    poly(
+      ctx,
+      [
+        [bx - 1, by + 7],
+        [bx + 1, by + 7],
+        [bx, by + 6],
+      ],
+      color,
+    );
   }
 }
 
@@ -669,8 +1109,27 @@ const POLE_HEIGHT = 44;
 function buntingPole(ctx: Ctx, prop: Prop) {
   const [x, y] = at(prop.x + 0.5, prop.y + 0.5);
   oval(ctx, x + 2, y + 1, 4, 1.6, palette.shadow);
-  poly(ctx, [[x - 1.3, y], [x + 1.3, y], [x + 1.3, y - POLE_HEIGHT], [x - 1.3, y - POLE_HEIGHT]], palette.cream);
-  for (let z = 4; z < POLE_HEIGHT; z += 8) poly(ctx, [[x - 1.3, y - z], [x + 1.3, y - z - 2], [x + 1.3, y - z - 5], [x - 1.3, y - z - 3]], palette.red);
+  poly(
+    ctx,
+    [
+      [x - 1.3, y],
+      [x + 1.3, y],
+      [x + 1.3, y - POLE_HEIGHT],
+      [x - 1.3, y - POLE_HEIGHT],
+    ],
+    palette.cream,
+  );
+  for (let z = 4; z < POLE_HEIGHT; z += 8)
+    poly(
+      ctx,
+      [
+        [x - 1.3, y - z],
+        [x + 1.3, y - z - 2],
+        [x + 1.3, y - z - 5],
+        [x - 1.3, y - z - 3],
+      ],
+      palette.red,
+    );
   knob(ctx, x, y - POLE_HEIGHT - 1);
 }
 
@@ -704,7 +1163,10 @@ function ferrisWheel(ctx: Ctx, prop: Prop, t: number) {
   const hubAt = (offset: number) => at(cx, cy + offset, hubZ);
   const onWheel = (offset: number, angle: number, r = radius): Pt => {
     const [hx, hy] = hubAt(offset);
-    return [hx + Math.cos(angle) * r * 0.894, hy + Math.cos(angle) * r * 0.447 - Math.sin(angle) * r];
+    return [
+      hx + Math.cos(angle) * r * 0.894,
+      hy + Math.cos(angle) * r * 0.447 - Math.sin(angle) * r,
+    ];
   };
   const ring = (offset: number, r: number, color: string, width: number) => {
     const points: Pt[] = [];
@@ -724,13 +1186,39 @@ function ferrisWheel(ctx: Ctx, prop: Prop, t: number) {
       for (let i = 0; i < cars; i++) {
         const angle = turn + (i / cars) * Math.PI * 2;
         const [gx, gy] = onWheel(0, angle);
-        stroke(ctx, [[gx, gy], [gx, gy + 4]], palette.metalShade, 1);
+        stroke(
+          ctx,
+          [
+            [gx, gy],
+            [gx, gy + 4],
+          ],
+          palette.metalShade,
+          1,
+        );
         ctx.fillStyle = palette.red;
         ctx.beginPath();
         ctx.roundRect(gx - 5, gy + 4, 10, 8, 2);
         ctx.fill();
-        poly(ctx, [[gx - 6, gy + 4], [gx + 6, gy + 4], [gx + 4, gy + 1.5], [gx - 4, gy + 1.5]], palette.gold);
-        poly(ctx, [[gx - 3.5, gy + 6], [gx + 3.5, gy + 6], [gx + 3.5, gy + 8.5], [gx - 3.5, gy + 8.5]], palette.cream);
+        poly(
+          ctx,
+          [
+            [gx - 6, gy + 4],
+            [gx + 6, gy + 4],
+            [gx + 4, gy + 1.5],
+            [gx - 4, gy + 1.5],
+          ],
+          palette.gold,
+        );
+        poly(
+          ctx,
+          [
+            [gx - 3.5, gy + 6],
+            [gx + 3.5, gy + 6],
+            [gx + 3.5, gy + 8.5],
+            [gx - 3.5, gy + 8.5],
+          ],
+          palette.cream,
+        );
       }
     }
     for (let i = 0; i < cars; i++) {
@@ -751,12 +1239,37 @@ function ferrisWheel(ctx: Ctx, prop: Prop, t: number) {
 // ── Booths ────────────────────────────────────────────────────────────────
 
 const BOOTH_SCHEMES = [
-  { wall: palette.gold, wallShade: palette.goldShade, awning: [palette.blue, palette.cream], awningShade: [palette.blueShade, palette.creamShade] },
-  { wall: palette.cream, wallShade: palette.creamShade, awning: [palette.red, palette.cream], awningShade: [palette.redShade, palette.creamShade] },
-  { wall: palette.sky2, wallShade: palette.blue, awning: [palette.gold, palette.cream], awningShade: [palette.goldShade, palette.creamShade] },
-  { wall: palette.pink, wallShade: palette.pinkShade, awning: [palette.red, palette.gold], awningShade: [palette.redShade, palette.goldShade] },
+  {
+    wall: palette.gold,
+    wallShade: palette.goldShade,
+    awning: [palette.blue, palette.cream],
+    awningShade: [palette.blueShade, palette.creamShade],
+  },
+  {
+    wall: palette.cream,
+    wallShade: palette.creamShade,
+    awning: [palette.red, palette.cream],
+    awningShade: [palette.redShade, palette.creamShade],
+  },
+  {
+    wall: palette.sky2,
+    wallShade: palette.blue,
+    awning: [palette.gold, palette.cream],
+    awningShade: [palette.goldShade, palette.creamShade],
+  },
+  {
+    wall: palette.pink,
+    wallShade: palette.pinkShade,
+    awning: [palette.red, palette.gold],
+    awningShade: [palette.redShade, palette.goldShade],
+  },
 ] as const;
-const CLOSED_SCHEME = { wall: palette.closed, wallShade: palette.closedShade, awning: [palette.closed, palette.metal], awningShade: [palette.closedShade, palette.metalShade] } as const;
+const CLOSED_SCHEME = {
+  wall: palette.closed,
+  wallShade: palette.closedShade,
+  awning: [palette.closed, palette.metal],
+  awningShade: [palette.closedShade, palette.metalShade],
+} as const;
 
 const BOOTH_WALL = 34;
 /** How far above a booth's footprint its sign hangs. */
@@ -791,7 +1304,11 @@ function booth(ctx: Ctx, slot: BoothSlot, name: string, t: number, glow: boolean
     { a: { x: x1, y: y1 - 0.15 }, b: { x: x1, y: y0 + 0.15 }, out: { x: 1, y: 0 } },
   ];
   windows.forEach(({ a, b, out }, side) => {
-    poly(ctx, [at(a.x, a.y, 9), at(b.x, b.y, 9), at(b.x, b.y, wall - 7), at(a.x, a.y, wall - 7)], palette.opening);
+    poly(
+      ctx,
+      [at(a.x, a.y, 9), at(b.x, b.y, 9), at(b.x, b.y, wall - 7), at(a.x, a.y, wall - 7)],
+      palette.opening,
+    );
     if (open) {
       for (let i = 0; i < 4; i++) {
         const p = at(lerp(a.x, b.x, (i + 0.5) / 4), lerp(a.y, b.y, (i + 0.5) / 4), 13);
@@ -805,17 +1322,40 @@ function booth(ctx: Ctx, slot: BoothSlot, name: string, t: number, glow: boolean
       // Shutters down.
       for (let i = 0; i < 4; i++) {
         const z = 9 + i * 3;
-        poly(ctx, [at(a.x, a.y, z), at(b.x, b.y, z), at(b.x, b.y, z + 2.2), at(a.x, a.y, z + 2.2)], palette.metalShade);
+        poly(
+          ctx,
+          [at(a.x, a.y, z), at(b.x, b.y, z), at(b.x, b.y, z + 2.2), at(a.x, a.y, z + 2.2)],
+          palette.metalShade,
+        );
       }
     }
     const lip = 0.14;
     const aOut = { x: a.x + out.x * lip, y: a.y + out.y * lip };
     const bOut = { x: b.x + out.x * lip, y: b.y + out.y * lip };
-    poly(ctx, [at(a.x, a.y, 9), at(b.x, b.y, 9), at(bOut.x, bOut.y, 9), at(aOut.x, aOut.y, 9)], palette.woodLight);
-    poly(ctx, [at(aOut.x, aOut.y, 9), at(bOut.x, bOut.y, 9), at(bOut.x, bOut.y, 7), at(aOut.x, aOut.y, 7)], palette.woodDark);
+    poly(
+      ctx,
+      [at(a.x, a.y, 9), at(b.x, b.y, 9), at(bOut.x, bOut.y, 9), at(aOut.x, aOut.y, 9)],
+      palette.woodLight,
+    );
+    poly(
+      ctx,
+      [at(aOut.x, aOut.y, 9), at(bOut.x, bOut.y, 9), at(bOut.x, bOut.y, 7), at(aOut.x, aOut.y, 7)],
+      palette.woodDark,
+    );
   });
 
-  box(ctx, x0 - 0.06, y0 - 0.06, s + 0.12, s + 0.12, wall, 3, scheme.wall, scheme.wallShade, scheme.wallShade);
+  box(
+    ctx,
+    x0 - 0.06,
+    y0 - 0.06,
+    s + 0.12,
+    s + 0.12,
+    wall,
+    3,
+    scheme.wall,
+    scheme.wallShade,
+    scheme.wallShade,
+  );
 
   // Striped awnings over each window.
   const reach = open ? 0.42 : 0.12;
@@ -823,15 +1363,49 @@ function booth(ctx: Ctx, slot: BoothSlot, name: string, t: number, glow: boolean
   for (let i = 0; i < strips; i++) {
     const ya = lerp(y1 + 0.06, y0 - 0.06, i / strips);
     const yb = lerp(y1 + 0.06, y0 - 0.06, (i + 1) / strips);
-    poly(ctx, [at(x1 + 0.06, ya, wall), at(x1 + 0.06, yb, wall), at(x1 + 0.06 + reach, yb, wall - 8), at(x1 + 0.06 + reach, ya, wall - 8)], scheme.awningShade[i % 2]);
+    poly(
+      ctx,
+      [
+        at(x1 + 0.06, ya, wall),
+        at(x1 + 0.06, yb, wall),
+        at(x1 + 0.06 + reach, yb, wall - 8),
+        at(x1 + 0.06 + reach, ya, wall - 8),
+      ],
+      scheme.awningShade[i % 2],
+    );
   }
-  scallops(ctx, { x: x1 + 0.06 + reach, y: y1 + 0.06 }, { x: x1 + 0.06 + reach, y: y0 - 0.06 }, wall - 8, strips, 2.5, scheme.awningShade);
+  scallops(
+    ctx,
+    { x: x1 + 0.06 + reach, y: y1 + 0.06 },
+    { x: x1 + 0.06 + reach, y: y0 - 0.06 },
+    wall - 8,
+    strips,
+    2.5,
+    scheme.awningShade,
+  );
   for (let i = 0; i < strips; i++) {
     const xa = lerp(x0 - 0.06, x1 + 0.06, i / strips);
     const xb = lerp(x0 - 0.06, x1 + 0.06, (i + 1) / strips);
-    poly(ctx, [at(xa, y1 + 0.06, wall), at(xb, y1 + 0.06, wall), at(xb, y1 + 0.06 + reach, wall - 8), at(xa, y1 + 0.06 + reach, wall - 8)], scheme.awning[i % 2]);
+    poly(
+      ctx,
+      [
+        at(xa, y1 + 0.06, wall),
+        at(xb, y1 + 0.06, wall),
+        at(xb, y1 + 0.06 + reach, wall - 8),
+        at(xa, y1 + 0.06 + reach, wall - 8),
+      ],
+      scheme.awning[i % 2],
+    );
   }
-  scallops(ctx, { x: x0 - 0.06, y: y1 + 0.06 + reach }, { x: x1 + 0.06, y: y1 + 0.06 + reach }, wall - 8, strips, 2.5, scheme.awning);
+  scallops(
+    ctx,
+    { x: x0 - 0.06, y: y1 + 0.06 + reach },
+    { x: x1 + 0.06, y: y1 + 0.06 + reach },
+    wall - 8,
+    strips,
+    2.5,
+    scheme.awning,
+  );
 
   // The sign on the roof, with the game's name on it.
   const signAt = at(x0 + s / 2, y0 + s / 2, BOOTH_SIGN_HEIGHT - 6);
@@ -850,7 +1424,9 @@ function booth(ctx: Ctx, slot: BoothSlot, name: string, t: number, glow: boolean
       name,
       60,
       16,
-      open ? { board: palette.cream, edge: palette.red, text: palette.red } : { board: palette.metal, edge: palette.closedShade, text: palette.closedShade },
+      open
+        ? { board: palette.cream, edge: palette.red, text: palette.red }
+        : { board: palette.metal, edge: palette.closedShade, text: palette.closedShade },
       glow,
     );
     if (open) {
@@ -899,7 +1475,12 @@ export function propBounds(prop: Prop): Box {
   const c = toScreen(prop.x + prop.w / 2, prop.y + prop.h / 2);
   const half = ((prop.w + prop.h) * 16) / 2;
   const footprint = ((prop.w + prop.h) * 8) / 2;
-  return { left: c.x - half, right: c.x + half, top: c.y - footprint - PROP_HEIGHTS[prop.kind], bottom: c.y + footprint };
+  return {
+    left: c.x - half,
+    right: c.x + half,
+    top: c.y - footprint - PROP_HEIGHTS[prop.kind],
+    bottom: c.y + footprint,
+  };
 }
 
 // ── People ────────────────────────────────────────────────────────────────
@@ -932,7 +1513,13 @@ export const PLAYER_LOOK: Look = {
 export function drawWalker(ctx: Ctx, walker: Walker, look: Look, player = false, t = 0) {
   const p = toScreen(walker.x, walker.y);
   const swing = walker.walking ? Math.sin(walker.stride * Math.PI * 2.2) : 0;
-  person(ctx, p.x, p.y, look, { swing, back: walker.facing === 'back', dir: walker.flipped ? -1 : 1, player, t });
+  person(ctx, p.x, p.y, look, {
+    swing,
+    back: walker.facing === 'back',
+    dir: walker.flipped ? -1 : 1,
+    player,
+    t,
+  });
 }
 
 // ── The gate ──────────────────────────────────────────────────────────────
@@ -952,7 +1539,19 @@ export function drawArch(ctx: Ctx, map: MidwayMap, t: number) {
   const y = map.height - 0.75;
   const left = map.avenueX + ARCH_LEFT;
   const right = map.avenueX + ARCH_RIGHT;
-  for (const px of [left, right]) box(ctx, px, y - 0.15, 0.26, 0.26, 0, ARCH_HEIGHT, palette.woodLight, palette.wood, palette.woodDark);
+  for (const px of [left, right])
+    box(
+      ctx,
+      px,
+      y - 0.15,
+      0.26,
+      0.26,
+      0,
+      ARCH_HEIGHT,
+      palette.woodLight,
+      palette.wood,
+      palette.woodDark,
+    );
   const centre = at((left + right + 0.26) / 2, y, ARCH_HEIGHT + 2);
   onPlane(ctx, centre, () => {
     ctx.fillStyle = palette.gold;
@@ -963,7 +1562,11 @@ export function drawArch(ctx: Ctx, map: MidwayMap, t: number) {
     ctx.beginPath();
     ctx.ellipse(0, -10, 12, 9, 0, Math.PI, Math.PI * 2);
     ctx.fill();
-    signBoard(ctx, 'TESSL CARNIVAL', 92, 20, { board: palette.wood, edge: palette.woodDark, text: palette.gold });
+    signBoard(ctx, 'TESSL CARNIVAL', 92, 20, {
+      board: palette.wood,
+      edge: palette.woodDark,
+      text: palette.gold,
+    });
     for (let i = 0; i < 14; i++) {
       ctx.fillStyle = Math.sin(t * 5 - i * 0.8) > 0 ? palette.cream : palette.goldShade;
       ctx.beginPath();
@@ -1032,7 +1635,17 @@ export function drawProp(ctx: Ctx, prop: Prop, t: number) {
       return bigTop(ctx, prop, t);
     case 'round-tent': {
       const colors = TENT_COLORS[prop.variant % TENT_COLORS.length];
-      return roundTent(ctx, prop.x + prop.w / 2, prop.y + prop.h / 2, 1.55, 30, 34, colors, t, prop.variant % 2 ? palette.blue : palette.gold);
+      return roundTent(
+        ctx,
+        prop.x + prop.w / 2,
+        prop.y + prop.h / 2,
+        1.55,
+        30,
+        34,
+        colors,
+        t,
+        prop.variant % 2 ? palette.blue : palette.gold,
+      );
     }
     case 'peaked-tent':
       return peakedTent(ctx, prop, t);

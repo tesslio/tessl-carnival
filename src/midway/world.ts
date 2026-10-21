@@ -289,7 +289,13 @@ function face(walker: Walker, dx: number, dy: number) {
  * Moves a walker along a tile direction for `dt` seconds, sliding along
  * anything in the way. Returns how far it actually moved.
  */
-export function walk(map: MidwayMap, walker: Walker, direction: Point, dt: number, speed = WALK_SPEED): number {
+export function walk(
+  map: MidwayMap,
+  walker: Walker,
+  direction: Point,
+  dt: number,
+  speed = WALK_SPEED,
+): number {
   const startX = walker.x;
   const startY = walker.y;
   const nx = walker.x + direction.x * speed * dt;
@@ -365,7 +371,9 @@ export function findPath(map: MidwayMap, from: Point, to: Point): Point[] | unde
   };
   const cost = new Map<number, number>([[key(start.x, start.y), 0]]);
   const cameFrom = new Map<number, number>();
-  const open: { x: number; y: number; f: number }[] = [{ ...start, f: heuristic(start.x, start.y) }];
+  const open: { x: number; y: number; f: number }[] = [
+    { ...start, f: heuristic(start.x, start.y) },
+  ];
   const closed = new Set<number>();
 
   while (open.length > 0) {
@@ -390,7 +398,11 @@ export function findPath(map: MidwayMap, from: Point, to: Point): Point[] | unde
       const nx = current.x + dx;
       const ny = current.y + dy;
       if (isBlocked(map, nx, ny)) continue;
-      if (dx !== 0 && dy !== 0 && (isBlocked(map, current.x + dx, current.y) || isBlocked(map, current.x, current.y + dy))) {
+      if (
+        dx !== 0 &&
+        dy !== 0 &&
+        (isBlocked(map, current.x + dx, current.y) || isBlocked(map, current.x, current.y + dy))
+      ) {
         continue;
       }
       const nextKey = key(nx, ny);
@@ -413,7 +425,11 @@ export function distanceToRect(point: Point, rect: Rect): number {
 }
 
 /** The booth the walker is close enough to use, if any. */
-export function boothInReach(map: MidwayMap, point: Point, reach = BOOTH_REACH): BoothSlot | undefined {
+export function boothInReach(
+  map: MidwayMap,
+  point: Point,
+  reach = BOOTH_REACH,
+): BoothSlot | undefined {
   let nearest: BoothSlot | undefined;
   let nearestDistance = reach;
   for (const booth of map.booths) {
@@ -476,7 +492,13 @@ export function createVisitors(map: MidwayMap, count: number, random: () => numb
 }
 
 /** Visitors rest a while, then stroll to somewhere else on the midway. */
-export function updateVisitor(map: MidwayMap, visitor: Visitor, dt: number, random: () => number, tiles = strollTiles(map)) {
+export function updateVisitor(
+  map: MidwayMap,
+  visitor: Visitor,
+  dt: number,
+  random: () => number,
+  tiles = strollTiles(map),
+) {
   if (visitor.path.length > 0) {
     if (followPath(visitor, dt, VISITOR_SPEED)) visitor.rest = 1 + random() * 4;
     return;

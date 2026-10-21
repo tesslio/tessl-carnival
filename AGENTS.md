@@ -14,12 +14,13 @@ game lives in its own folder under `src/games/`.
 
 ## Commands
 
-| Command         | What it does                         |
-| --------------- | ------------------------------------ |
-| `npm ci`        | Install dependencies                 |
-| `npm run dev`   | Run the carnival at localhost:5173   |
-| `npm run check` | Lint, type-check and test everything |
-| `npm run build` | Build the site into `dist/`          |
+| Command          | What it does                                           |
+| ---------------- | ------------------------------------------------------ |
+| `npm ci`         | Install dependencies                                   |
+| `npm run dev`    | Run the carnival at localhost:5173                     |
+| `npm run format` | Format every file with Prettier                        |
+| `npm run check`  | Lint, check formatting, type-check and test everything |
+| `npm run build`  | Build the site into `dist/`                            |
 
 Run `npm run check` before you finish any change. CI runs the same command.
 
@@ -100,8 +101,8 @@ You often work on an issue with nobody around to answer questions.
   `.tessl/` and `package-lock.json`.
 - **Don't add dependencies.** `npm ci` has to stay quick, and the cloud machine
   can't install system packages.
-- **Before you finish,** run `npm run check` and make sure every README you
-  touched still matches the code.
+- **Before you finish,** run `npm run format`, then `npm run check`, and make
+  sure every README you touched still matches the code.
 - **In the pull request,** say what changed and how to try it, and end with
   `Closes #<issue number>`.
 
