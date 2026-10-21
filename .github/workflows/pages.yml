@@ -15,7 +15,27 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Forks start with Pages switched off. Skip the deploy with a note rather than
+  # failing on every merge until someone turns it on.
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      enabled: ${{ steps.pages.outputs.enabled }}
+    steps:
+      - id: pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh api "repos/${{ github.repository }}/pages" --silent; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=GitHub Pages is off::Nothing was deployed. To play your carnival online, go to Settings > Pages, set Source to GitHub Actions, then re-run this workflow. See 'Set up your fork' in the README."
+          fi
+
   deploy:
+    needs: check
+    if: needs.check.outputs.enabled == 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
