@@ -29,9 +29,9 @@ In the last 10 minutes you take it home: set up the same factory on a repo of
 your own, or keep going here. [`WORKSHOP.md`](WORKSHOP.md) has every step,
 module by module.
 
-**Bring:** a laptop with git, Node 20.19 or later, a coding agent (Claude Code,
-Cursor, Codex or similar), a GitHub account, and the
-[Tessl CLI](https://tessl.io).
+**Bring:** a laptop with git, Node 22.12 or later (or 20.19 or later on Node
+20), a coding agent (Claude Code, Cursor, Codex or similar), a GitHub account,
+and the [Tessl CLI](https://tessl.io).
 
 **Facilitators:** Hamza Oza, James Moss and Joe Holdcroft, from Tessl. Raise
 your hand at any point and one of us will come over.
@@ -43,13 +43,14 @@ cannon**, and a midway you walk around: a sunny fairground with tents, rides and
 a booth for every game. Empty booths say "coming soon" until a game fills them.
 
 You grow your carnival by adding games through your factory. Each game lives in
-its own folder, so several issues can run at once without their pull requests
-clashing, and everyone ends the session with a different carnival.
+its own folder, and the only shared file it touches is the game list in
+`src/games/index.ts`. Several games can be built at once with little to clash
+over, and everyone ends the session with a different carnival.
 
 ## Get it running
 
-You need Node 20.19 or later and git. Fork this repository on GitHub, clone
-your fork, then:
+You need git and Node 22.12 or later (or 20.19 or later on Node 20). Fork this
+repository on GitHub, clone your fork, then:
 
 ```bash
 npm ci
