@@ -88,6 +88,9 @@ in `src/games/index.ts`.
 You often work on an issue with nobody around to answer questions.
 
 - **Read the issue's "Done when"** and treat it as the checklist.
+- **Stay inside the issue.** If you notice something else wrong along the way,
+  such as a stale doc, a weak test or a colour that skips the theme, don't fix
+  it: mention it in the pull request so it can get its own issue.
 - **If something is unclear,** pick the simplest reading that keeps the house
   rules, and say which reading you picked in the pull request.
 - **Leave these alone** unless the issue asks for them: `.github/`, `tessl.json`,
