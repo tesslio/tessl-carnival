@@ -3,7 +3,8 @@
 A small browser carnival, and the starter repo for the AI DevCon workshop
 **Build your own software factory with context**.
 
-It ships with one game, the **water cannon**, and a midway that lists every game.
+It ships with one game, the **water cannon**, and a midway you walk around: a
+sunny isometric fairground with tents, rides and a booth for every game.
 You grow your carnival by adding games through your factory: label an issue, and
 an agent turns it into a pull request.
 
@@ -16,7 +17,8 @@ npm ci
 npm run dev
 ```
 
-Open http://localhost:5173 and play the water cannon.
+Open http://localhost:5173, walk up to the water cannon booth and press **E**.
+Walk with WASD or the arrow keys, or click where you want to go.
 
 ## Commands
 
@@ -29,7 +31,9 @@ Open http://localhost:5173 and play the water cannon.
 
 ## How it's built
 
-- `index.html` and `src/main.ts`: the midway, which lists every game.
+- `index.html` and `src/main.ts`: the page and the router.
+- `src/midway/`: the walkable midway. Every registered game gets a booth along
+  the avenue, and empty slots show as "coming soon" until a game fills them.
 - `src/carnival/`: the shared base every game uses: the game registry, scores,
   prizes and theme.
 - `src/games/<game-id>/`: one folder per game. The water cannon is the pattern

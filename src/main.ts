@@ -1,39 +1,73 @@
 import './style.css';
 import { applyTheme, bestScore, type CarnivalGame } from './carnival';
 import { registry } from './games';
+import { startMidway } from './midway/midway';
+import type { BoothSlot } from './midway/world';
 
 applyTheme();
 
 const app = document.querySelector<HTMLElement>('#app')!;
-let stopGame: (() => void) | undefined;
+let stop: (() => void) | undefined;
 
-function renderMidway() {
-  app.innerHTML = `
-    <section class="midway">
-      <h1>Step right up!</h1>
-      <p class="lede">Pick a booth and play.</p>
-      <ul class="booths"></ul>
-    </section>`;
-  const list = app.querySelector('.booths')!;
-  for (const game of registry.all()) list.append(boothCard(game));
+function bestText(game: CarnivalGame): string {
+  const best = bestScore(game.id);
+  return best === undefined ? 'No scores yet' : `Best: ${best}`;
 }
 
-function boothCard(game: CarnivalGame): HTMLLIElement {
-  const best = bestScore(game.id);
-  const item = document.createElement('li');
-  item.className = 'booth';
-  item.innerHTML = `
-    <h2></h2>
-    <p class="description"></p>
-    <p class="best"></p>
-    <a class="play" href="#/play/${game.id}">Play</a>`;
-  item.querySelector('h2')!.textContent = game.name;
-  item.querySelector('.description')!.textContent = game.description;
-  item.querySelector('.best')!.textContent = best === undefined ? 'No scores yet' : `Best: ${best}`;
-  return item;
+function renderMidway() {
+  document.body.dataset.view = 'midway';
+  app.innerHTML = `
+    <section class="midway">
+      <canvas class="midway-map" aria-label="The carnival midway. Walk up to a booth to play its game."></canvas>
+      <p class="midway-help">
+        <kbd>WASD</kbd> or <kbd>arrows</kbd> to walk, or click where you want to go.
+        <kbd>E</kbd> to play.
+      </p>
+      <nav class="midway-guide" aria-label="Booths">
+        <h2>Booths</h2>
+        <ul></ul>
+      </nav>
+      <div class="booth-card" aria-live="polite" hidden>
+        <h2></h2>
+        <p class="description"></p>
+        <p class="best"></p>
+        <a class="play">Play</a>
+      </div>
+    </section>`;
+
+  const guide = app.querySelector('.midway-guide ul')!;
+  for (const game of registry.all()) {
+    const item = document.createElement('li');
+    item.innerHTML = `<a href="#/play/${game.id}"><span class="name"></span> <span class="best"></span></a>`;
+    item.querySelector('.name')!.textContent = game.name;
+    item.querySelector('.best')!.textContent = bestText(game);
+    guide.append(item);
+  }
+
+  const card = app.querySelector<HTMLElement>('.booth-card')!;
+  const showBooth = (booth: BoothSlot | undefined) => {
+    const game = booth?.gameId ? registry.get(booth.gameId) : undefined;
+    card.hidden = booth === undefined;
+    card.classList.toggle('closed', booth !== undefined && !game);
+    card.querySelector('h2')!.textContent = game?.name ?? 'Coming soon';
+    card.querySelector('.description')!.textContent =
+      game?.description ?? 'This booth is waiting for a game. Build one and it opens here.';
+    card.querySelector('.best')!.textContent = game ? bestText(game) : '';
+    const link = card.querySelector<HTMLAnchorElement>('.play')!;
+    link.hidden = !game;
+    if (game) link.href = `#/play/${game.id}`;
+  };
+
+  const midway = startMidway(app.querySelector('canvas')!, {
+    games: registry.all(),
+    onPlay: (gameId) => (location.hash = `#/play/${gameId}`),
+    onReach: showBooth,
+  });
+  stop = midway.stop;
 }
 
 function renderGame(game: CarnivalGame) {
+  document.body.dataset.view = 'game';
   app.innerHTML = `
     <section class="game">
       <div class="game-header">
@@ -43,12 +77,12 @@ function renderGame(game: CarnivalGame) {
       <canvas></canvas>
     </section>`;
   app.querySelector('h1')!.textContent = game.name;
-  stopGame = game.start(app.querySelector('canvas')!);
+  stop = game.start(app.querySelector('canvas')!);
 }
 
 function route() {
-  stopGame?.();
-  stopGame = undefined;
+  stop?.();
+  stop = undefined;
 
   const match = location.hash.match(/^#\/play\/([\w-]+)$/);
   const game = match ? registry.get(match[1]) : undefined;

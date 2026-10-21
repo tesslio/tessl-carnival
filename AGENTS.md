@@ -1,7 +1,8 @@
 # Tessl Carnival: agent guide
 
-A small browser carnival. The midway (`index.html`, `src/main.ts`) lists every
-game; each game is a booth in its own folder under `src/games/`.
+A small browser carnival. The midway (`index.html`, `src/main.ts`,
+`src/midway/`) is a walkable isometric map with a booth for every game; each
+game lives in its own folder under `src/games/`.
 
 ## Stack
 
@@ -27,7 +28,13 @@ Run `npm run check` before you finish any change. CI runs the same command.
 ```txt
 index.html                the midway page
 src/
-  main.ts                 the midway and the router (#/play/<game-id>)
+  main.ts                 the router (#/play/<game-id>) and the midway's overlay
+  midway/                 the walkable midway map
+    world.ts              layout, movement and pathfinding (plain functions)
+    world.test.ts
+    render.ts             drawing the scenery, booths and people
+    palette.ts            the map's scenery colours, built on the theme
+    midway.ts             input, camera and the animation loop
   carnival/               shared base every game uses
     registry.ts           the CarnivalGame shape and the registry
     scores.ts             recordScore, bestScore, topScores

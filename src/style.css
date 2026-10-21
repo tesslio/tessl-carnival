@@ -44,55 +44,158 @@ main {
   padding: 24px 16px 48px;
 }
 
-.midway h1 {
-  margin-bottom: 4px;
+body[data-view='midway'] {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
 }
 
-.lede {
-  margin-top: 0;
+body[data-view='midway'] main {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  max-width: none;
+  min-height: 0;
+  padding: 0;
+}
+
+.midway {
+  position: absolute;
+  inset: 0;
+}
+
+.midway-map {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+.midway-help,
+.midway-guide,
+.booth-card {
+  position: absolute;
+  margin: 0;
+  border: 2px solid var(--color-accent);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--color-background) 88%, transparent);
+}
+
+.midway-help {
+  bottom: 16px;
+  left: 16px;
+  max-width: 340px;
+  padding: 10px 14px;
   color: var(--color-muted);
+  font-size: 14px;
+  line-height: 1.7;
 }
 
-.booths {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 16px;
+kbd {
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: inherit;
+  font-weight: bold;
+}
+
+.midway-guide {
+  top: 16px;
+  right: 16px;
+  padding: 10px 14px;
+  font-size: 14px;
+}
+
+.midway-guide h2 {
+  margin: 0 0 6px;
+  color: var(--color-muted);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.midway-guide ul {
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.booth {
+.midway-guide a {
   display: flex;
-  flex-direction: column;
-  padding: 20px;
-  border: 2px solid var(--color-accent);
-  border-radius: var(--radius);
-  background: var(--color-surface);
+  gap: 12px;
+  justify-content: space-between;
+  padding: 3px 0;
+  color: var(--color-text);
+  font-weight: bold;
+  text-decoration: none;
 }
 
-.booth h2 {
-  margin: 0 0 8px;
+.midway-guide a:hover .name,
+.midway-guide a:focus-visible .name {
+  color: var(--color-accent);
 }
 
-.booth .description {
-  flex: 1;
-  margin: 0 0 12px;
+.midway-guide .best {
+  color: var(--color-muted);
+  font-weight: normal;
+}
+
+.booth-card {
+  bottom: 16px;
+  left: 50%;
+  width: min(360px, calc(100% - 32px));
+  padding: 16px 20px;
+  transform: translateX(-50%);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 25%, transparent);
+}
+
+.booth-card[hidden] {
+  display: none;
+}
+
+.booth-card.closed {
+  border-color: var(--color-muted);
+  box-shadow: none;
+}
+
+.booth-card h2 {
+  margin: 0 0 6px;
+}
+
+.booth-card .description {
+  margin: 0 0 10px;
   color: var(--color-muted);
 }
 
-.booth .best {
-  margin: 0 0 16px;
+.booth-card .best {
+  margin: 0 0 12px;
   font-weight: bold;
 }
 
+.booth-card .best:empty {
+  display: none;
+}
+
 .play {
-  align-self: flex-start;
+  display: inline-block;
   padding: 8px 20px;
   border-radius: var(--radius);
   background: var(--color-accent);
   color: var(--color-background);
   font-weight: bold;
   text-decoration: none;
+}
+
+.play[hidden] {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .midway-help {
+    display: none;
+  }
 }
 
 .game-header {
