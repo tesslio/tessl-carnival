@@ -1106,7 +1106,6 @@ function balloons(ctx: Ctx, prop: Prop, t: number) {
 /** How high a billboard's sign stands, to the bottom of its board. */
 const BILLBOARD_HEIGHT = 40;
 
-/** The AI DevCon billboard: a lit sign on two posts. Clicking it opens the event page. */
 /** The billboard's sign, in plane-local pixels: the red board plus its gold frame. */
 const BILLBOARD_SIGN = { width: 104, height: 36, frame: 3 };
 
@@ -1136,6 +1135,7 @@ function billboardBounds(prop: Prop): Box {
   };
 }
 
+/** The AI DevCon billboard: a lit sign on two posts. Clicking it opens the event page. */
 function billboard(ctx: Ctx, prop: Prop, t: number) {
   const { y, left, right, centre } = billboardFrame(prop);
   poly(
