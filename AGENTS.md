@@ -4,6 +4,12 @@ A small browser carnival. The midway (`index.html`, `src/main.ts`,
 `src/midway/`) is a walkable isometric map with a booth for every game; each
 game lives in its own folder under `src/games/`.
 
+## The workshop
+
+If the person asks about the workshop, follow `WORKSHOP.md` step by step, as its
+section for agents says: one step at a time, checking each **Done when** with
+them before you move on.
+
 ## Stack
 
 - TypeScript, Vite and plain HTML canvas. No UI framework.
@@ -31,7 +37,7 @@ merges. Nobody pushes to `main` directly.
 
 ```txt
 index.html                the midway page
-WORKSHOP.md               the workshop, module by module
+WORKSHOP.md               the workshop: the core path, then the tracks
 docs/midway.jpg           the screenshot at the top of the README
 docs/social-preview.jpg   the 1280x640 image for link previews and GitHub's social preview
 tessl-factory/skills/     sample skills for maintenance loops
@@ -114,10 +120,12 @@ You often work on an issue with nobody around to answer questions.
 
 - `skills/add-carnival-game/SKILL.md`: how to add a new game to the midway.
 - `skills/set-up-your-fork/SKILL.md`: turn on Issues, Actions and GitHub Pages
-  in a fork, and deploy the carnival.
+  in a fork, lock it down, and deploy the carnival.
+- `skills/check-workshop-ready/SKILL.md`: check a laptop and fork are ready for
+  the workshop. It only checks, and changes nothing without asking.
 - `tessl-factory/skills/`: sample skills for scheduled maintenance loops
   (rule mining, doc gardening, test health). Each one files issues and never
   changes code.
 
-`WORKSHOP.md` walks people through the workshop this repo was built for, module
-by module.
+`WORKSHOP.md` walks people through the workshop this repo was built for: a core
+path everyone finishes, then optional tracks.
