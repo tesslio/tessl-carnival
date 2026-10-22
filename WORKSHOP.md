@@ -109,13 +109,19 @@ edits to the issue don't start several runs.
 
 **Do:**
 
-1. Open **Issues → New issue** and pick one of the small first issues: **Show
-   the top five scores on the midway** or **Press Escape to go back to the
-   midway**. Or pick **Your own idea** and write up the change you noted in
-   module 00: say what should change and how you'll know it's done.
+1. Open **Issues → New issue** and pick one of the three **Hello world**
+   issues. Each is a one- or two-line change, so you see the whole flow
+   quickly:
+   - **Put your name on the carnival:** your name on the entrance sign and the
+     browser tab.
+   - **Paint the sky at sunset:** two colours.
+   - **Welcome visitors to the midway:** one line of text.
 2. Add the `tessl` label.
 3. Watch the run. Label to pull request usually takes 2 to 3 minutes. If
    nothing has started after 5, raise your hand.
+4. Once your first pull request is open, try something bigger: **Show the top
+   five scores on the midway**, **Press Escape to go back to the midway**, or
+   **Your own idea**, to write up the change you noted in module 00.
 
 **Done when:** a pull request opens, linked to your issue, and you can see the
 change when you run the carnival from that branch.

@@ -1,0 +1,40 @@
+name: 'Hello world: put your name on the carnival'
+description: 'Tiny, the quickest way to see your factory work: a two-line change.'
+title: Put my name on the carnival
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The quickest first issue: add your name, create the issue, then add the
+        `tessl` label. You can leave the other boxes as they are.
+  - type: input
+    id: name
+    attributes:
+      label: Your name
+      description: Yours, or your team's. It goes on the carnival's entrance sign.
+      placeholder: Ada
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What to change
+      value: |
+        Put the name above on the carnival. It's a two-line change:
+
+        - The entrance sign: in `src/midway/render.ts`, change the sign's text from TESSL CARNIVAL to the name followed by 'S CARNIVAL, in capitals, for example ADA'S CARNIVAL. The sign shrinks the text to fit.
+        - The browser tab: in `index.html`, change `<title>Tessl Carnival</title>` to the same words in normal case, for example `Ada's Carnival`.
+
+        Change nothing else.
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      value: |
+        - [ ] The entrance sign on the midway shows the name.
+        - [ ] The browser tab shows the name.
+        - [ ] `npm run check` passes.
+    validations:
+      required: true

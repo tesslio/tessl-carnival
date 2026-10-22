@@ -1,6 +1,6 @@
 ---
 name: Show the top five scores on the midway
-about: "Small, a good first issue: show each game's top five scores on its booth card."
+about: "Small, a good second issue: show each game's top five scores on its booth card."
 title: Show the top five scores on the midway
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: Press Escape to go back to the midway
-about: 'Small, a good first issue: leave a game with the Escape key.'
+about: 'Small, a good second issue: leave a game with the Escape key.'
 title: Press Escape to go back to the midway
 ---
 
