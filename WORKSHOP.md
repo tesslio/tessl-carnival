@@ -123,10 +123,10 @@ GitHub apps to your fork:
 - **Tessl GitHub App:** how your factory works on your repository. It picks up
   labeled issues, pushes branches and opens pull requests. You install it during
   setup.
-- **Tessl Review:** the separate app for code review. You turn it on when you
-  enable code review. It's separate so the factory never reviews its own work.
-
-<!-- TODO: confirm the exact name of the Tessl Review app, and where in setup people install it. -->
+- **Tessl Review:** the separate app for code review. When you say yes to code
+  review, your agent sends you to the page that installs it. It's separate so
+  the factory never reviews its own work, and it shows as **Tessl Reviewer** on
+  your pull requests.
 
 **Do:** in your clone of the carnival:
 
@@ -145,8 +145,8 @@ GitHub apps to your fork:
    to all three automations: ship tickets, answer reviews and fix checks, and
    code review. If it offers to file a first ticket, say no: that's the next
    step.
-4. Install the Tessl GitHub App from the link it gives you, on your fork. When
-   you enable code review, turn on Tessl Review too.
+4. Install both apps on your fork from the links it gives you: the Tessl GitHub
+   App, then Tessl Review for code review.
 5. Merge the setup pull request when it asks. Code review may leave comments on
    it. That's expected, and you can still merge it.
 6. Wait for **Your factory is live**, then open the link it gives you to see
@@ -379,7 +379,8 @@ everything off, ask your agent: **Switch off all my factory automations**.
   so `.tessl/cloud-launch-setup.sh` only runs `npm ci`.
 - **Tessl GitHub App:** the app that lets your factory work on your repository.
 - **Tessl Review:** the separate app that runs code review, so the factory never
-  reviews its own work.
+  reviews its own work. It shows as **Tessl Reviewer** in the Tessl app and on
+  your pull requests.
 - **`tessl.json`:** the file in your repository that lists your automations.
 
 ## If something goes wrong
