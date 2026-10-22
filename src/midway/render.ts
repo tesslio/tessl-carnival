@@ -1107,10 +1107,37 @@ function balloons(ctx: Ctx, prop: Prop, t: number) {
 const BILLBOARD_HEIGHT = 40;
 
 /** The AI DevCon billboard: a lit sign on two posts. Clicking it opens the event page. */
-function billboard(ctx: Ctx, prop: Prop, t: number) {
+/** The billboard's sign, in plane-local pixels: the red board plus its gold frame. */
+const BILLBOARD_SIGN = { width: 104, height: 36, frame: 3 };
+
+/** Where a billboard's posts stand, and the point its sign is centred on. */
+function billboardFrame(prop: Prop) {
   const y = prop.y + 0.5;
   const left = prop.x + 0.35;
   const right = prop.x + prop.w - 0.35;
+  return { y, left, right, centre: at((left + right) / 2, y, BILLBOARD_HEIGHT + 18) };
+}
+
+/**
+ * The screen box a billboard covers, sign and posts, for clicks and fading.
+ * The sign sits on a slanted plane (see onPlane), so its corners are mapped
+ * with the same 0.894 and 0.447 factors.
+ */
+function billboardBounds(prop: Prop): Box {
+  const { y, left, right, centre } = billboardFrame(prop);
+  const halfWidth = BILLBOARD_SIGN.width / 2 + BILLBOARD_SIGN.frame;
+  const halfHeight = BILLBOARD_SIGN.height / 2 + BILLBOARD_SIGN.frame;
+  const feet = [at(left, y), at(right, y)];
+  return {
+    left: Math.min(centre[0] - 0.894 * halfWidth, ...feet.map((p) => p[0])),
+    right: Math.max(centre[0] + 0.894 * halfWidth, ...feet.map((p) => p[0])),
+    top: centre[1] - 0.447 * halfWidth - halfHeight,
+    bottom: Math.max(centre[1] + 0.447 * halfWidth + halfHeight, ...feet.map((p) => p[1])),
+  };
+}
+
+function billboard(ctx: Ctx, prop: Prop, t: number) {
+  const { y, left, right, centre } = billboardFrame(prop);
   poly(
     ctx,
     rectPoints({ x: prop.x + 0.3, y: prop.y + 0.4, w: prop.w - 0.4, h: 0.5 }),
@@ -1130,12 +1157,17 @@ function billboard(ctx: Ctx, prop: Prop, t: number) {
       palette.woodDark,
     );
   }
-  onPlane(ctx, at((left + right) / 2, y, BILLBOARD_HEIGHT + 18), () => {
-    const width = 104;
-    const height = 36;
+  onPlane(ctx, centre, () => {
+    const { width, height, frame } = BILLBOARD_SIGN;
     ctx.fillStyle = palette.gold;
     ctx.beginPath();
-    ctx.roundRect(-width / 2 - 3, -height / 2 - 3, width + 6, height + 6, 5);
+    ctx.roundRect(
+      -width / 2 - frame,
+      -height / 2 - frame,
+      width + frame * 2,
+      height + frame * 2,
+      5,
+    );
     ctx.fill();
     ctx.fillStyle = palette.red;
     ctx.beginPath();
@@ -1543,6 +1575,7 @@ const PROP_HEIGHTS: Record<Prop['kind'], number> = {
 
 /** Roughly the screen box a prop is drawn in. */
 export function propBounds(prop: Prop): Box {
+  if (prop.kind === 'billboard') return billboardBounds(prop);
   const c = toScreen(prop.x + prop.w / 2, prop.y + prop.h / 2);
   const half = ((prop.w + prop.h) * 16) / 2;
   const footprint = ((prop.w + prop.h) * 8) / 2;
