@@ -263,16 +263,18 @@ factory ships the fix.
    | Test health   | Tests that can't fail, or don't check what they claim     | `tessl-factory/skills/test-health/SKILL.md`   |
 
 2. Ask your agent to add a scheduled automation that uses it, running
-   **weekly**. Every run uses credits, and a weekly schedule is plenty for a
-   repo this size.
-3. **Check the loop's environment can file issues.** It needs GitHub write
-   access to file issues. In testing, a loop created without it ran but
-   couldn't file anything. Open the loop in the Tessl app and check its
-   environment's GitHub access includes writing issues. If it doesn't, give it
-   write access before you run it.
-
-   <!-- TODO: confirm where a loop's environment sets its GitHub access in the Tessl app, what the setting is called, and whether the agent can check or change it from the CLI. -->
-
+   **weekly**, in an environment with GitHub write access. Every run uses
+   credits, and a weekly schedule is plenty for a repo this size.
+3. **Check the loop's environment can file issues.** A loop with no
+   environment gets read-only GitHub access: it runs, but can't file anything.
+   In testing, that's what happened to a loop created without one. To check, run
+   `tessl environment view <name>` with the `environment` named on your loop
+   in `tessl.json`, or open the loop in the Tessl app. To fix it:
+   1. In the Tessl app, go to your workspace's **Settings → Environments**.
+      Setup may have made one for you: edit it, or create a new one.
+   2. Set **GitHub access** to **Write**. From the CLI, that's
+      `tessl environment update <name> --github-access write`.
+   3. Open the loop and pick that environment.
 4. Ask your agent to run the loop once now, instead of waiting for the
    schedule.
 
@@ -397,7 +399,7 @@ everything off, ask your agent: **Switch off all my factory automations**.
 | A labeled issue hasn't started after 5 minutes            | Check the issue has the `tessl` label, that the Tessl GitHub App is installed on your fork, and that you have credits left.                                                                                                                                     |
 | A labeled issue never started, and an app added the label | The factory only starts on a label from your own GitHub account. Remove the label, then add it again yourself, in the browser or with `gh` logged in as you.                                                                                                    |
 | Nothing starts, and everything looks set up               | You may be out of credits. Run `tessl org usage` to check, and raise your hand: a facilitator can top you up. See [Credits](#credits).                                                                                                                          |
-| A loop ran but filed no issues                            | Its environment probably can't write to GitHub. Give it write access, then run it again: see [track B](#b-add-a-maintenance-loop).                                                                                                                              |
+| A loop ran but filed no issues                            | It probably has no environment, so its GitHub access is read-only. Pick an environment with **GitHub access** set to **Write**, then run it again: see [track B](#b-add-a-maintenance-loop).                                                                    |
 | Your carnival link shows a 404                            | Turn on Pages: ask your agent to **Set up my fork**, then wait a minute for the deploy.                                                                                                                                                                         |
 | Your laptop can't run the carnival                        | Play at your Pages link. To work on it, open your fork in GitHub Codespaces: **Code → Codespaces → Create codespace on main**, then run `npm run dev`. If **Set up my fork** hits a permissions error there, run `gh auth login` first.                         |
 | Someone else opened an issue or commented on your fork    | Ask your agent to **Set up my fork** again. It locks your fork down for six months, the longest GitHub allows, and rerunning it renews the lock.                                                                                                                |
