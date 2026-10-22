@@ -1,6 +1,6 @@
 ---
 name: check-workshop-ready
-description: Check that a laptop and fork are ready for the Tessl Carnival workshop (git, Node, the GitHub CLI, the Tessl CLI, and a fork with Issues, Actions, Pages and the interaction lock on), then report a short pass or fix list. Only checks, and changes nothing without asking. Use when someone asks to check they're ready for the workshop, or before they start the core path in WORKSHOP.md.
+description: Check that a laptop and fork are ready for the Tessl Carnival workshop (git, Node, the GitHub CLI, the Tessl CLI and credits, and a fork with Issues, Actions, Pages and the interaction lock on), then report a short pass or fix list. Only checks, and changes nothing without asking. Use when someone asks to check they're ready for the workshop, or before they start the core path in WORKSHOP.md.
 ---
 
 # Check I'm ready for the workshop
@@ -25,6 +25,9 @@ checks need `gh`, and the Pages link needs Pages on.
 4. **Tessl CLI:** `tessl whoami`. Pass if it shows a logged-in user.
    Fix: install it from https://tessl.io, then run `tessl cli update` and
    `tessl login`.
+5. **Credits:** `tessl org usage`. Pass if it shows credits left, and give the
+   balance. Fix: at the workshop, raise your hand, and a facilitator can top
+   you up.
 
 ## 2. The fork
 
@@ -60,6 +63,7 @@ git           pass
 Node          fix   v18.19.0 is too old: run nvm install, or use Codespaces
 GitHub CLI    pass
 Tessl CLI     fix   not logged in: run tessl login
+Credits       pass  940 left
 Your fork     pass  ada/tessl-carnival
 Issues        fix   off: ask your agent to Set up my fork
 Lock          pass  until 2027-04-22

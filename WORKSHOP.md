@@ -348,10 +348,10 @@ Every run uses credits: shipping an issue, a code review, a loop run. Setup
 costs very little. Running out of credits can look the same as a run that
 never started: you add the label, and nothing happens.
 
-Check your balance in the Tessl app. If you run out during the session, raise
-your hand. The free plan comes with 1,000 credits a month.
-
-<!-- TODO: confirm where people check their credit balance in the Tessl app, and what to do if they run out during the session. -->
+Check your balance with `tessl org usage`, or ask your agent to run it. If
+you're running low or have run out during the session, raise your hand: a
+facilitator can top you up. After the session, the free plan comes with 1,000
+credits a month.
 
 ## Switch off what you don't need
 
@@ -396,7 +396,7 @@ everything off, ask your agent: **Switch off all my factory automations**.
 | Code review flagged the setup pull request                | That's expected. Read what it says, then merge the setup pull request anyway.                                                                                                                                                                                   |
 | A labeled issue hasn't started after 5 minutes            | Check the issue has the `tessl` label, that the Tessl GitHub App is installed on your fork, and that you have credits left.                                                                                                                                     |
 | A labeled issue never started, and an app added the label | The factory only starts on a label from your own GitHub account. Remove the label, then add it again yourself, in the browser or with `gh` logged in as you.                                                                                                    |
-| Nothing starts, and everything looks set up               | You may be out of credits. Check your balance in the Tessl app ([Credits](#credits)), and raise your hand.                                                                                                                                                      |
+| Nothing starts, and everything looks set up               | You may be out of credits. Run `tessl org usage` to check, and raise your hand: a facilitator can top you up. See [Credits](#credits).                                                                                                                          |
 | A loop ran but filed no issues                            | Its environment probably can't write to GitHub. Give it write access, then run it again: see [track B](#b-add-a-maintenance-loop).                                                                                                                              |
 | Your carnival link shows a 404                            | Turn on Pages: ask your agent to **Set up my fork**, then wait a minute for the deploy.                                                                                                                                                                         |
 | Your laptop can't run the carnival                        | Play at your Pages link. To work on it, open your fork in GitHub Codespaces: **Code → Codespaces → Create codespace on main**, then run `npm run dev`. If **Set up my fork** hits a permissions error there, run `gh auth login` first.                         |
