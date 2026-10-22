@@ -120,6 +120,9 @@ edits to the issue don't start several runs.
 **Done when:** a pull request opens, linked to your issue, and you can see the
 change when you run the carnival from that branch.
 
+How issues drive the factory after today, from replying to the agent to taking
+an issue back: see [Work with the factory](README.md#work-with-the-factory).
+
 ## 03 Teach the factory your rules
 
 **Learn:** an agent that has to guess your rules reviews badly. Code review

@@ -24,6 +24,9 @@ game lives in its own folder under `src/games/`.
 
 Run `npm run check` before you finish any change. CI runs the same command.
 
+Every change reaches `main` through a pull request, and CI must pass before it
+merges. Nobody pushes to `main` directly.
+
 ## Layout
 
 ```txt

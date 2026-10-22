@@ -1,3 +1,13 @@
 dist
 coverage
 package-lock.json
+
+# Written by Tessl when you run tessl install or set up a factory
+.tessl
+.agents
+.claude
+.codex
+.cursor
+.vscode
+.github/skills
+tessl.json

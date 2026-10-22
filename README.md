@@ -100,6 +100,23 @@ To do it by hand instead:
 This repo doesn't include a `tessl.json`. To set up a factory, run `tessl init`
 in your clone first, the same as you would in any repository of your own.
 
+## Work with the factory
+
+Once your factory is set up, GitHub issues are how you hand it work:
+
+- **Ship an issue:** add the `tessl` label to an open issue. About 90 seconds
+  later an agent starts on it, works on a `tessl/` branch, and opens a pull
+  request.
+- **Answer its questions:** if the agent asks something on the issue, reply
+  there and it carries on.
+- **Take it back:** remove the `tessl` label. Closing the issue also closes its
+  pull request.
+- **Who can start it:** only the person who set up the factory. To let someone
+  else, ask your agent to add their GitHub account to the factory's triggers.
+
+On the agent's pull request, code review leaves its findings, and the agent
+answers them and fixes any failing checks until it's ready for you to merge.
+
 ## Commands
 
 | Command          | What it does                                              |
