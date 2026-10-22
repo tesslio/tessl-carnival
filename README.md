@@ -4,6 +4,7 @@
 [![Play the carnival](https://img.shields.io/badge/Play-the%20carnival-ffcc33)](https://tesslio.github.io/tessl-carnival/)
 [![Built with Tessl](https://img.shields.io/badge/Built%20with-Tessl-1b1035)](https://tessl.io/?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival)
 [![Join the Tessl Discord](https://img.shields.io/badge/Discord-Join%20us-5865F2?logo=discord&logoColor=white)](https://discord.com/invite/jbb2vHnHZQ?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival)
+[![MIT license](https://img.shields.io/badge/license-MIT-b9a9d9)](LICENSE)
 
 ![The Tessl Carnival midway: striped tents, a ferris wheel, a carousel and game booths along a path](docs/midway.jpg)
 
@@ -206,3 +207,8 @@ use, including Claude Code, Cursor and Codex.
   [AI DevCon](https://tessl.io/devcon?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival).
 - **Follow along:** [LinkedIn](https://linkedin.com/company/tesslio/),
   [X](https://x.com/tessl_io) and [YouTube](https://www.youtube.com/@tessl-ai).
+
+## License
+
+MIT, so you can fork the carnival, change it and take it home. See
+[`LICENSE`](LICENSE).

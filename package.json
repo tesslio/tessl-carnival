@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "description": "A small browser carnival. The starter repo for the 'Build your own software factory with context' workshop.",
+  "license": "MIT",
   "type": "module",
   "engines": {
     "node": "^20.19.0 || ^22.13.0 || >=24"
