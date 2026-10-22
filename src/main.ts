@@ -23,6 +23,12 @@ function renderMidway() {
         <kbd>WASD</kbd> or <kbd>arrows</kbd> to walk, or click where you want to go.
         <kbd>E</kbd> to play.
       </p>
+      <p class="midway-credit">
+        Built with
+        <a href="https://tessl.io/?utm_source=carnival&amp;utm_medium=midway-credit&amp;utm_campaign=tessl-carnival" target="_blank" rel="noopener">Tessl</a>
+        at
+        <a href="https://tessl.io/devcon?utm_source=carnival&amp;utm_medium=midway-credit&amp;utm_campaign=tessl-carnival" target="_blank" rel="noopener">AI DevCon NYC</a>
+      </p>
       <nav class="midway-guide" aria-label="Booths">
         <h2>Booths</h2>
         <ul></ul>

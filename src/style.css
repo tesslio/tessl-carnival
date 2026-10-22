@@ -98,6 +98,7 @@ body[data-view='midway'] main {
 
 .midway-help,
 .midway-guide,
+.midway-credit,
 .booth-card {
   position: absolute;
   margin: 0;
@@ -114,6 +115,25 @@ body[data-view='midway'] main {
   color: var(--color-muted);
   font-size: 14px;
   line-height: 1.7;
+}
+
+.midway-credit {
+  top: 16px;
+  left: 16px;
+  padding: 6px 12px;
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+.midway-credit a {
+  color: var(--color-accent);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.midway-credit a:hover,
+.midway-credit a:focus-visible {
+  text-decoration: underline;
 }
 
 kbd {
@@ -217,7 +237,8 @@ kbd {
 }
 
 @media (max-width: 720px) {
-  .midway-help {
+  .midway-help,
+  .midway-credit {
     display: none;
   }
 }

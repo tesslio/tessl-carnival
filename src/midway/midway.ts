@@ -68,6 +68,8 @@ const MOVE_KEYS: Record<string, [number, number]> = {
   KeyD: [1, 0],
 };
 const PLAY_KEYS = new Set(['KeyE', 'Enter', 'Space']);
+const DEVCON_URL =
+  'https://tessl.io/devcon?utm_source=carnival&utm_medium=midway-billboard&utm_campaign=tessl-carnival';
 const MIN_QUALITY = 0.5;
 
 /** Where the player stood when they last left the midway, for this page load. */
@@ -177,6 +179,13 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
       })
       .sort((a, b) => b.x + b.y - (a.x + a.y))[0];
 
+  const billboardAt = (point: Point) =>
+    map.props.some((prop) => {
+      if (prop.kind !== 'billboard') return false;
+      const b = propBounds(prop);
+      return point.x >= b.left && point.x <= b.right && point.y >= b.top && point.y <= b.bottom;
+    });
+
   const walkToBooth = (booth: BoothSlot) => {
     player.path = pathToBooth(map, player, booth) ?? [];
     destination = player.path.at(-1);
@@ -185,6 +194,10 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
   const onPointerDown = (event: PointerEvent) => {
     const point = toWorld(event);
     const booth = boothAt(point);
+    if (!booth && billboardAt(point)) {
+      window.open(DEVCON_URL, '_blank', 'noopener');
+      return;
+    }
     if (booth) {
       if (booth === inReach) play(booth);
       else walkToBooth(booth);
@@ -197,7 +210,8 @@ export function startMidway(canvas: HTMLCanvasElement, options: MidwayOptions): 
     }
   };
   const onPointerMove = (event: PointerEvent) => {
-    canvas.style.cursor = boothAt(toWorld(event)) ? 'pointer' : 'default';
+    const point = toWorld(event);
+    canvas.style.cursor = boothAt(point) || billboardAt(point) ? 'pointer' : 'default';
   };
 
   window.addEventListener('keydown', onKeyDown);

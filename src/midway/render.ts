@@ -1103,6 +1103,76 @@ function balloons(ctx: Ctx, prop: Prop, t: number) {
   }
 }
 
+/** How high a billboard's sign stands, to the bottom of its board. */
+const BILLBOARD_HEIGHT = 40;
+
+/** The AI DevCon billboard: a lit sign on two posts. Clicking it opens the event page. */
+function billboard(ctx: Ctx, prop: Prop, t: number) {
+  const y = prop.y + 0.5;
+  const left = prop.x + 0.35;
+  const right = prop.x + prop.w - 0.35;
+  poly(
+    ctx,
+    rectPoints({ x: prop.x + 0.3, y: prop.y + 0.4, w: prop.w - 0.4, h: 0.5 }),
+    palette.shadow,
+  );
+  for (const px of [left, right]) {
+    box(
+      ctx,
+      px - 0.07,
+      y - 0.07,
+      0.14,
+      0.14,
+      0,
+      BILLBOARD_HEIGHT + 12,
+      palette.woodLight,
+      palette.wood,
+      palette.woodDark,
+    );
+  }
+  onPlane(ctx, at((left + right) / 2, y, BILLBOARD_HEIGHT + 18), () => {
+    const width = 104;
+    const height = 36;
+    ctx.fillStyle = palette.gold;
+    ctx.beginPath();
+    ctx.roundRect(-width / 2 - 3, -height / 2 - 3, width + 6, height + 6, 5);
+    ctx.fill();
+    ctx.fillStyle = palette.red;
+    ctx.beginPath();
+    ctx.roundRect(-width / 2, -height / 2, width, height, 3);
+    ctx.fill();
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const line = (
+      text: string,
+      size: 'small' | 'body',
+      y: number,
+      maxHeight: number,
+      color: string,
+    ) => {
+      ctx.font = canvasFont(size, 'bold');
+      const fit = Math.min(
+        maxHeight / theme.font[size],
+        (width - 10) / ctx.measureText(text).width,
+      );
+      ctx.save();
+      ctx.translate(0, y);
+      ctx.scale(fit, fit);
+      ctx.fillStyle = color;
+      ctx.fillText(text, 0, 0);
+      ctx.restore();
+    };
+    line('AI DEVCON NYC', 'body', -5, 13, palette.gold);
+    line('NOVEMBER 2026  BROOKLYN', 'small', 10, 7, palette.cream);
+    for (let i = 0; i < 12; i++) {
+      ctx.fillStyle = Math.sin(t * 4 - i * 0.7) > 0 ? palette.cream : palette.goldShade;
+      ctx.beginPath();
+      ctx.arc(-width / 2 + 4 + i * ((width - 8) / 11), -height / 2 - 1.5, 1.2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  });
+}
+
 /** How high the top of a bunting pole is. */
 const POLE_HEIGHT = 44;
 
@@ -1468,6 +1538,7 @@ const PROP_HEIGHTS: Record<Prop['kind'], number> = {
   planter: 22,
   balloons: 52,
   'bunting-pole': 0,
+  billboard: BILLBOARD_HEIGHT + 40,
 };
 
 /** Roughly the screen box a prop is drawn in. */
@@ -1667,6 +1738,8 @@ export function drawProp(ctx: Ctx, prop: Prop, t: number) {
       return balloons(ctx, prop, t);
     case 'bunting-pole':
       return buntingPole(ctx, prop);
+    case 'billboard':
+      return billboard(ctx, prop, t);
   }
 }
 

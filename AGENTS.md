@@ -33,6 +33,7 @@ merges. Nobody pushes to `main` directly.
 index.html                the midway page
 WORKSHOP.md               the workshop, module by module
 docs/midway.jpg           the screenshot at the top of the README
+docs/social-preview.jpg   the 1280x640 image for link previews and GitHub's social preview
 tessl-factory/skills/     sample skills for maintenance loops
 src/
   main.ts                 the router (#/play/<game-id>) and the midway's overlay

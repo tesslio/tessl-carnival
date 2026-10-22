@@ -47,7 +47,8 @@ export type PropKind =
   | 'bench'
   | 'planter'
   | 'balloons'
-  | 'bunting-pole';
+  | 'bunting-pole'
+  | 'billboard';
 
 export interface Prop extends Rect {
   kind: PropKind;
@@ -180,6 +181,8 @@ export function layoutMidway(gameIds: readonly string[]): MidwayMap {
 
   // Beside the booths: wagons and carts on the left, a tent and carts on the right.
   const side = FIRST_ROW_Y;
+  // A billboard for AI DevCon, rising above the peaked tent on the right.
+  add('billboard', 19, side - 1, 3, 1);
   add('wagon', 2, side, 3, 1, 0);
   add('wagon', 2, side + 2, 3, 1, 1);
   add('cart', 6, side, 1, 1, 0);
