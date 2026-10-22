@@ -45,7 +45,9 @@ module by module.
 account, the [GitHub CLI](https://cli.github.com) logged in with
 `gh auth login`, and the [Tessl CLI](https://tessl.io/?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival).
 
-**Facilitators:** Hamza Oza, James Moss and Joe Holdcroft, from Tessl. Raise
+**Facilitators:** [Hamza Oza](https://www.linkedin.com/in/hamzaoza/),
+[James Moss](https://www.linkedin.com/in/jimbomoss/) and
+[Joe Holdcroft](https://www.linkedin.com/in/joeholdcroft/), from Tessl. Raise
 your hand at any point and one of us will come over.
 
 **Not in the room?** AI DevCon is where developers and teams building software
