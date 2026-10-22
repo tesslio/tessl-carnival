@@ -1,5 +1,10 @@
 # Tessl Carnival
 
+[![AI DevCon NYC, 2 to 4 November 2026](https://img.shields.io/badge/AI%20DevCon%20NYC-2--4%20Nov%202026-e63946)](https://tessl.io/devcon?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival)
+[![Play the carnival](https://img.shields.io/badge/Play-the%20carnival-ffcc33)](https://tesslio.github.io/tessl-carnival/)
+[![Built with Tessl](https://img.shields.io/badge/Built%20with-Tessl-1b1035)](https://tessl.io/?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival)
+[![Join the Tessl Discord](https://img.shields.io/badge/Discord-Join%20us-5865F2?logo=discord&logoColor=white)](https://discord.com/invite/jbb2vHnHZQ?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival)
+
 ![The Tessl Carnival midway: striped tents, a ferris wheel, a carousel and game booths along a path](docs/midway.jpg)
 
 **[Play the carnival](https://tesslio.github.io/tessl-carnival/)** in your browser, and see what other people's
@@ -17,9 +22,10 @@ code review checks the result before you merge.
 ## The workshop
 
 Tessl Carnival is the starter repo for **Build your own software factory with
-context**, a 90-minute hands-on workshop at AI DevCon New York. Everyone in the
-room builds on this same repo, so you can compare notes with the person next to
-you.
+context**, a 90-minute hands-on workshop at
+**[AI Native DevCon NYC](https://tessl.io/devcon?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival)**, 2 to 4 November 2026 at Industry City,
+Brooklyn. Everyone in the room builds on this same repo, so you can compare
+notes with the person next to you.
 
 You'll set up a factory on your fork from your own coding agent, then:
 
@@ -37,10 +43,15 @@ module by module.
 **Bring:** a laptop with git, Node 24 or later (or Node 22 from 22.13, or Node
 20 from 20.19), a coding agent (Claude Code, Cursor, Codex or similar), a GitHub
 account, the [GitHub CLI](https://cli.github.com) logged in with
-`gh auth login`, and the [Tessl CLI](https://tessl.io).
+`gh auth login`, and the [Tessl CLI](https://tessl.io/?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival).
 
 **Facilitators:** Hamza Oza, James Moss and Joe Holdcroft, from Tessl. Raise
 your hand at any point and one of us will come over.
+
+**Not in the room?** AI DevCon is where developers and teams building software
+factories compare notes. Get a [free virtual ticket](https://luma.com/aidevcon-nyc2026?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival), or watch the
+[talks from AI DevCon London](https://www.youtube.com/watch?v=KpfnldJO3Iw&list=PLISstAySqk7KtlYPFps1ZnK9xNIMSVkDD), with speakers from Anthropic, Google
+DeepMind, Meta, Netlify, Thoughtworks and Docker.
 
 ## The carnival
 
@@ -117,6 +128,19 @@ Once your factory is set up, GitHub issues are how you hand it work:
 On the agent's pull request, code review leaves its findings, and the agent
 answers them and fixes any failing checks until it's ready for you to merge.
 
+## Share your carnival
+
+Everyone starts from the same water cannon and ends up somewhere different.
+Show people where yours went:
+
+- **Post it in [Show your carnival](https://github.com/tesslio/tessl-carnival/discussions/13):** your carnival's
+  link, what your factory built, and one thing it got right and one it got
+  wrong.
+- **Share it on [X](https://x.com/intent/post?text=I%20built%20a%20software%20factory%20on%20a%20browser%20carnival%20at%20AI%20DevCon%20NYC%20with%20%40tessl_io&url=https%3A%2F%2Fgithub.com%2Ftesslio%2Ftessl-carnival)
+  or [LinkedIn](https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fgithub.com%2Ftesslio%2Ftessl-carnival):**
+  add your carnival's link and tag Tessl, so we can see what you built.
+- **Star this repo** if it helped, so other people find it.
+
 ## Commands
 
 | Command          | What it does                                              |
@@ -170,5 +194,13 @@ by hand until your team trusts it, then turn it into a loop. Everything Tessl
 sets up stays in your repo, and it works with the coding agents you already
 use, including Claude Code, Cursor and Codex.
 
-Get started free at [tessl.io](https://tessl.io), or read the
-[docs](https://docs.tessl.io).
+**[Start free](https://tessl.io/?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival)** with 1,000 credits a month, no credit card required.
+
+- **Learn:** [docs](https://docs.tessl.io/?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival),
+  [Tessl Registry](https://tessl.io/registry?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival),
+  [blog](https://tessl.io/blog?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival) and
+  [podcast](https://tessl.io/podcast?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival).
+- **Talk to us:** [Discord](https://discord.com/invite/jbb2vHnHZQ?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival), or come to the next
+  [AI DevCon](https://tessl.io/devcon?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival).
+- **Follow along:** [LinkedIn](https://linkedin.com/company/tesslio/),
+  [X](https://x.com/tessl_io) and [YouTube](https://www.youtube.com/@tessl-ai).
