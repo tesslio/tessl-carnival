@@ -1,0 +1,7 @@
+{
+  "name": "tessl-carnival/factory-skills",
+  "version": "0.1.0",
+  "description": "The carnival's own factory skills: maintenance loops that find problems and file issues.",
+  "private": true,
+  "skills": ["skills/rule-mining", "skills/doc-gardening", "skills/test-health"]
+}

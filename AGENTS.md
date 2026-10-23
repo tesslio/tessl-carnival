@@ -125,7 +125,8 @@ You often work on an issue with nobody around to answer questions.
   the workshop. It only checks, and changes nothing without asking.
 - `tessl-factory/skills/`: sample skills for scheduled maintenance loops
   (rule mining, doc gardening, test health). Each one files issues and never
-  changes code.
+  changes code. `tessl-factory/` is a plugin, so a schedule in `tessl.json` runs
+  one as `file:tessl-factory#rule-mining`.
 
 `WORKSHOP.md` walks people through the workshop this repo was built for: a core
 path everyone finishes, then optional tracks.
