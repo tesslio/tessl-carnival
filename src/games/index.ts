@@ -16,6 +16,10 @@ export const registry = createRegistry(
     .map((path) => {
       const game = games[path];
       if (!game) throw new Error(`${path} needs a default export of its CarnivalGame`);
+      const folder = path.split('/')[1];
+      if (game.id !== folder) {
+        throw new Error(`${path} exports a game with id "${game.id}", not "${folder}"`);
+      }
       return game;
     }),
 );
