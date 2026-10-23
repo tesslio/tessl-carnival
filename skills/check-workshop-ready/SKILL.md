@@ -50,8 +50,10 @@ checks need `gh`, and the Pages link needs Pages on.
    on 200. A 404 straight after setup can mean the first deploy is still
    running: check with `gh run list --workflow pages.yml --repo OWNER/REPO --limit 1`.
 7. **`gh` points at the fork:** `gh repo set-default --view`. Pass if it prints
-   `OWNER/REPO`. If it prints `tesslio/tessl-carnival` or nothing, issues and
-   pull requests made with `gh` could land on the wrong repository.
+   `OWNER/REPO`. Also pass if it prints no default and `git remote` lists only
+   `origin`: `gh` then uses `origin`, which is the fork. Otherwise, such as when
+   it prints `tesslio/tessl-carnival`, issues and pull requests made with `gh`
+   could land on the wrong repository.
 
 The fix for items 2 to 7 is the same: ask your agent to **Set up my fork**.
 
