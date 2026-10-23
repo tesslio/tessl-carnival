@@ -68,6 +68,10 @@ Run each step, and keep going if one fails: note it for the summary.
    `gh api -X POST repos/OWNER/REPO/pages -f build_type=workflow`.
    If that says Pages already exists, switch it to GitHub Actions instead:
    `gh api -X PUT repos/OWNER/REPO/pages -f build_type=workflow`.
+4. **Tidy branches:** delete a pull request's branch once it merges:
+   `gh repo edit OWNER/REPO --delete-branch-on-merge`. The factory opens a
+   `tessl/issue-<n>` branch for every issue, so without this a fork ends the
+   session with a branch for every merged change.
 
 ## 3. Lock it down
 
@@ -125,7 +129,8 @@ End with a short summary:
   **About** section. It's the main way to play, and every merge to `main`
   redeploys it, so new games show up there once they merge.
 - **Switched on:** Issues, Actions and Pages, and anything that needs a click
-  from them. `gh` in this clone now works on their fork.
+  from them. Merged pull requests now delete their branch, and `gh` in this
+  clone works on their fork.
 - **Locked down:** only they and their collaborators can open issues, comment
   and open pull requests, until the `expires_at` date. The lock lasts six
   months, and rerunning **Set up my fork** renews it. Say whether outside pull
@@ -147,5 +152,7 @@ If you can't use `gh`, give the person these steps for their fork on GitHub:
    all external contributors before fork pull request workflows run.
 6. **Website link:** on the fork's main page, select the gear next to
    **About**, and set **Website** to the carnival's link.
+7. **Tidy branches:** Settings, General, Pull Requests: check **Automatically
+   delete head branches**.
 
 Their carnival is then at `https://<their-username>.github.io/<repo>/`.
