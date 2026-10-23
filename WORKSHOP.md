@@ -70,10 +70,21 @@ If you're a coding agent taking someone through this guide:
 - A GitHub account, signed in.
 - A coding agent that works, such as Claude Code, Codex or Cursor.
 - Node 22.13 or later, and git.
-- The Tessl CLI. Install it from [tessl.io](https://tessl.io), then run:
+- The Tessl CLI. If you don't have it yet, install it:
 
   ```bash
-  tessl cli update
+  # macOS and Linux
+  curl -fsSL https://get.tessl.io | sh
+
+  # Windows
+  winget install tessl.tessl
+  ```
+
+  Don't install it with npm: the `@tessl/cli` npm package is deprecated. If you
+  already have the CLI, update it with `tessl cli update`, or
+  `winget upgrade tessl.tessl` on Windows. Then log in:
+
+  ```bash
   tessl login
   ```
 
@@ -165,7 +176,7 @@ two apps in your browser:
    | It asks                                | Default                     | What you're choosing                                                                                                                                                                     |
    | -------------------------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
    | Go ahead?                              | Yes                         | Nothing changes in your repository or in Tessl until you agree.                                                                                                                          |
-   | Update the Tessl CLI?                  | Yes, if it asks             | Setup needs a recent CLI. Run `tessl cli update` when it asks.                                                                                                                           |
+   | Update the Tessl CLI?                  | Yes, if it asks             | Setup needs a recent CLI. Run `tessl cli update`, or `winget upgrade tessl.tessl` on Windows.                                                                                            |
    | Managed or vendored plugins?           | Managed                     | Managed keeps the plugins Tessl installs out of git, like `node_modules`: every clone and cloud run installs them from `tessl.json`. Vendored commits them, often thousands of lines.    |
    | Commit the setup files on a branch?    | Yes                         | They become your setup pull request, so the change reaches `main` the same way all other work does.                                                                                      |
    | Which organization and workspace?      | Your own                    | Where your factory lives in Tessl, and whose credits its runs use.                                                                                                                       |
@@ -528,6 +539,7 @@ everything off, ask your agent: **Switch off all my factory automations**.
 | `npm ci` fails or Node is too old                             | Check `node --version` is 22.13 or later. If it isn't, install Node 24: `nvm install` reads the repo's `.nvmrc`.                                                                                                                                                |
 | No **Issues** tab, or no starter issues                       | Ask your agent to **Set up my fork**, or turn Issues on by hand: [Set up your fork](README.md#set-up-your-fork).                                                                                                                                                |
 | Pull requests show no checks                                  | Ask your agent to **Set up my fork**, or enable workflows in your fork's **Actions** tab.                                                                                                                                                                       |
+| `tessl` isn't found, or came from npm                         | Install it with `curl -fsSL https://get.tessl.io \| sh`, or `winget install tessl.tessl` on Windows. If `npm ls -g @tessl/cli` lists the old npm copy, remove it first with `npm uninstall -g @tessl/cli`.                                                      |
 | `tessl` commands say you're not logged in                     | Run `tessl login`, then `tessl whoami` to check.                                                                                                                                                                                                                |
 | Your agent doesn't see a skill you just installed             | Restart your coding agent after `tessl install`.                                                                                                                                                                                                                |
 | Code review's findings on a pull request aren't getting fixed | Answer reviews only works on pull requests the factory opened, on `tessl/` branches. If your agent opened it, close it, file the change as an issue instead, and add the `tessl` label.                                                                         |

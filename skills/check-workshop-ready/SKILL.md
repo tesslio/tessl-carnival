@@ -21,9 +21,13 @@ checks need `gh`, and the Pages link needs Pages on.
    Node 24 (`nvm install` reads `.nvmrc`), or use GitHub Codespaces.
 3. **GitHub CLI:** `gh auth status`. Pass if it's logged in to github.com.
    Fix: install it from https://cli.github.com, then run `gh auth login`.
-4. **Tessl CLI:** `tessl whoami`. Pass if it shows a logged-in user.
-   Fix: install it from https://tessl.io, then run `tessl cli update` and
-   `tessl login`.
+4. **Tessl CLI:** `tessl whoami`. Pass if it shows a logged-in user, and
+   `npm ls -g @tessl/cli` doesn't list an npm copy. The npm package is
+   deprecated. Fixes:
+   - Not installed: `curl -fsSL https://get.tessl.io | sh` on macOS and Linux,
+     or `winget install tessl.tessl` on Windows. Never `npm install`.
+   - Installed with npm: `npm uninstall -g @tessl/cli`, then install as above.
+   - Not logged in: `tessl login`.
 5. **Credits:** `tessl org usage`. Pass if it shows credits left, and give the
    balance. Fix: at the workshop, raise your hand, and a facilitator can top
    you up.

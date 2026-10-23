@@ -49,7 +49,9 @@ you anything to fix.
 
 **Bring:** a laptop with git, Node 22.13 or later, a coding agent (Claude Code,
 Codex, Cursor or similar), a GitHub account, the
-[GitHub CLI](https://cli.github.com) logged in with `gh auth login`, and the [Tessl CLI](https://tessl.io/?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival).
+[GitHub CLI](https://cli.github.com) logged in with `gh auth login`, and the [Tessl CLI](https://tessl.io/?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival),
+installed with `curl -fsSL https://get.tessl.io | sh`, or `winget install tessl.tessl`
+on Windows. Not with npm: that package is deprecated.
 
 **Facilitators:** [Hamza Oza](https://www.linkedin.com/in/hamzaoza/),
 [James Moss](https://www.linkedin.com/in/jimbomoss/) and
@@ -102,7 +104,8 @@ Then open http://localhost:5173.
 
 **Can't run it on your laptop?** Open your fork in GitHub Codespaces instead:
 on your fork's page, select **Code → Codespaces → Create codespace on main**. It
-sets up Node and the GitHub CLI and installs everything, all in your browser.
+sets up Node, the GitHub CLI and the Tessl CLI, and installs everything, all in
+your browser.
 Run `npm run dev` in its terminal and the carnival opens in a new tab.
 
 ### Your fork is public
