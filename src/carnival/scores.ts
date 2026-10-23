@@ -10,10 +10,20 @@ type ScoreStorage = Pick<Storage, 'getItem' | 'setItem'>;
 const STORAGE_KEY = 'tessl-carnival:scores';
 const MAX_ENTRIES_PER_GAME = 50;
 
+function memoryStorage(): ScoreStorage {
+  const memory = new Map<string, string>();
+  return {
+    getItem: (key) => memory.get(key) ?? null,
+    setItem: (key, value) => void memory.set(key, value),
+  };
+}
+
 export function createScoreBoard(storage: ScoreStorage, now: () => number = Date.now) {
+  let store = storage;
+
   function load(): ScoreEntry[] {
     try {
-      const parsed: unknown = JSON.parse(storage.getItem(STORAGE_KEY) ?? '[]');
+      const parsed: unknown = JSON.parse(store.getItem(STORAGE_KEY) ?? '[]');
       return Array.isArray(parsed) ? (parsed as ScoreEntry[]) : [];
     } catch {
       return [];
@@ -34,7 +44,15 @@ export function createScoreBoard(storage: ScoreStorage, now: () => number = Date
     const entry: ScoreEntry = { gameId, score: Math.round(score), at: now() };
     const others = load().filter((e) => e.gameId !== gameId);
     const kept = [...top(gameId, MAX_ENTRIES_PER_GAME - 1), entry];
-    storage.setItem(STORAGE_KEY, JSON.stringify([...others, ...kept]));
+    const value = JSON.stringify([...others, ...kept]);
+    try {
+      store.setItem(STORAGE_KEY, value);
+    } catch {
+      // Storage can refuse a write, for example when it's full or blocked. A
+      // round must still end normally, so keep scores for this page load only.
+      store = memoryStorage();
+      store.setItem(STORAGE_KEY, value);
+    }
     return entry;
   }
 
@@ -50,11 +68,7 @@ function browserStorage(): ScoreStorage {
     return window.localStorage;
   } catch {
     // Private windows and test runs: keep scores for this page load only.
-    const memory = new Map<string, string>();
-    return {
-      getItem: (key) => memory.get(key) ?? null,
-      setItem: (key, value) => void memory.set(key, value),
-    };
+    return memoryStorage();
   }
 }
 

@@ -48,6 +48,25 @@ describe('score board', () => {
     expect(board.best('water-cannon')).toBe(5);
   });
 
+  it('keeps working when storage refuses a write', () => {
+    const storage = memoryStorage();
+    storage.setItem(
+      'tessl-carnival:scores',
+      JSON.stringify([{ gameId: 'ring-toss', score: 70, at: 1 }]),
+    );
+    const board = createScoreBoard({
+      getItem: storage.getItem,
+      setItem: () => {
+        throw new Error('QuotaExceededError');
+      },
+    });
+    expect(() => board.record('water-cannon', 40)).not.toThrow();
+    expect(board.best('water-cannon')).toBe(40);
+    expect(board.best('ring-toss')).toBe(70);
+    board.record('water-cannon', 90);
+    expect(board.best('water-cannon')).toBe(90);
+  });
+
   it('rejects negative and non-numeric scores', () => {
     const board = createScoreBoard(memoryStorage());
     expect(() => board.record('water-cannon', -1)).toThrow();
