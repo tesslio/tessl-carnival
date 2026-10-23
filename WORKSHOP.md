@@ -375,8 +375,8 @@ everything off, ask your agent: **Switch off all my factory automations**.
   comments and failing checks on a factory pull request, and fixes them. The
   Tessl app shows it as **Shepherd**.
 - **Environment** (or cloud environment): the setup a loop run gets, including
-  how much GitHub access it has. It runs Ubuntu with Node and no admin rights,
-  so `.tessl/cloud-launch-setup.sh` only runs `npm ci`.
+  how much GitHub access it has. It runs Ubuntu with Node 24, and
+  `.tessl/cloud-launch-setup.sh` runs `npm ci` before each run.
 - **Tessl GitHub App:** the app that lets your factory work on your repository.
 - **Tessl Review:** the separate app that runs code review, so the factory never
   reviews its own work. It shows as **Tessl Reviewer** in the Tessl app and on
