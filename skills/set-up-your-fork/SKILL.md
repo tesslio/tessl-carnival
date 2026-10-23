@@ -17,9 +17,9 @@ login, so they need to own the fork.
 The fork is public, so you also lock it down: only the person and their
 collaborators can open issues, comment and open pull requests.
 
-Tell the person what you're about to change before you change it. In the same
-message, ask for the one click this skill can't do (step 1.6), so they make it
-while you work.
+Tell the person what you're about to change before you change it. If step 1.6
+finds the workflows hidden, ask for that click in the same message, so they
+make it while you work.
 
 This skill is safe to rerun. Every step sets a feature to a state, rather than
 adding something new, so running it again only renews the lock and redeploys
@@ -49,9 +49,11 @@ the carnival.
    `gh api repos/OWNER/REPO/actions/workflows --jq .total_count`. On a new fork
    this is `0`, even though `.github/workflows/` has files: GitHub hides a
    fork's workflows until someone enables them in the browser, and `gh` can't
-   do it. Ask the person to open `https://github.com/OWNER/REPO/actions` and
-   select **I understand my workflows, go ahead and enable them**. Carry on
-   with sections 2 and 3 while they do; the deploy in section 4 needs it.
+   do it. Only if it's `0`, ask the person to open
+   `https://github.com/OWNER/REPO/actions` and select **I understand my
+   workflows, go ahead and enable them**. Carry on with sections 2 and 3 while
+   they do; the deploy in section 4 needs it. On a rerun, the workflows are
+   already listed, so don't ask.
 
 ## 2. Turn the features on
 
@@ -108,8 +110,10 @@ call. Run both, and keep going if one fails: note it for the summary.
    `gh run list --workflow pages.yml --repo OWNER/REPO --limit 1` and follow it
    with `gh run watch <run id> --repo OWNER/REPO`. It takes about a minute.
 4. Get the link: `gh api repos/OWNER/REPO/pages --jq .html_url`.
-5. Point the fork's website link at it:
-   `gh repo edit OWNER/REPO --homepage <link>`. A fork copies the website link
+5. Once the deploy succeeded and the link answers with a 200
+   (`curl -sS -o /dev/null -w '%{http_code}' <link>`), point the fork's
+   website link at it: `gh repo edit OWNER/REPO --homepage <link>`. If the
+   deploy failed, leave the website link alone and say so in the summary. A fork copies the website link
    from the repository it came from, so until now the fork's **About** section
    pointed at `tesslio.github.io`, not at their carnival.
 
