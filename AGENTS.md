@@ -55,7 +55,7 @@ src/
     prizes.ts             prize tiers
     theme.ts              colours, fonts and sizes
   games/
-    index.ts              every game registers here
+    index.ts              finds every game folder and registers it
     water-cannon/         the finished game, and the pattern to copy
       game.ts
       game.test.ts
@@ -65,10 +65,11 @@ src/
 ## The midway
 
 The midway is a walkable map, drawn on a 2D canvas, with a booth for every game
-in `src/games/index.ts`.
+that `src/games/index.ts` finds.
 
-- A new game gets its booth automatically when it registers. Adding a game never
-  needs a change in `src/midway/`.
+- A new game gets its booth automatically when its folder has a `game.ts` with a
+  default export. Adding a game never needs a change in `src/midway/` or
+  `src/games/index.ts`.
 - The text around the map lives in `src/main.ts`: the booth card that opens when
   you walk up to a booth, and the list of booths in the corner. Changes to what
   the midway shows about a game, such as scores, usually go there.
@@ -78,8 +79,9 @@ in `src/games/index.ts`.
 ## House rules
 
 1. **Every game registers on the midway.** A game lives in
-   `src/games/<game-id>/`, exports a `CarnivalGame` from `game.ts`, and is added
-   to the list in `src/games/index.ts`. The folder name and the game's `id` match.
+   `src/games/<game-id>/`, and its `game.ts` has its `CarnivalGame` as the
+   default export. `src/games/index.ts` finds it from there. The folder name and
+   the game's `id` match.
 2. **Every game reports scores through the shared scores module.** Call
    `recordScore(game.id, score)` from `src/carnival` once, when a round ends. No
    game reads or writes local storage itself, or keeps its own high score table.
@@ -93,9 +95,8 @@ in `src/games/index.ts`.
    animation frame and removes every listener it added.
 6. **Each game has a README** that says how to play and how scoring works, and
    stays true to the code.
-7. **One game per change.** A change to one game stays inside its folder, plus a
-   line in `src/games/index.ts` for a new game. Changes to `src/carnival/` are
-   their own change.
+7. **One game per change.** A change to one game stays inside its folder, even
+   for a new game. Changes to `src/carnival/` are their own change.
 
 ## Working on an issue
 

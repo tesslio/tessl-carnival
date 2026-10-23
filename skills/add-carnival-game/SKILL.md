@@ -19,7 +19,8 @@ Read `src/games/water-cannon/game.ts` first: it is the pattern to copy.
 3. **Write the logic as plain functions** in `game.ts`: a `createState()` and
    functions like `step(state, dt)` and the player's actions. Export them, and
    keep them free of the canvas and the DOM so Vitest can run them.
-4. **Export the game** from `game.ts`:
+4. **Export the game** from `game.ts`, as a named export and as the default
+   export. The default export is how the midway finds it:
 
    ```ts
    export const ringToss: CarnivalGame = {
@@ -33,6 +34,8 @@ Read `src/games/water-cannon/game.ts` first: it is the pattern to copy.
        };
      },
    };
+
+   export default ringToss;
    ```
 
 5. **Report the score once per round** with `recordScore(ringToss.id, score)`
@@ -41,7 +44,8 @@ Read `src/games/water-cannon/game.ts` first: it is the pattern to copy.
    `canvasFont(...)`. If the game needs a colour the theme lacks, use the closest
    theme colour and say so in the pull request. Adding a colour to
    `src/carnival/theme.ts` is its own change, never part of a game's.
-7. **Register it** by adding it to the list in `src/games/index.ts`.
+7. **Don't touch `src/games/index.ts`.** It finds every folder whose `game.ts`
+   has a default export, so the new game registers itself.
 8. **Test the logic** in `game.test.ts`: the starting state, scoring, how a round
    ends, and any edge the README promises.
 9. **Write the README:** how to play, how scoring works and the files in the folder.

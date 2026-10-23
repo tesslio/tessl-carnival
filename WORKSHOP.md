@@ -296,8 +296,8 @@ factory ship the fix.
 ### C: Grow your carnival
 
 **Learn:** the factory can work on several issues at once. Each game lives in
-its own folder, and the only shared file it touches is the game list in
-`src/games/index.ts`, so parallel runs rarely clash.
+its own folder, and the midway finds it there, so new games built in parallel
+don't clash.
 
 **Do:**
 
@@ -305,8 +305,10 @@ its own folder, and the only shared file it touches is the game list in
    **Your own idea** to write up the change you noted earlier.
 2. Add the `tessl` label to all of them at once.
 3. Watch the runs side by side on the Loops page in the Tessl app.
-4. Merge each pull request when it's ready. If two of them clash, merge one
-   first, then fix the other with your own agent.
+4. Merge each pull request when it's ready. If two of them do clash, such as two
+   of your own ideas touching the same file, merge one first. Then comment on
+   the other pull request asking the factory to merge `main` and resolve the
+   conflict. It takes a few minutes.
 
 **Done when:** two or more of those changes are live at your Pages link.
 

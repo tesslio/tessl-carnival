@@ -28,5 +28,5 @@ Add `?shots=25` to the page URL to change the size of the tank, for example
 ## Files
 
 - `game.ts`: the game logic (`createState`, `fire`, `step`, `scoreForHit`) and the
-  `waterCannon` entry the midway registers.
+  `waterCannon` entry, the default export the midway finds.
 - `game.test.ts`: tests for the game logic.

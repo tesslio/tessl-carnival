@@ -72,9 +72,9 @@ cannon**, and a midway you walk around: a sunny fairground with tents, rides and
 a booth for every game. Empty booths say "coming soon" until a game fills them.
 
 You grow your carnival by adding games through your factory. Each game lives in
-its own folder, and the only shared file it touches is the game list in
-`src/games/index.ts`. Several games can be built at once with little to clash
-over, and everyone ends the session with a different carnival.
+its own folder, and the midway finds it there, so a new game touches no shared
+file. Several games can be built at once without clashing, and everyone ends the
+session with a different carnival.
 
 ## Get your own carnival
 
