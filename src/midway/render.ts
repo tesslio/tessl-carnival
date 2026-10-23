@@ -1,4 +1,5 @@
 import { canvasFont, theme } from '../carnival';
+import bannerUrl from './aidevcon-banner.png';
 import { palette } from './palette';
 import {
   CART_KINDS,
@@ -1106,8 +1107,22 @@ function balloons(ctx: Ctx, prop: Prop, t: number) {
 /** How high a billboard's sign stands, to the bottom of its board. */
 const BILLBOARD_HEIGHT = 40;
 
-/** The billboard's sign, in plane-local pixels: the red board plus its gold frame. */
-const BILLBOARD_SIGN = { width: 104, height: 36, frame: 3 };
+/**
+ * The billboard's sign, in plane-local pixels: the banner plus its gold frame.
+ * The board keeps the banner image's shape, 4 by 1.
+ */
+const BILLBOARD_SIGN = { width: 144, height: 36, frame: 3 };
+
+let banner: HTMLImageElement | undefined;
+
+/** The AI DevCon banner, loaded the first time the billboard is drawn. */
+function bannerImage(): HTMLImageElement {
+  if (!banner) {
+    banner = new Image();
+    banner.src = bannerUrl;
+  }
+  return banner;
+}
 
 /** Where a billboard's posts stand, and the point its sign is centred on. */
 function billboardFrame(prop: Prop) {
@@ -1135,7 +1150,7 @@ function billboardBounds(prop: Prop): Box {
   };
 }
 
-/** The AI DevCon billboard: a lit sign on two posts. Clicking it opens the event page. */
+/** The AI DevCon billboard: the event banner, lit, on two posts. Clicking it opens the event page. */
 function billboard(ctx: Ctx, prop: Prop, t: number) {
   const { y, left, right, centre } = billboardFrame(prop);
   poly(
@@ -1169,33 +1184,19 @@ function billboard(ctx: Ctx, prop: Prop, t: number) {
       5,
     );
     ctx.fill();
-    ctx.fillStyle = palette.red;
+    ctx.fillStyle = palette.ink;
     ctx.beginPath();
     ctx.roundRect(-width / 2, -height / 2, width, height, 3);
     ctx.fill();
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    const line = (
-      text: string,
-      size: 'small' | 'body',
-      y: number,
-      maxHeight: number,
-      color: string,
-    ) => {
-      ctx.font = canvasFont(size, 'bold');
-      const fit = Math.min(
-        maxHeight / theme.font[size],
-        (width - 10) / ctx.measureText(text).width,
-      );
+    // Until the banner loads, the board stays plain.
+    const image = bannerImage();
+    if (image.complete && image.naturalWidth > 0) {
       ctx.save();
-      ctx.translate(0, y);
-      ctx.scale(fit, fit);
-      ctx.fillStyle = color;
-      ctx.fillText(text, 0, 0);
+      ctx.clip();
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(image, -width / 2, -height / 2, width, height);
       ctx.restore();
-    };
-    line('AI DEVCON NYC', 'body', -5, 13, palette.gold);
-    line('NOVEMBER 2026  BROOKLYN', 'small', 10, 7, palette.cream);
+    }
     for (let i = 0; i < 12; i++) {
       ctx.fillStyle = Math.sin(t * 4 - i * 0.7) > 0 ? palette.cream : palette.goldShade;
       ctx.beginPath();
