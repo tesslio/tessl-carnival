@@ -75,7 +75,8 @@ call. Run both, and keep going if one fails: note it for the summary.
    starts a fresh six months. If GitHub answers 409, a limit is already set on
    the person's whole account, so this repository can't have its own: say so.
 
-   <!-- TODO: confirm the interaction lock doesn't stop the Tessl GitHub App or Tessl Review from commenting and opening pull requests on the fork. -->
+   The lock doesn't affect the Tessl GitHub App or Tessl Review: they have
+   write access, so they still comment, open pull requests and review.
 
 2. **Actions on outside pull requests:** require approval before workflows run
    on pull requests from anyone outside the repository:
