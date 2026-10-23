@@ -1,6 +1,6 @@
 ---
 name: add-carnival-game
-description: Add a new game to the Tessl Carnival midway, following the water cannon pattern and the house rules. Use when asked to build, add or create a carnival game or booth, such as ring toss, whack-a-mole, hook a duck or high striker.
+description: Add a new game to the Tessl Carnival midway, following the water cannon pattern and the house rules. Use when asked to build, add or create a carnival game or booth, such as ring toss, whack-a-mole or hook a duck.
 ---
 
 # Add a carnival game

@@ -165,13 +165,11 @@ edits to the issue don't start several runs.
 
 **Do:**
 
-1. Open **Issues → New issue** and pick one of the three **Hello world**
-   issues. Each is a one- or two-line change, so you see the whole flow
-   quickly:
+1. Open **Issues → New issue** and pick one of the two **Hello world**
+   issues. Each is a small change, so you see the whole flow quickly:
    - **Put your name on the carnival:** your name on the entrance sign and the
      browser tab.
    - **Paint the sky at sunset:** two colors.
-   - **Welcome visitors to the midway:** one line of text.
 2. Add the `tessl` label yourself, in the browser or with
    `gh issue edit <number> --add-label tessl`. It has to come from your own
    GitHub account: a label added by an app or a bot doesn't start the factory.
@@ -231,7 +229,8 @@ pull request. Copy them into your repository and they become yours to change.
    > with the carnival's theme. Open a pull request.
 
 2. Merge that pull request.
-3. Open a **New game** issue, such as ring toss, and add the `tessl` label.
+3. Open one of the three **New game** issues (ring toss, whack-a-mole or hook a
+   duck), and add the `tessl` label.
 4. Watch what code review does with the new game's pull request.
 
 **Done when:** code review checks your house rules on the new pull request, and
@@ -295,9 +294,8 @@ its own folder, and the only shared file it touches is the game list in
 
 **Do:**
 
-1. Open two or three issues: a **New game**, **Show the top five scores on the
-   midway**, **Press Escape to go back to the midway**, or **Your own idea** to
-   write up the change you noted earlier.
+1. Open two or three issues: the **New game** issues you haven't built yet, or
+   **Your own idea** to write up the change you noted earlier.
 2. Add the `tessl` label to all of them at once.
 3. Watch the runs side by side on the Loops page in the Tessl app.
 4. Merge each pull request when it's ready. If two of them clash, merge one
@@ -305,8 +303,8 @@ its own folder, and the only shared file it touches is the game list in
 
 **Done when:** two or more of those changes are live at your Pages link.
 
-**Stretch:** try the water cannon issues, such as the countdown timer, and
-check the game's README still matches the code afterwards.
+**Stretch:** play your new games, then write up the first thing you'd change
+in one of them as **Your own idea**, and label it.
 
 ### D: Set up a factory on your own repo
 
