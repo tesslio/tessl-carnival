@@ -4,7 +4,7 @@
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
-  "postCreateCommand": "npm ci && (curl -fsSL https://get.tessl.io | sh || echo 'Installing the Tessl CLI failed: see Before you start in WORKSHOP.md')",
+  "postCreateCommand": "npm ci && ((curl -fsSL --connect-timeout 15 --max-time 120 -o /tmp/install-tessl.sh https://get.tessl.io && sh /tmp/install-tessl.sh) || echo 'Installing the Tessl CLI failed: see Before you start in WORKSHOP.md')",
   "forwardPorts": [5173],
   "portsAttributes": {
     "5173": {
