@@ -10,6 +10,14 @@ If the person asks about the workshop, follow `WORKSHOP.md` step by step, as its
 section for agents says: one step at a time, checking each **Done when** with
 them before you move on.
 
+## Forks have their own factory
+
+This repository is a starter that everyone forks, so it has no `tessl.json`.
+Each person sets up a factory on their own fork. That setup's pull request
+adds a `tessl.json` linked to their own Tessl project, plus `.mcp.json` and a
+few `.gitignore` files. In a fork, that's expected: the fork's `tessl.json`
+belongs to the fork, not to everyone who forks this repository.
+
 ## Stack
 
 - TypeScript, Vite and plain HTML canvas. No UI framework.
