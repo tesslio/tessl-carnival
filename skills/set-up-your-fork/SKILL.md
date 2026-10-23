@@ -17,7 +17,9 @@ login, so they need to own the fork.
 The fork is public, so you also lock it down: only the person and their
 collaborators can open issues, comment and open pull requests.
 
-Tell the person what you're about to change before you change it.
+Tell the person what you're about to change before you change it. In the same
+message, ask for the one click this skill can't do (step 1.6), so they make it
+while you work.
 
 This skill is safe to rerun. Every step sets a feature to a state, rather than
 adding something new, so running it again only renews the lock and redeploys
@@ -43,6 +45,13 @@ the carnival.
    the local clone. If the person cloned with `gh repo clone` or
    `gh repo fork`, the default is `tesslio/tessl-carnival`, so `gh pr create`
    and `gh issue create` would land there instead of on their fork.
+6. Check whether GitHub shows the fork's workflows:
+   `gh api repos/OWNER/REPO/actions/workflows --jq .total_count`. On a new fork
+   this is `0`, even though `.github/workflows/` has files: GitHub hides a
+   fork's workflows until someone enables them in the browser, and `gh` can't
+   do it. Ask the person to open `https://github.com/OWNER/REPO/actions` and
+   select **I understand my workflows, go ahead and enable them**. Carry on
+   with sections 2 and 3 while they do; the deploy in section 4 needs it.
 
 ## 2. Turn the features on
 
@@ -52,8 +61,7 @@ Run each step, and keep going if one fails: note it for the summary.
 2. **Actions:** list the workflows with
    `gh api repos/OWNER/REPO/actions/workflows --jq '.workflows[] | [.id, .name, .state] | @tsv'`.
    Enable any whose state isn't `active` with `gh workflow enable <id> --repo OWNER/REPO`.
-   If GitHub refuses, the person has to open the **Actions** tab once and
-   select the button to enable workflows.
+   An empty list means the click from step 1.6 hasn't happened yet.
 3. **Pages:** turn it on with GitHub Actions as the source:
    `gh api -X POST repos/OWNER/REPO/pages -f build_type=workflow`.
    If that says Pages already exists, switch it to GitHub Actions instead:
@@ -92,18 +100,26 @@ call. Run both, and keep going if one fails: note it for the summary.
 
 ## 4. Deploy
 
-1. Start a deploy: `gh workflow run pages.yml --repo OWNER/REPO --ref main`.
-2. Wait for it: find the run with
+1. Check the workflows are listed now, as in step 2.2. If the list is still
+   empty, remind the person about the click in step 1.6 and wait until they say
+   it's done.
+2. Start a deploy: `gh workflow run pages.yml --repo OWNER/REPO --ref main`.
+3. Wait for it: find the run with
    `gh run list --workflow pages.yml --repo OWNER/REPO --limit 1` and follow it
    with `gh run watch <run id> --repo OWNER/REPO`. It takes about a minute.
-3. Get the link: `gh api repos/OWNER/REPO/pages --jq .html_url`.
+4. Get the link: `gh api repos/OWNER/REPO/pages --jq .html_url`.
+5. Point the fork's website link at it:
+   `gh repo edit OWNER/REPO --homepage <link>`. A fork copies the website link
+   from the repository it came from, so until now the fork's **About** section
+   pointed at `tesslio.github.io`, not at their carnival.
 
 ## 5. Tell the person
 
 End with a short summary:
 
-- **Your carnival:** the Pages link. It's the main way to play, and every merge
-  to `main` redeploys it, so new games show up there once they merge.
+- **Your carnival:** the Pages link, now also the website link in the fork's
+  **About** section. It's the main way to play, and every merge to `main`
+  redeploys it, so new games show up there once they merge.
 - **Switched on:** Issues, Actions and Pages, and anything that needs a click
   from them. `gh` in this clone now works on their fork.
 - **Locked down:** only they and their collaborators can open issues, comment
@@ -125,5 +141,7 @@ If you can't use `gh`, give the person these steps for their fork on GitHub:
    repository collaborators, for six months.
 5. **Outside pull requests:** Settings, Actions, General: require approval for
    all external contributors before fork pull request workflows run.
+6. **Website link:** on the fork's main page, select the gear next to
+   **About**, and set **Website** to the carnival's link.
 
 Their carnival is then at `https://<their-username>.github.io/<repo>/`.

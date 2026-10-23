@@ -40,7 +40,9 @@ checks need `gh`, and the Pages link needs Pages on.
 2. **Issues:** pass if `hasIssuesEnabled` is true.
 3. **Actions:** `gh api repos/OWNER/REPO/actions/permissions --jq .enabled`, and
    `gh api repos/OWNER/REPO/actions/workflows --jq '.workflows[] | [.name, .state] | @tsv'`.
-   Pass if Actions is enabled and every workflow is `active`.
+   Pass if Actions is enabled, the list isn't empty, and every workflow is
+   `active`. An empty list is a fix, not a pass: GitHub hides a new fork's
+   workflows until someone opens the **Actions** tab and enables them.
 4. **Pages:** `gh api repos/OWNER/REPO/pages --jq '[.build_type, .html_url] | @tsv'`.
    Pass if `build_type` is `workflow`. A 404 means Pages is off.
 5. **Interaction lock:** `gh api repos/OWNER/REPO/interaction-limits`. Pass if
@@ -49,6 +51,8 @@ checks need `gh`, and the Pages link needs Pages on.
 6. **Pages link:** `curl -sS -o /dev/null -w '%{http_code}' <html_url>`. Pass
    on 200. A 404 straight after setup can mean the first deploy is still
    running: check with `gh run list --workflow pages.yml --repo OWNER/REPO --limit 1`.
+   Also check the fork's website link, `gh repo view OWNER/REPO --json homepageUrl`,
+   is the Pages link. A fork starts with the original's, `tesslio.github.io`.
 7. **`gh` points at the fork:** `gh repo set-default --view`. Pass if it prints
    `OWNER/REPO`. Also pass if it prints no default and `git remote` lists only
    `origin`: `gh` then uses `origin`, which is the fork. Otherwise, such as when

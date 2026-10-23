@@ -123,7 +123,9 @@ in your clone:
 It follows [`skills/set-up-your-fork`](skills/set-up-your-fork/SKILL.md): it
 uses the [GitHub CLI](https://cli.github.com) (`gh`) with your own login to turn
 on Issues, Actions and Pages, deploys the carnival, and gives you a link to
-share. Every merge to `main` redeploys it.
+share. It also sets that link as your fork's website, in its **About** section.
+Every merge to `main` redeploys it. GitHub needs one click from you: open your
+fork's **Actions** tab and enable workflows, which `gh` can't do.
 
 It also locks your fork down:
 
@@ -149,6 +151,9 @@ To do it by hand instead:
 5. **Outside pull requests.** Go to **Settings → Actions → General**, and
    require approval for all external contributors before their pull requests
    run workflows.
+6. **Website link.** On your fork's main page, select the gear next to
+   **About**, and set **Website** to your carnival's link. A fork starts with
+   the link to the original carnival.
 
 This repo doesn't include a `tessl.json`. To set up a factory, run `tessl init`
 in your clone first, the same as you would in any repository of your own.
