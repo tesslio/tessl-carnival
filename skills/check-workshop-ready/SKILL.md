@@ -49,8 +49,11 @@ checks need `gh`, and the Pages link needs Pages on.
 6. **Pages link:** `curl -sS -o /dev/null -w '%{http_code}' <html_url>`. Pass
    on 200. A 404 straight after setup can mean the first deploy is still
    running: check with `gh run list --workflow pages.yml --repo OWNER/REPO --limit 1`.
+7. **`gh` points at the fork:** `gh repo set-default --view`. Pass if it prints
+   `OWNER/REPO`. If it prints `tesslio/tessl-carnival` or nothing, issues and
+   pull requests made with `gh` could land on the wrong repository.
 
-The fix for items 2 to 6 is the same: ask your agent to **Set up my fork**.
+The fix for items 2 to 7 is the same: ask your agent to **Set up my fork**.
 
 ## 3. Report
 
@@ -66,6 +69,7 @@ Credits       pass  940 left
 Your fork     pass  ada/tessl-carnival
 Issues        fix   off: ask your agent to Set up my fork
 Lock          pass  until 2027-04-22
+gh default    fix   tesslio/tessl-carnival: ask your agent to Set up my fork
 ```
 
 Then:

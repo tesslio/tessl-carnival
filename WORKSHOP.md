@@ -38,15 +38,21 @@ If you're a coding agent taking someone through this guide:
 
 - Work through one step at a time, in order. Never skip a step, even if it looks
   done already: check it instead.
+- Pass `--repo OWNER/REPO`, the person's fork, to every `gh` command that
+  works on issues or pull requests. If they cloned with `gh`, its default is
+  `tesslio/tessl-carnival`, so without `--repo` an issue or pull request lands
+  there instead of on their fork.
 - At each **Done when**, run the check yourself where you can, and tell the
-  person what you found. For example, `gh pr view` for a pull request,
+  person what you found. For example, `gh pr view --repo OWNER/REPO` for a pull
+  request,
   `gh api repos/OWNER/REPO/pages --jq .html_url` for their Pages link, and
   `tessl whoami` for their Tessl login. When a check needs the person, such as
   playing a game or looking at the Tessl app, ask them and wait.
 - Ask before you merge anything.
 - The `tessl` label has to come from the person's own GitHub account. They add
   it in the browser, or you add it with
-  `gh issue edit <number> --add-label tessl` while `gh` is logged in as them.
+  `gh issue edit <number> --repo OWNER/REPO --add-label tessl` while `gh` is
+  logged in as them.
   A label added by an app or a bot doesn't start the factory.
 - When the core path is done, tell the person, then offer the tracks.
 
@@ -171,7 +177,8 @@ edits to the issue don't start several runs.
      browser tab.
    - **Paint the sky at sunset:** two colors.
 2. Add the `tessl` label yourself, in the browser or with
-   `gh issue edit <number> --add-label tessl`. It has to come from your own
+   `gh issue edit <number> --repo <your-username>/tessl-carnival --add-label tessl`.
+   It has to come from your own
    GitHub account: a label added by an app or a bot doesn't start the factory.
 3. Watch what happens:
    - **About 90 seconds of nothing.** The factory is waiting.

@@ -39,6 +39,10 @@ the carnival.
    if `isFork` is true and `viewerPermission` is `ADMIN`. Otherwise stop and say
    why: these steps change settings on the person's own fork, never on the
    repository they forked from.
+5. Point `gh` at the fork: `gh repo set-default OWNER/REPO`. This only changes
+   the local clone. If the person cloned with `gh repo clone` or
+   `gh repo fork`, the default is `tesslio/tessl-carnival`, so `gh pr create`
+   and `gh issue create` would land there instead of on their fork.
 
 ## 2. Turn the features on
 
@@ -100,7 +104,7 @@ End with a short summary:
 - **Your carnival:** the Pages link. It's the main way to play, and every merge
   to `main` redeploys it, so new games show up there once they merge.
 - **Switched on:** Issues, Actions and Pages, and anything that needs a click
-  from them.
+  from them. `gh` in this clone now works on their fork.
 - **Locked down:** only they and their collaborators can open issues, comment
   and open pull requests, until the `expires_at` date. The lock lasts six
   months, and rerunning **Set up my fork** renews it. Say whether outside pull
