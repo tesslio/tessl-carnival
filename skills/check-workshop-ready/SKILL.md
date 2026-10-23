@@ -17,9 +17,8 @@ checks need `gh`, and the Pages link needs Pages on.
    Fix: install git from https://git-scm.com.
 2. **Node:** `node --version`. Read `engines.node` in `package.json` and check
    the version matches it. When this skill was written it was
-   `^20.19.0 || ^22.13.0 || >=24`: Node 24 or later, Node 22 from 22.13, or
-   Node 20 from 20.19. Fix: install Node 24 (`nvm install` reads `.nvmrc`), or
-   use GitHub Codespaces.
+   `^22.13.0 || >=24`: Node 22.13 or later, skipping Node 23. Fix: install
+   Node 24 (`nvm install` reads `.nvmrc`), or use GitHub Codespaces.
 3. **GitHub CLI:** `gh auth status`. Pass if it's logged in to github.com.
    Fix: install it from https://cli.github.com, then run `gh auth login`.
 4. **Tessl CLI:** `tessl whoami`. Pass if it shows a logged-in user.

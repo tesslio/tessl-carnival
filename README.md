@@ -47,10 +47,9 @@ through the core path, one step at a time**. Before the session, ask it to
 [`skills/check-workshop-ready`](skills/check-workshop-ready/SKILL.md) and tells
 you anything to fix.
 
-**Bring:** a laptop with git, Node 24 or later (or Node 22 from 22.13, or Node
-20 from 20.19), a coding agent (Claude Code, Codex, Cursor or similar), a GitHub
-account, the [GitHub CLI](https://cli.github.com) logged in with
-`gh auth login`, and the [Tessl CLI](https://tessl.io/?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival).
+**Bring:** a laptop with git, Node 22.13 or later, a coding agent (Claude Code,
+Codex, Cursor or similar), a GitHub account, the
+[GitHub CLI](https://cli.github.com) logged in with `gh auth login`, and the [Tessl CLI](https://tessl.io/?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival).
 
 **Facilitators:** [Hamza Oza](https://www.linkedin.com/in/hamzaoza/),
 [James Moss](https://www.linkedin.com/in/jimbomoss/) and
@@ -91,8 +90,8 @@ over, and everyone ends the session with a different carnival.
 Every merge to `main` redeploys your carnival, so your factory's work shows up
 at the same link.
 
-**Run it on your laptop instead.** You need git and Node 24 or later (or Node 22
-from 22.13, or Node 20 from 20.19). In your clone:
+**Run it on your laptop instead.** You need git and Node 22.13 or later. In
+your clone:
 
 ```bash
 npm ci

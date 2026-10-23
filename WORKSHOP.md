@@ -54,7 +54,7 @@ If you're a coding agent taking someone through this guide:
 
 - A GitHub account, signed in.
 - A coding agent that works, such as Claude Code, Codex or Cursor.
-- Node 24 or later (or Node 22 from 22.13, or Node 20 from 20.19), and git.
+- Node 22.13 or later, and git.
 - The Tessl CLI. Install it from [tessl.io](https://tessl.io), then run:
 
   ```bash
@@ -387,7 +387,7 @@ everything off, ask your agent: **Switch off all my factory automations**.
 
 | Problem                                                   | Try                                                                                                                                                                                                                                                             |
 | --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `npm ci` fails or Node is too old                         | Check `node --version` is 24 or later, 22.13 or later on Node 22, or 20.19 or later on Node 20. The repo's `.nvmrc` has the version CI uses.                                                                                                                    |
+| `npm ci` fails or Node is too old                         | Check `node --version` is 22.13 or later. If it isn't, install Node 24: `nvm install` reads the repo's `.nvmrc`.                                                                                                                                                |
 | No **Issues** tab, or no starter issues                   | Ask your agent to **Set up my fork**, or turn Issues on by hand: [Set up your fork](README.md#set-up-your-fork).                                                                                                                                                |
 | Pull requests show no checks                              | Ask your agent to **Set up my fork**, or enable workflows in your fork's **Actions** tab.                                                                                                                                                                       |
 | `tessl` commands say you're not logged in                 | Run `tessl login`, then `tessl whoami` to check.                                                                                                                                                                                                                |
