@@ -49,6 +49,15 @@ If you're a coding agent taking someone through this guide:
   `tessl whoami` for their Tessl login. When a check needs the person, such as
   playing a game or looking at the Tessl app, ask them and wait.
 - Ask before you merge anything.
+- During factory setup, each question is a real choice. Say what the default in
+  this guide is and what it means, then let the person choose.
+- Once the factory is live, changes go through issues. Write the issue, with a
+  **Done when**, file it on the fork, and add the `tessl` label: the factory
+  writes the code and opens the pull request, and answer reviews and fix checks
+  fixes what code review flags. Don't write the change yourself or open the
+  pull request: answer reviews only works on the factory's own pull requests.
+  The exceptions are setup the factory can't do from the cloud, such as a cloud
+  environment, a GitHub App install or a repository secret.
 - The `tessl` label has to come from the person's own GitHub account. They add
   it in the browser, or you add it with
   `gh issue edit <number> --repo OWNER/REPO --add-label tessl` while `gh` is
@@ -122,9 +131,10 @@ Codespaces → Create codespace on main**, then run `npm run dev` in its termina
 
 ### 2. Set up your factory
 
-**Learn:** setup links your repository to Tessl, creates a cloud environment,
-adds your automations to `tessl.json`, adds a `tessl` label, and connects two
-GitHub apps to your fork:
+**Learn:** setup links your repository to Tessl, creates a cloud environment
+for each automation, adds a `tessl` label, and connects two GitHub apps to your
+fork. It takes about 15 minutes, most of it the choices below and installing the
+two apps in your browser:
 
 - **Tessl GitHub App:** how your factory works on your repository. It picks up
   labeled issues, pushes branches and opens pull requests. You install it during
@@ -147,15 +157,26 @@ GitHub apps to your fork:
    Restart your coding agent afterwards, so it sees the new skill.
 
 2. Open your coding agent in the repository and type: **Help me set up a factory**.
-3. Answer its questions; it asks one at a time. Say yes to going ahead, and yes
-   to all three automations: ship tickets, answer reviews and fix checks, and
-   code review. If it offers to file a first ticket, say no: that's the next
-   step.
-4. Install both apps on your fork from the links it gives you: the Tessl GitHub
-   App, then Tessl Review for code review.
-5. Merge the setup pull request when it asks. Code review may leave comments on
-   it. That's expected, and you can still merge it.
-6. Wait for **Your factory is live**, then open the link it gives you to see
+3. Make the choices it asks about. It asks one at a time, and each one shapes
+   how your factory works. The defaults below are what we recommend for the
+   workshop. Choose differently if you like, and ask your agent what changes if
+   you do.
+
+   | It asks                                | Default                     | What you're choosing                                                                                                                                                                     |
+   | -------------------------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+   | Go ahead?                              | Yes                         | Nothing changes in your repository or in Tessl until you agree.                                                                                                                          |
+   | Update the Tessl CLI?                  | Yes, if it asks             | Setup needs a recent CLI. Run `tessl cli update` when it asks.                                                                                                                           |
+   | Managed or vendored plugins?           | Managed                     | Managed keeps the plugins Tessl installs out of git, like `node_modules`: every clone and cloud run installs them from `tessl.json`. Vendored commits them, often thousands of lines.    |
+   | Commit the setup files on a branch?    | Yes                         | They become your setup pull request, so the change reaches `main` the same way all other work does.                                                                                      |
+   | Which organization and workspace?      | Your own                    | Where your factory lives in Tessl, and whose credits its runs use.                                                                                                                       |
+   | Give the Tessl GitHub App your fork    | Yes, in your browser        | The app agents act through. It needs write access to comment, push branches and open pull requests.                                                                                      |
+   | Which automations?                     | All three, with code review | **Ship tickets** turns a labeled issue into a pull request. **Answer reviews and fix checks** fixes what review flags. **Follow ticket changes** stops work when you take an issue back. |
+   | Give Tessl Review your fork            | Yes, in your browser        | The second app, which runs code review. It's separate so the factory never reviews its own work.                                                                                         |
+   | How often should code review run?      | Every push                  | Review checks each fix the factory pushes, not just the first version. Each review uses credits.                                                                                         |
+   | File a first ticket?                   | No                          | That's the next step, where you choose it yourself.                                                                                                                                      |
+   | Push and merge the setup pull request? | Yes                         | Your automations are already on in Tessl. Merging puts `tessl.json` on `main`, which links your repository to them.                                                                      |
+
+4. Wait for **Your factory is live**, then open the link it gives you to see
    your automations.
 
 If you're not sure you're logged in, run `tessl whoami`, and `tessl login` if it
@@ -220,6 +241,9 @@ on screen and help anyone still on the core path.
 | [C](#c-grow-your-carnival)                | Label several issues and watch them run at once   |
 | [D](#d-set-up-a-factory-on-your-own-repo) | Take the factory home to a repository of your own |
 
+Finished a track and want more? Try the
+[advanced stretch](#advanced-stretch-a-just-in-time-board) at the end.
+
 ### A: Teach review your rules
 
 **Learn:** an agent that has to guess your rules reviews badly. Code review
@@ -228,14 +252,60 @@ pull request. Copy them into your repository and they become yours to change.
 
 **Do:**
 
-1. Ask your agent:
+1. Ask your agent to file the issue below on your fork and add the `tessl`
+   label. The factory writes the lenses, not your agent.
 
-   > Copy Tessl Code Review's default lenses into this repository, then add a
-   > lens for the carnival's house rules in AGENTS.md: every game registers on
-   > the midway, reports scores through the shared scores module, and draws
-   > with the carnival's theme. Open a pull request.
+   <details>
+   <summary>The issue: Teach code review the carnival's house rules</summary>
 
-2. Merge that pull request.
+   ```md
+   ### What should change?
+
+   Teach Tessl Code Review the carnival's house rules, and give the repository
+   its own copy of the default review lenses so we can tune them.
+
+   1. **Copy the four default lenses** from `tessl/code-review@0.5.0` into
+      `review-lenses/<lens-name>/SKILL.md`, unchanged:
+      `review-correctness-and-data-integrity`, `review-security-and-privacy`,
+      `review-scale-and-resilience` and `review-maintainability-and-code-quality`.
+      To get them, run `tessl install tessl/code-review@0.5.0` in a new empty
+      directory outside the repository, with a `tessl.json` of
+      `{"name": "tmp", "dependencies": {}}`, and copy each
+      `.tessl/plugins/tessl/code-review/skills/<lens-name>/SKILL.md`.
+   2. **Add a house rules lens** at
+      `review-lenses/review-carnival-house-rules/SKILL.md`, in the same shape as
+      the defaults: frontmatter `name` and `description`, then Scope, Method,
+      Threshold and Reporting. It checks house rules 1 to 3 in `AGENTS.md`:
+      every game registers on the midway, reports scores through `recordScore`
+      from `src/carnival`, and draws with `theme` and `canvasFont`. It should:
+      - Not report code outside `src/games/`: `src/carnival/` defines the theme
+        and scores, and `src/midway/palette.ts` has its own scenery colors.
+      - Not report values derived from the theme, test data in `game.test.ts`,
+        or anything lint, the type-checker or tests already enforce.
+      - Be accurate about consequences. A game whose `game.ts` has no default
+        export gets no booth. A game whose `id` differs from its folder name
+        breaks the house rule, but nothing breaks for the player.
+   3. **Add `.tessl-code-review.yml`** at the root, listing all five lenses by
+      local path (`./review-lenses/<lens-name>/SKILL.md`), with the house rules
+      lens scoped to `globs: [src/games/**]`. Add `ignore: [.tessl/plugins/**]`
+      only.
+   4. **Add both to the layout in `AGENTS.md`.**
+
+   ### Done when
+
+   - [ ] `review-lenses/` has the four default lenses, identical to
+         `tessl/code-review@0.5.0`, and the house rules lens.
+   - [ ] `.tessl-code-review.yml` lists all five, scopes the house rules lens
+         to `src/games/**`, and ignores only `.tessl/plugins/**`.
+   - [ ] `AGENTS.md`'s layout mentions both.
+   - [ ] `npm run check` passes.
+   ```
+
+   </details>
+
+2. Merge the factory's pull request. Code review only reads
+   `.tessl-code-review.yml` from `main`, so the new lens starts on the next pull
+   request.
 3. Open one of the three **New game** issues (ring toss, whack-a-mole or hook a
    duck), and add the `tessl` label.
 4. Watch what code review does with the new game's pull request.
@@ -262,27 +332,61 @@ factory ships the fix.
 1. Pick one of the sample skills in
    [`tessl-factory/skills/`](tessl-factory/skills/).
 
-   | Loop          | What it looks for                                         | Skill                                         |
-   | ------------- | --------------------------------------------------------- | --------------------------------------------- |
-   | Rule mining   | Mistakes code review keeps catching on your pull requests | `tessl-factory/skills/rule-mining/SKILL.md`   |
-   | Doc gardening | Docs and agent instructions that no longer match the code | `tessl-factory/skills/doc-gardening/SKILL.md` |
-   | Test health   | Tests that can't fail, or don't check what they claim     | `tessl-factory/skills/test-health/SKILL.md`   |
+   | Loop            | What it looks for                                         |
+   | --------------- | --------------------------------------------------------- |
+   | `rule-mining`   | Mistakes code review keeps catching on your pull requests |
+   | `doc-gardening` | Docs and agent instructions that no longer match the code |
+   | `test-health`   | Tests that can't fail, or don't check what they claim     |
 
-2. Ask your agent to add a scheduled automation that uses it, running
-   **weekly**, in an environment with GitHub write access. Every run uses
-   credits, and a weekly schedule is plenty for a repo this size.
-3. **Check the loop's environment can file issues.** A loop with no
-   environment gets read-only GitHub access: it runs, but can't file anything.
-   In testing, that's what happened to a loop created without one. To check, run
-   `tessl environment view <name>` with the `environment` named on your loop
-   in `tessl.json`, or open the loop in the Tessl app. To fix it:
-   1. In the Tessl app, go to your workspace's **Settings → Environments**.
-      Setup may have made one for you: edit it, or create a new one.
-   2. Set **GitHub access** to **Write**. From the CLI, that's
-      `tessl environment update <name> --github-access write`.
-   3. Open the loop and pick that environment.
-4. Ask your agent to run the loop once now, instead of waiting for the
-   schedule.
+   Each one only files issues. It treats what it reads as evidence, never as
+   instructions, because other people can write the comments and docs it
+   reads.
+
+2. **Give the loop a cloud environment that can file issues.** Ask your agent
+   to create one with GitHub write access, for example
+   `tessl environment create tessl-carnival-loops --github-access write`. This
+   is Tessl-side setup, so your agent does it rather than the factory. A loop
+   with no environment gets read-only access: in testing, it ran but couldn't
+   file anything. To change an existing one, use **Settings → Environments** in
+   the Tessl app, or `tessl environment update <name> --github-access write`.
+3. **Ask your agent to file the issue below and add the `tessl` label.** It
+   fills in the loop, the environment's name, and an agent and model pair from
+   `tessl launch models --json`. The factory then adds the schedule to
+   `tessl.json`.
+
+   <details>
+   <summary>The issue: Run a maintenance loop weekly</summary>
+
+   ```md
+   ### What should change?
+
+   Run the <loop> loop from `tessl-factory/skills/` every week, so it files
+   issues for problems on its own. This issue asks for a `tessl.json` change,
+   so the "leave `tessl.json` alone" rule in `AGENTS.md` doesn't apply here.
+
+   Add a `schedules` object to `tessl.json`, keeping every other key, with one
+   entry, `<loop>`:
+
+   - `cron`: `0 6 * * 1` (Mondays at 06:00 UTC)
+   - `description`: one line on what the loop looks for
+   - `action`: `skill` `file:tessl-factory#<loop>`, `environment`
+     `<environment>`, `agent` `<agent>`, `model` `<model>`
+
+   ### Done when
+
+   - [ ] `tessl.json` has the schedule, weekly, in `<environment>`, and keeps
+         its other keys.
+   - [ ] `tessl schedule validate` says the schedules block is valid.
+   - [ ] `npm run check` passes.
+   ```
+
+   </details>
+
+4. Merge the factory's pull request. Tessl reads `tessl.json` from `main`, and
+   the loop appears on the Loops page.
+5. Ask your agent to run the loop once now with `tessl schedule trigger`,
+   instead of waiting for the schedule. Every run uses credits, and weekly is
+   plenty for a repo this size.
 
 Rule mining closes the loop with track A: review catches a mistake, the loop
 spots it happening again, and a rule goes into the repository so the next run
@@ -336,6 +440,31 @@ has become a pull request.
 **Stretch:** write down one of your team's conventions as a skill, in the same
 shape as `skills/add-carnival-game`, and run
 `tessl review run <path-to-the-skill-folder>` to see its score.
+
+### Advanced stretch: a just-in-time board
+
+This one is for people who finish early and want a challenge. Don't expect to
+finish it in the session.
+
+**Learn:** labeling issues one by one doesn't scale. A just-in-time board is a
+pull system: you rank work in a **Ready** column on a GitHub Project, and a
+small queue starts the factory on the next card only when there's a free slot
+in **In progress**. A full **In review** column holds work back, so pull
+requests can't pile up faster than you review them.
+
+**Do:** follow [`docs/jit-board-queue.md`](docs/jit-board-queue.md). In short:
+
+1. **Your agent sets up what the factory can't:** the board and its columns,
+   and a `PROJECT_TOKEN` secret, a token of your own. The queue must add the
+   `tessl` label as you: a label from `github-actions[bot]` doesn't start the
+   factory.
+2. **The factory builds the queue:** ask your agent to file an issue asking for
+   the workflow and script in that doc, and label it.
+3. **Try it:** move two or three issues into **Ready**, run the workflow, and
+   watch cards move to **In progress** and then **In review** by themselves.
+
+**Done when:** a card you moved into **Ready** reaches **In review** with
+nobody adding a label.
 
 ## Show and tell
 
@@ -394,23 +523,24 @@ everything off, ask your agent: **Switch off all my factory automations**.
 
 ## If something goes wrong
 
-| Problem                                                   | Try                                                                                                                                                                                                                                                             |
-| --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `npm ci` fails or Node is too old                         | Check `node --version` is 22.13 or later. If it isn't, install Node 24: `nvm install` reads the repo's `.nvmrc`.                                                                                                                                                |
-| No **Issues** tab, or no starter issues                   | Ask your agent to **Set up my fork**, or turn Issues on by hand: [Set up your fork](README.md#set-up-your-fork).                                                                                                                                                |
-| Pull requests show no checks                              | Ask your agent to **Set up my fork**, or enable workflows in your fork's **Actions** tab.                                                                                                                                                                       |
-| `tessl` commands say you're not logged in                 | Run `tessl login`, then `tessl whoami` to check.                                                                                                                                                                                                                |
-| Your agent doesn't see a skill you just installed         | Restart your coding agent after `tessl install`.                                                                                                                                                                                                                |
-| Your agent is very slow                                   | In Cursor, pick a model rather than Auto.                                                                                                                                                                                                                       |
-| Code review flagged the setup pull request                | That's expected. Read what it says, then merge the setup pull request anyway.                                                                                                                                                                                   |
-| A labeled issue hasn't started after 5 minutes            | Check the issue has the `tessl` label, that the Tessl GitHub App is installed on your fork, and that you have credits left.                                                                                                                                     |
-| A labeled issue never started, and an app added the label | The factory only starts on a label from your own GitHub account. Remove the label, then add it again yourself, in the browser or with `gh` logged in as you.                                                                                                    |
-| Nothing starts, and everything looks set up               | You may be out of credits. Run `tessl org usage` to check, and raise your hand: a facilitator can top you up. See [Credits](#credits).                                                                                                                          |
-| A loop ran but filed no issues                            | It probably has no environment, so its GitHub access is read-only. Pick an environment with **GitHub access** set to **Write**, then run it again: see [track B](#b-add-a-maintenance-loop).                                                                    |
-| Your carnival link shows a 404                            | Turn on Pages: ask your agent to **Set up my fork**, then wait a minute for the deploy.                                                                                                                                                                         |
-| Your laptop can't run the carnival                        | Play at your Pages link. To work on it, open your fork in GitHub Codespaces: **Code → Codespaces → Create codespace on main**, then run `npm run dev`. If **Set up my fork** hits a permissions error there, run `gh auth login` first.                         |
-| Someone else opened an issue or commented on your fork    | Ask your agent to **Set up my fork** again. It locks your fork down for six months, the longest GitHub allows, and rerunning it renews the lock.                                                                                                                |
-| You want to start over                                    | On your fork's GitHub page, select **Sync fork → Discard commits**, then in your clone run `git fetch origin` and `git reset --hard origin/main`. This removes your changes and your factory setup, so run [Set up your factory](#2-set-up-your-factory) again. |
+| Problem                                                       | Try                                                                                                                                                                                                                                                             |
+| ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm ci` fails or Node is too old                             | Check `node --version` is 22.13 or later. If it isn't, install Node 24: `nvm install` reads the repo's `.nvmrc`.                                                                                                                                                |
+| No **Issues** tab, or no starter issues                       | Ask your agent to **Set up my fork**, or turn Issues on by hand: [Set up your fork](README.md#set-up-your-fork).                                                                                                                                                |
+| Pull requests show no checks                                  | Ask your agent to **Set up my fork**, or enable workflows in your fork's **Actions** tab.                                                                                                                                                                       |
+| `tessl` commands say you're not logged in                     | Run `tessl login`, then `tessl whoami` to check.                                                                                                                                                                                                                |
+| Your agent doesn't see a skill you just installed             | Restart your coding agent after `tessl install`.                                                                                                                                                                                                                |
+| Code review's findings on a pull request aren't getting fixed | Answer reviews only works on pull requests the factory opened, on `tessl/` branches. If your agent opened it, close it, file the change as an issue instead, and add the `tessl` label.                                                                         |
+| Your agent is very slow                                       | In Cursor, pick a model rather than Auto.                                                                                                                                                                                                                       |
+| Code review flagged the setup pull request                    | That's expected. Read what it says, then merge the setup pull request anyway.                                                                                                                                                                                   |
+| A labeled issue hasn't started after 5 minutes                | Check the issue has the `tessl` label, that the Tessl GitHub App is installed on your fork, and that you have credits left.                                                                                                                                     |
+| A labeled issue never started, and an app added the label     | The factory only starts on a label from your own GitHub account. Remove the label, then add it again yourself, in the browser or with `gh` logged in as you.                                                                                                    |
+| Nothing starts, and everything looks set up                   | You may be out of credits. Run `tessl org usage` to check, and raise your hand: a facilitator can top you up. See [Credits](#credits).                                                                                                                          |
+| A loop ran but filed no issues                                | It probably has no environment, so its GitHub access is read-only. Pick an environment with **GitHub access** set to **Write**, then run it again: see [track B](#b-add-a-maintenance-loop).                                                                    |
+| Your carnival link shows a 404                                | Turn on Pages: ask your agent to **Set up my fork**, then wait a minute for the deploy.                                                                                                                                                                         |
+| Your laptop can't run the carnival                            | Play at your Pages link. To work on it, open your fork in GitHub Codespaces: **Code → Codespaces → Create codespace on main**, then run `npm run dev`. If **Set up my fork** hits a permissions error there, run `gh auth login` first.                         |
+| Someone else opened an issue or commented on your fork        | Ask your agent to **Set up my fork** again. It locks your fork down for six months, the longest GitHub allows, and rerunning it renews the lock.                                                                                                                |
+| You want to start over                                        | On your fork's GitHub page, select **Sync fork → Discard commits**, then in your clone run `git fetch origin` and `git reset --hard origin/main`. This removes your changes and your factory setup, so run [Set up your factory](#2-set-up-your-factory) again. |
 
 ## Learn more
 
