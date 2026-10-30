@@ -1,6 +1,6 @@
 ---
 name: check-workshop-ready
-description: Check that a laptop and fork are ready for the Tessl Carnival workshop (git, Node, the GitHub CLI, the Tessl CLI and credits, and a fork with Issues, Actions, Pages and the interaction lock on), then report a short pass or fix list. Only checks, and changes nothing without asking. Use when someone asks to check they're ready for the workshop, or before they start the core path in WORKSHOP.md.
+description: Check that a laptop and fork are ready for the Tessl Carnival workshop (git, Node, the GitHub CLI, the Tessl CLI and credits, and a fork with Issues, Actions, Pages and the interaction lock on), then report a short pass or fix list. Only checks, and changes nothing without asking. Use when someone asks to check they're ready for the workshop, or before they start the core path in workshop/agent.md.
 ---
 
 # Check I'm ready for the workshop
@@ -87,4 +87,5 @@ Then:
 - If any fork item needs a fix, offer to run **Set up my fork** now, and only
   run it if the person says yes.
 - If everything passes, say they're ready, and that the next step is to paste
-  **Read WORKSHOP.md and take me through the core path, one step at a time**.
+  **Read workshop/agent.md and take me through the core path, one step at a
+  time**.

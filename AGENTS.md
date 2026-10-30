@@ -6,9 +6,11 @@ game lives in its own folder under `src/games/`.
 
 ## The workshop
 
-If the person asks about the workshop, follow `WORKSHOP.md` step by step, as its
+If the person asks about the workshop, start at `WORKSHOP.md`, which offers two
+paths. For the agent path, follow `workshop/agent.md` step by step, as its
 section for agents says: one step at a time, checking each **Done when** with
-them before you move on.
+them before you move on. If they pick the browser path, point them to
+`workshop/browser.md`: they click through it themselves.
 
 ## Forks have their own factory
 
@@ -45,7 +47,10 @@ merges. Nobody pushes to `main` directly.
 
 ```txt
 index.html                the midway page
-WORKSHOP.md               the workshop: the core path, then the tracks
+WORKSHOP.md               the workshop: the schedule, and a choice of two paths
+workshop/
+  agent.md                the agent path: set up from your coding agent
+  browser.md              the browser path: set up in the Tessl app
 docs/midway.jpg           the screenshot at the top of the README
 docs/social-preview.jpg   the 1280x640 image for link previews and GitHub's social preview
 docs/jit-board-queue.md   the design for the workshop's advanced stretch
@@ -138,5 +143,6 @@ You often work on an issue with nobody around to answer questions.
   changes code. `tessl-factory/` is a plugin, so a schedule in `tessl.json` runs
   one as `file:tessl-factory#rule-mining`.
 
-`WORKSHOP.md` walks people through the workshop this repo was built for: a core
+`WORKSHOP.md` starts the workshop this repo was built for, and sends people down
+one of two paths: `workshop/agent.md` or `workshop/browser.md`. Each has a core
 path everyone finishes, then optional tracks.

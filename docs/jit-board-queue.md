@@ -1,8 +1,8 @@
 # Just-in-time board queue
 
 An advanced stretch for the workshop: see
-[Advanced stretch](../WORKSHOP.md#advanced-stretch-a-just-in-time-board) in
-`WORKSHOP.md`. Your agent sets up the board and the token, and your factory
+[Advanced stretch](../workshop/agent.md#advanced-stretch-a-just-in-time-board) in
+`workshop/agent.md`. Your agent sets up the board and the token, and your factory
 builds the workflow and script below from an issue that points at this file.
 This design was tested on a fork, and includes what that test changed.
 

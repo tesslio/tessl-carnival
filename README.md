@@ -29,8 +29,15 @@ Brooklyn. Everyone in the room builds on this same repo, so you can compare
 notes with the person next to you.
 
 The room comes together three times: a 10-minute kick-off, a checkpoint and
-show and tell. The rest you do at your own pace, with your coding agent and
-[`WORKSHOP.md`](WORKSHOP.md) as your guide.
+show and tell. The rest you do at your own pace. Start at
+[`WORKSHOP.md`](WORKSHOP.md) and pick your path:
+
+- **[With your agent](workshop/agent.md).** Your coding agent sets up your fork
+  and your factory from the terminal, and explains each choice as it goes.
+- **[In the browser](workshop/browser.md).** Click through GitHub and the Tessl
+  app, with nothing to install.
+
+Both paths have the same shape:
 
 - **The core path (about 40 minutes).** Get the carnival running, set up a
   factory on your fork, and ship your first issue without writing code: label
@@ -41,14 +48,14 @@ show and tell. The rest you do at your own pace, with your coding agent and
   your carnival with several issues at once, or set up a factory on a repo of
   your own.
 
-Open your coding agent in your clone and paste **Read WORKSHOP.md and take me
-through the core path, one step at a time**. Before the session, ask it to
-**Check I'm ready for the workshop**: it follows
+On the agent path, open your coding agent in your clone and paste **Read
+workshop/agent.md and take me through the core path, one step at a time**.
+Before the session, ask it to **Check I'm ready for the workshop**: it follows
 [`skills/check-workshop-ready`](skills/check-workshop-ready/SKILL.md) and tells
 you anything to fix.
 
-**Bring:** a laptop with git, Node 22.13 or later, a coding agent (Claude Code,
-Codex, Cursor or similar), a GitHub account, the
+**Bring:** a laptop and a GitHub account. For the agent path, also bring git,
+Node 22.13 or later, a coding agent (Claude Code, Codex, Cursor or similar), the
 [GitHub CLI](https://cli.github.com) logged in with `gh auth login`, and the [Tessl CLI](https://tessl.io/?utm_source=github&utm_medium=readme&utm_campaign=tessl-carnival),
 installed with `curl -fsSL https://get.tessl.io | sh`, or `winget install tessl.tessl`
 on Windows. Not with npm: that package is deprecated.
@@ -185,7 +192,7 @@ answers them and fixes any failing checks until it's ready for you to merge.
 keep using credits. You can leave the label-to-pull request automation on to
 keep building your carnival: it only runs when you add the label. To switch
 everything off, ask your agent: **Switch off all my factory automations**. See
-[Switch off what you don't need](WORKSHOP.md#switch-off-what-you-dont-need).
+[Switch off what you don't need](workshop/agent.md#switch-off-what-you-dont-need).
 
 ## Share your carnival
 
