@@ -36,17 +36,38 @@ merge to `main` redeploys it, so it's where your factory's work shows up.
 **Do:** GitHub switches a few things off when you fork a repository. On your
 fork, turn them back on:
 
-1. **Issues:** **Settings → General → Features**, then check **Issues**.
-2. **Actions:** open the **Actions** tab and enable workflows.
-3. **Pages:** **Settings → Pages**, then set **Source** to **GitHub Actions**.
-   Re-run the **Deploy to GitHub Pages** workflow from the **Actions** tab.
-4. **Lock it down:** **Settings → Moderation options → Interaction limits**,
-   then limit interactions to collaborators. Your fork is public, so this stops
-   anyone else opening issues or pull requests on it.
+1. **Issues.** Open the **Settings** tab, the last tab along the top. Under
+   **General → Features**, check **Issues**.
 
-Then open `https://<your-username>.github.io/tessl-carnival/`, walk to the water
-cannon booth and press **E** to play. Walk with WASD or the arrow keys, or click
-where you want to go. While you're there, look under **Issues → New issue** at
+   ![The Features section of the Settings tab, with Issues checked](images/fork-issues.png)
+
+2. **Actions.** Open the **Actions** tab and select **I understand my
+   workflows, go ahead and enable them**.
+
+   ![The Actions tab on a new fork, with the button that enables workflows](images/fork-actions.png)
+
+3. **Pages.** In **Settings**, choose **Pages** from the left-hand menu, then
+   set **Source** to **GitHub Actions**.
+
+   ![The Pages settings, with GitHub Actions chosen as the source](images/fork-pages.png)
+
+4. **Deploy.** Back on the **Actions** tab, choose **Deploy to GitHub Pages**
+   from the left-hand list, then **Run workflow**, and **Run workflow** again
+   to confirm.
+
+   ![The Deploy to GitHub Pages workflow, with the Run workflow menu open on main](images/fork-deploy.png)
+
+5. **Lock it down.** Your fork is public, so this stops anyone else opening
+   issues or pull requests on it. In **Settings**, choose **Moderation →
+   Interaction limits** from the left-hand menu. Next to **Limit to repository
+   collaborators**, select **Enable** and choose the longest time it offers.
+
+   ![The Interaction limits settings, with an Enable button next to each limit](images/fork-interaction-limits.png)
+
+The deploy takes about a minute. Then open
+`https://<your-username>.github.io/tessl-carnival/`, walk to the water cannon
+booth and press **E** to play. Walk with WASD or the arrow keys, or click where
+you want to go. While you're there, look under **Issues → New issue** at
 the starter issues, and note one thing you'd change.
 
 **Done when:** the water cannon is playable at your Pages link.
@@ -88,16 +109,27 @@ don't start several runs.
 
 **Do:**
 
-1. **Write a ticket.** Keep it to a one-line change so you see the whole flow
-   fast, like _Put my name on the carnival's entrance sign_. Or, on GitHub, open
-   one of the two **Hello world** issues under **Issues → New issue** and add
-   the `tessl` label yourself.
+1. **Write a ticket.** Keep it small so you see the whole flow fast. For
+   example:
+   - _Put my name on the carnival's entrance sign_
+   - _Make the player jump when Space is pressed_
+   - _Give midway visitors friendly chatter in speech bubbles_
+
+   Or [write it on GitHub](#write-a-ticket-on-github): open one of the two
+   **Hello world** issues under **Issues → New issue** and add the `tessl`
+   label yourself.
+
 2. **Watch it run.** A run starts in about 90 seconds, and the pull request
    follows a few minutes later. You can follow along on the **Factory floor**.
    If nothing has started after 5 minutes, see
    [If something goes wrong](#if-something-goes-wrong).
+
 3. **Merge the pull request.** On the **Factory floor**, open your ticket's row
-   and follow the link to the pull request on GitHub. Merge it there.
+   and follow the link to the pull request on GitHub. Once its checks pass,
+   select **Merge pull request**.
+
+   ![A pull request with all checks passed and the Merge pull request button](images/pr-merge.png)
+
 4. **See it live.** Your carnival redeploys in about a minute: you can watch the
    **Deploy to GitHub Pages** run in your fork's **Actions** tab. Reload your
    carnival's link to see your change.
@@ -109,6 +141,31 @@ so the room can see your progress.
 **If your factory isn't ready by about 0:40,** pair with your neighbor and watch
 their run, so you see a pull request land before the checkpoint.
 
+### Write a ticket on GitHub
+
+You don't have to be in Tessl to hand your factory a ticket. A GitHub issue
+with the `tessl` label works too:
+
+1. **Open an issue.** On your fork, open the **Issues** tab and select **New
+   issue**. Keep it small, like _Put my name on the carnival's entrance sign_.
+
+   ![The Issues tab on a fork, with the New issue button](images/issue-new.png)
+
+2. **Add the `tessl` label yourself.** In the issue's sidebar, choose
+   **Labels**, then `tessl`. The label is what hands the issue to your factory,
+   and it has to come from your own GitHub account.
+
+   ![The tessl label in an issue's sidebar](images/issue-label.png)
+
+3. **Look for the eyes reaction** on your issue. It means the factory has
+   picked it up and started work. The pull request follows a few minutes
+   later.
+
+   ![An issue with the tessl label and an eyes reaction from the factory](images/issue-picked-up.png)
+
+4. **Merge the pull request** when it's ready, as in step 4, to see your change
+   live.
+
 ## Checkpoint
 
 At about 0:50 the room pauses for 10 minutes to share progress, put live links
@@ -116,8 +173,8 @@ on screen and help anyone still on the core path.
 
 ## Tracks (pick one, about 20 minutes)
 
-Each track starts from a ticket. Write it in Tessl, or open an issue on your
-fork under **Issues → New issue** and add the `tessl` label yourself.
+Each track starts from a ticket. Write it in Tessl, or
+[write it on GitHub](#write-a-ticket-on-github).
 
 | Track                                     | What you'll do                                    |
 | ----------------------------------------- | ------------------------------------------------- |
@@ -331,7 +388,7 @@ runs when you write a ticket or add the label.
 | A labeled issue never started, and an app added the label | The factory only starts on a label from your own GitHub account. Remove the label, then add it again yourself.                                                                                                                                                        |
 | Nothing starts after 5 minutes                            | You may be out of credits. Ask a facilitator for help.                                                                                                                                                                                                                |
 | A loop ran but filed no issues                            | Its environment's GitHub access is probably read-only. Set it to **Write** in **Settings → Environments**, then run it again: see [track B](#b-add-a-maintenance-loop).                                                                                               |
-| Someone else opened an issue or commented on your fork    | Set the interaction limit again: **Settings → Moderation options → Interaction limits**. Choose the longest it offers.                                                                                                                                                |
+| Someone else opened an issue or commented on your fork    | Set the interaction limit again: **Settings → Moderation → Interaction limits**. Choose the longest it offers.                                                                                                                                                        |
 | You want to start over                                    | On your fork's GitHub page, select **Sync fork → Discard commits**. This removes the changes your factory made.                                                                                                                                                       |
 
 ## Learn more
