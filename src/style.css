@@ -136,6 +136,15 @@ body[data-view='midway'] main {
   text-decoration: underline;
 }
 
+.midway-links {
+  display: block;
+  margin-top: 2px;
+}
+
+.midway-share[hidden] {
+  display: none;
+}
+
 kbd {
   padding: 1px 6px;
   border-radius: 4px;
