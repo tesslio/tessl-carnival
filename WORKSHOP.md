@@ -22,6 +22,9 @@ the one you prefer.
 | **[With your agent](workshop/agent.md)**  | You use a coding agent and want to see the setup, choice by choice | A coding agent, git, Node 22.13 or later, the GitHub CLI and the Tessl CLI |
 | **[In the browser](workshop/browser.md)** | You'd rather click through it, or your laptop can't install tools  | A GitHub account and a browser                                             |
 
+**Is your Tessl account in the EU region?** Pick the browser path. The agent
+path's setup skill isn't available in the EU yet.
+
 **Using a coding agent?** Open it in your clone of the carnival and paste
 **Read workshop/agent.md and take me through the core path, one step at a
 time**.

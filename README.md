@@ -182,8 +182,8 @@ Once your factory is set up, GitHub issues are how you hand it work:
   there and it carries on.
 - **Take it back:** remove the `tessl` label. Closing the issue also closes its
   pull request.
-- **Who can start it:** only the person who set up the factory. To let someone
-  else, ask your agent to add their GitHub account to the factory's triggers.
+- **Who can start it:** anyone who can add labels to issues on your fork.
+  That's you, unless you add collaborators.
 
 On the agent's pull request, code review leaves its findings, and the agent
 answers them and fixes any failing checks until it's ready for you to merge.

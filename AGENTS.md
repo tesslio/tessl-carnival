@@ -15,10 +15,11 @@ them before you move on. If they pick the browser path, point them to
 ## Forks have their own factory
 
 This repository is a starter that everyone forks, so it has no `tessl.json`.
-Each person sets up a factory on their own fork. That setup's pull request
-adds a `tessl.json` linked to their own Tessl project, plus `.mcp.json` and a
-few `.gitignore` files. In a fork, that's expected: the fork's `tessl.json`
-belongs to the fork, not to everyone who forks this repository.
+Each person sets up a factory on their own fork. Setup turns the factory's
+automations on in Tessl and changes nothing in the repository. A fork can
+later get its own `tessl.json`, for example from the workshop's maintenance
+loop track. In a fork, that's expected: the fork's `tessl.json` belongs to the
+fork, not to everyone who forks this repository.
 
 ## Stack
 
