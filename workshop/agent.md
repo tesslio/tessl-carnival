@@ -39,8 +39,9 @@ If you're a coding agent taking someone through this guide:
   `tessl whoami` for their Tessl login. When a check needs the person, such as
   playing a game or looking at the Tessl app, ask them and wait.
 - Ask before you merge anything.
-- During factory setup, each question is a real choice. Say what the default in
-  this guide is and what it means, then let the person choose.
+- During factory setup, the setup skill uses defaults and only asks what it
+  can't decide. When it asks, say what the question means, using the table in
+  step 2, then let the person choose.
 - Once the factory is live, changes go through issues. Write the issue, with a
   **Done when**, file it on the fork, and add the `tessl` label: the factory
   writes the code and opens the pull request, and answer reviews and fix checks
@@ -48,15 +49,16 @@ If you're a coding agent taking someone through this guide:
   pull request: answer reviews only works on the factory's own pull requests.
   The exceptions are setup the factory can't do from the cloud, such as a cloud
   environment, a GitHub App install or a repository secret.
-- The `tessl` label has to come from the person's own GitHub account. They add
-  it in the browser, or you add it with
-  `gh issue edit <number> --repo OWNER/REPO --add-label tessl` while `gh` is
-  logged in as them.
-  A label added by an app or a bot doesn't start the factory.
+- The `tessl` label is what starts the factory. The person adds it in the
+  browser, or you add it with
+  `gh issue edit <number> --repo OWNER/REPO --add-label tessl`. Anyone who can
+  add labels on the fork can start it.
 - When the core path is done, tell the person, then offer the tracks.
 
 ## Before you start
 
+- If your Tessl account is in the EU region, take the [browser path](browser.md)
+  instead. The factory setup skill isn't available in the EU yet.
 - A GitHub account, signed in.
 - A coding agent that works, such as Claude Code, Codex or Cursor.
 - Node 22.13 or later, and git.
@@ -158,24 +160,28 @@ two apps in your browser:
    Restart your coding agent afterwards, so it sees the new skill.
 
 2. Open your coding agent in the repository and type: **Help me set up a factory**.
-3. Make the choices it asks about. It asks one at a time, and each one shapes
-   how your factory works. The defaults below are what we recommend for the
-   workshop. Choose differently if you like, and ask your agent what changes if
-   you do.
+3. Answer what it asks. It sets up the same factory the Tessl app does, with
+   defaults, so it only asks what it can't decide for you. The answers below
+   are what we recommend for the workshop.
 
-   | It asks                                | Default                     | What you're choosing                                                                                                                                                                     |
-   | -------------------------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-   | Go ahead?                              | Yes                         | Nothing changes in your repository or in Tessl until you agree.                                                                                                                          |
-   | Update the Tessl CLI?                  | Yes, if it asks             | Setup needs a recent CLI. Run `tessl cli update`, or `winget upgrade tessl.tessl` on Windows.                                                                                            |
-   | Managed or vendored plugins?           | Managed                     | Managed keeps the plugins Tessl installs out of git, like `node_modules`: every clone and cloud run installs them from `tessl.json`. Vendored commits them, often thousands of lines.    |
-   | Commit the setup files on a branch?    | Yes                         | They become your setup pull request, so the change reaches `main` the same way all other work does.                                                                                      |
-   | Which organization and workspace?      | Your own                    | Where your factory lives in Tessl, and whose credits its runs use.                                                                                                                       |
-   | Give the Tessl GitHub App your fork    | Yes, in your browser        | The app agents act through. It needs write access to comment, push branches and open pull requests.                                                                                      |
-   | Which automations?                     | All three, with code review | **Ship tickets** turns a labeled issue into a pull request. **Answer reviews and fix checks** fixes what review flags. **Follow ticket changes** stops work when you take an issue back. |
-   | Give Tessl Review your fork            | Yes, in your browser        | The second app, which runs code review. It's separate so the factory never reviews its own work.                                                                                         |
-   | How often should code review run?      | Every push                  | Review checks each fix the factory pushes, not just the first version. Each review uses credits.                                                                                         |
-   | File a first ticket?                   | No                          | That's the next step, where you choose it yourself.                                                                                                                                      |
-   | Push and merge the setup pull request? | Yes                         | Your automations are already on in Tessl. Merging puts `tessl.json` on `main`, which links your repository to them.                                                                      |
+   | It asks                             | Answer               | Why                                                                                                    |
+   | ----------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------ |
+   | Update the Tessl CLI?               | Yes, if it asks      | Setup needs a recent CLI. Run `tessl cli update`, or `winget upgrade tessl.tessl` on Windows.          |
+   | Which organization or workspace?    | Your own, if it asks | Where your factory lives in Tessl, and whose credits its runs use. It only asks when you have several. |
+   | Give the Tessl GitHub App your fork | Yes, in your browser | The app agents act through. It needs write access to comment, push branches and open pull requests.    |
+   | Continue with these defaults?       | Yes                  | Your fork is public, so setup checks with you before it turns anything on.                             |
+   | Give Tessl Review your fork         | Yes, in your browser | The second app, which runs code review. It's separate so the factory never reviews its own work.       |
+   | Give Tessl a first ticket?          | No                   | That's the next step, where you choose it yourself.                                                    |
+   | Which next step to start with?      | Not now              | Come back to its suggestions after the workshop.                                                       |
+
+   It turns on four automations in Tessl: **ship tickets** turns a labeled
+   issue into a pull request, **answer reviews and fix checks** fixes what
+   review flags, **follow ticket changes** stops work when you take an issue
+   back, and **fix merge conflicts** keeps the factory's pull requests
+   mergeable. It also turns on code review for every push, so review checks
+   each fix the factory pushes, not just the first version. Each review uses
+   credits. Setup changes nothing in your repository: the automations live in
+   Tessl, on the **Loops** page.
 
 4. Wait for **Your factory is live**, then open the link it gives you to see
    your automations.
@@ -200,8 +206,6 @@ edits to the issue don't start several runs.
    - **Paint the sky at sunset:** two colors.
 2. Add the `tessl` label yourself, in the browser or with
    `gh issue edit <number> --repo <your-username>/tessl-carnival --add-label tessl`.
-   It has to come from your own
-   GitHub account: a label added by an app or a bot doesn't start the factory.
 3. Watch what happens:
    - **About 90 seconds of nothing.** The factory is waiting.
    - **A run on the Loops page** in the Tessl app. You can follow the agent's
@@ -304,9 +308,10 @@ pull request. Copy them into your repository and they become yours to change.
 
    </details>
 
-2. Merge the factory's pull request. Code review only reads
-   `.tessl-code-review.yml` from `main`, so the new lens starts on the next pull
-   request.
+2. Merge the factory's pull request. Code review only uses
+   `.tessl-code-review.yml` once it's on `main`. After that, it reads the file
+   and its lenses from each pull request, so the new lens starts on the next
+   pull request.
 3. Open one of the three **New game** issues (ring toss, whack-a-mole or hook a
    duck), and add the `tessl` label.
 4. Watch what code review does with the new game's pull request.
@@ -494,10 +499,16 @@ credits a month.
 
 ## Switch off what you don't need
 
-Scheduled loops keep running, and using credits, until you remove them, so
-switch them off before you leave. To switch an automation off, remove it from
-`tessl.json` on your default branch and merge that change, or ask your agent to
-**Switch off my scheduled loops**.
+Scheduled loops keep running, and using credits, until you stop them, so
+switch them off before you leave. The automations setup turned on live in
+Tessl, not in your repository: pause one on the **Loops** page in the Tessl
+app, run `tessl schedule pause <loop id>`, or ask your agent to **Switch off my
+scheduled loops**. A schedule you added to `tessl.json` in track B can also be
+removed from `tessl.json` on your default branch.
+
+Pausing stops new runs. A run that has already started carries on until it
+finishes. To stop one sooner, run `tessl launch cancel <run id>`, or ask your
+agent.
 
 If you want to keep building your carnival, you can leave the label-to-pull
 request automation on: it only runs when you add the label. To switch
@@ -520,7 +531,9 @@ everything off, ask your agent: **Switch off all my factory automations**.
 - **Tessl Review:** the separate app that runs code review, so the factory never
   reviews its own work. It shows as **Tessl Reviewer** in the Tessl app and on
   your pull requests.
-- **`tessl.json`:** the file in your repository that lists your automations.
+- **`tessl.json`:** your repository's Tessl file. Automations you declare in
+  it, like track B's schedule, run from it. The ones setup turned on live in
+  Tessl instead, on the **Loops** page.
 
 ## If something goes wrong
 
@@ -534,9 +547,7 @@ everything off, ask your agent: **Switch off all my factory automations**.
 | Your agent doesn't see a skill you just installed             | Restart your coding agent after `tessl install`.                                                                                                                                                                                                                |
 | Code review's findings on a pull request aren't getting fixed | Answer reviews only works on pull requests the factory opened, on `tessl/` branches. If your agent opened it, close it, file the change as an issue instead, and add the `tessl` label.                                                                         |
 | Your agent is very slow                                       | In Cursor, pick a model rather than Auto.                                                                                                                                                                                                                       |
-| Code review flagged the setup pull request                    | That's expected. Read what it says, then merge the setup pull request anyway.                                                                                                                                                                                   |
 | A labeled issue hasn't started after 5 minutes                | Check the issue has the `tessl` label, that the Tessl GitHub App is installed on your fork, and that you have credits left.                                                                                                                                     |
-| A labeled issue never started, and an app added the label     | The factory only starts on a label from your own GitHub account. Remove the label, then add it again yourself, in the browser or with `gh` logged in as you.                                                                                                    |
 | Nothing starts, and everything looks set up                   | You may be out of credits. Run `tessl org usage` to check, and raise your hand: a facilitator can top you up. See [Credits](#credits).                                                                                                                          |
 | A loop ran but filed no issues                                | It probably has no environment, so its GitHub access is read-only. Pick an environment with **GitHub access** set to **Write**, then run it again: see [track B](#b-add-a-maintenance-loop).                                                                    |
 | Your carnival link shows a 404                                | Turn on Pages: ask your agent to **Set up my fork**, then wait a minute for the deploy.                                                                                                                                                                         |

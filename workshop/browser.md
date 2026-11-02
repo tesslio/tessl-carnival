@@ -152,8 +152,7 @@ with the `tessl` label works too:
    ![The Issues tab on a fork, with the New issue button](images/issue-new.png)
 
 2. **Add the `tessl` label yourself.** In the issue's sidebar, choose
-   **Labels**, then `tessl`. The label is what hands the issue to your factory,
-   and it has to come from your own GitHub account.
+   **Labels**, then `tessl`. The label is what hands the issue to your factory.
 
    ![The tessl label in an issue's sidebar](images/issue-label.png)
 
@@ -243,9 +242,10 @@ The carnival's house rules live in [`AGENTS.md`](../AGENTS.md).
 
    </details>
 
-2. Merge the factory's pull request. Code review only reads
-   `.tessl-code-review.yml` from `main`, so the new lens starts on the next pull
-   request.
+2. Merge the factory's pull request. Code review only uses
+   `.tessl-code-review.yml` once it's on `main`. After that, it reads the file
+   and its lenses from each pull request, so the new lens starts on the next
+   pull request.
 3. Open one of the three **New game** issues (ring toss, whack-a-mole or hook a
    duck), and add the `tessl` label.
 4. Watch what code review does with the new game's pull request.
@@ -358,9 +358,10 @@ free plan comes with 1,000 credits a month.
 ## Switch off what you don't need
 
 Scheduled loops keep running, and using credits, until you remove them, so
-switch them off on the **Loops** page before you leave. You can leave the
-ticket-to-pull request automation on to keep building your carnival: it only
-runs when you write a ticket or add the label.
+switch them off on the **Loops** page before you leave. Pausing stops new
+runs. A run that has already started carries on until it finishes. You can
+leave the ticket-to-pull request automation on to keep building your carnival:
+it only runs when you write a ticket or add the label.
 
 ## Words you'll hear
 
@@ -378,18 +379,17 @@ runs when you write a ticket or add the label.
 
 ## If something goes wrong
 
-| What you see                                              | What to do                                                                                                                                                                                                                                                            |
-| --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Your carnival's link doesn't load, or shows a 404         | Check Issues, Actions and Pages are on, then wait a minute for the deploy. If your own GitHub Pages site uses a custom domain, open your fork in GitHub Codespaces instead: **Code → Codespaces → Create codespace on main**, then run `npm run dev` in its terminal. |
-| No **Issues** tab, or no starter issues                   | Turn Issues on: **Settings → General → Features → Issues**.                                                                                                                                                                                                           |
-| Pull requests show no checks                              | Enable workflows in your fork's **Actions** tab.                                                                                                                                                                                                                      |
-| Your fork isn't listed when you connect GitHub            | In GitHub, open the Tessl GitHub App's settings and add your fork.                                                                                                                                                                                                    |
-| You see a different setup screen in Tessl                 | Go to `/onboarding/factory` in the Tessl app.                                                                                                                                                                                                                         |
-| A labeled issue never started, and an app added the label | The factory only starts on a label from your own GitHub account. Remove the label, then add it again yourself.                                                                                                                                                        |
-| Nothing starts after 5 minutes                            | You may be out of credits. Ask a facilitator for help.                                                                                                                                                                                                                |
-| A loop ran but filed no issues                            | Its environment's GitHub access is probably read-only. Set it to **Write** in **Settings → Environments**, then run it again: see [track B](#b-add-a-maintenance-loop).                                                                                               |
-| Someone else opened an issue or commented on your fork    | Set the interaction limit again: **Settings → Moderation → Interaction limits**. Choose the longest it offers.                                                                                                                                                        |
-| You want to start over                                    | On your fork's GitHub page, select **Sync fork → Discard commits**. This removes the changes your factory made.                                                                                                                                                       |
+| What you see                                           | What to do                                                                                                                                                                                                                                                            |
+| ------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Your carnival's link doesn't load, or shows a 404      | Check Issues, Actions and Pages are on, then wait a minute for the deploy. If your own GitHub Pages site uses a custom domain, open your fork in GitHub Codespaces instead: **Code → Codespaces → Create codespace on main**, then run `npm run dev` in its terminal. |
+| No **Issues** tab, or no starter issues                | Turn Issues on: **Settings → General → Features → Issues**.                                                                                                                                                                                                           |
+| Pull requests show no checks                           | Enable workflows in your fork's **Actions** tab.                                                                                                                                                                                                                      |
+| Your fork isn't listed when you connect GitHub         | In GitHub, open the Tessl GitHub App's settings and add your fork.                                                                                                                                                                                                    |
+| You see a different setup screen in Tessl              | Go to `/onboarding/factory` in the Tessl app.                                                                                                                                                                                                                         |
+| Nothing starts after 5 minutes                         | You may be out of credits. Ask a facilitator for help.                                                                                                                                                                                                                |
+| A loop ran but filed no issues                         | Its environment's GitHub access is probably read-only. Set it to **Write** in **Settings → Environments**, then run it again: see [track B](#b-add-a-maintenance-loop).                                                                                               |
+| Someone else opened an issue or commented on your fork | Set the interaction limit again: **Settings → Moderation → Interaction limits**. Choose the longest it offers.                                                                                                                                                        |
+| You want to start over                                 | On your fork's GitHub page, select **Sync fork → Discard commits**. This removes the changes your factory made.                                                                                                                                                       |
 
 ## Learn more
 
