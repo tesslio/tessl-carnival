@@ -2,7 +2,7 @@
 export const REPO_URL = 'https://github.com/tesslio/tessl-carnival';
 
 const SHARE_TEXT =
-  'I built a software factory on a browser carnival at AI DevCon NYC with @tessl_io. Play my carnival:';
+  'I built a software factory on a browser carnival with @tessl_io. Play my carnival:';
 
 /**
  * The address to share for the carnival at `href`: the page itself, without
