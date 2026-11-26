@@ -482,9 +482,8 @@ fix without you?
 
 ## Keep building after the session
 
-Your carnival stays live at your Pages link, so keep adding to it during
-DevCon. Come and find us at the Tessl booth to go further, for example to set
-up a loop on your own repository.
+Your carnival stays live at your Pages link, so keep adding to it. Come and
+find us to go further, for example to set up a loop on your own repository.
 
 ## Credits
 
