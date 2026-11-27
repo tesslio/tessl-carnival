@@ -1108,7 +1108,7 @@ function balloons(ctx: Ctx, prop: Prop, t: number) {
 const BILLBOARD_HEIGHT = 40;
 
 /**
- * The billboard's sign, in plane-local pixels: the banner plus its gold frame.
+ * The billboard's sign, in plane-local pixels: the banner plus its purple frame.
  * The board keeps the banner image's shape, 4 by 1.
  */
 const BILLBOARD_SIGN = { width: 144, height: 36, frame: 3 };
@@ -1174,7 +1174,7 @@ function billboard(ctx: Ctx, prop: Prop, t: number) {
   }
   onPlane(ctx, centre, () => {
     const { width, height, frame } = BILLBOARD_SIGN;
-    ctx.fillStyle = palette.gold;
+    ctx.fillStyle = palette.purple;
     ctx.beginPath();
     ctx.roundRect(
       -width / 2 - frame,

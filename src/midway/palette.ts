@@ -36,6 +36,7 @@ export const palette = {
   sky2: colors.water,
   pink: '#f59ac0',
   pinkShade: '#e076a4',
+  purple: '#c084fc',
   wood: colors.wood,
   woodDark: '#6b4429',
   woodLight: '#b7834f',
